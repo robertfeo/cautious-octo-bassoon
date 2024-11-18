@@ -6,6 +6,7 @@ import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import { buildConfig } from 'payload/config'
 
+import Pages from './collections/Pages'
 import Users from './collections/Users'
 
 export default buildConfig({
@@ -17,7 +18,7 @@ export default buildConfig({
   i18n: {
     fallbackLng: 'de',
   },
-  collections: [Users],
+  collections: [Users, Pages],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
