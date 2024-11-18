@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@payloadcms/translations": "^3.0.0-beta.29"
+  }
+}

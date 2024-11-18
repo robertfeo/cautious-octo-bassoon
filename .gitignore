@@ -17,6 +17,8 @@
 /backend/dist
 /backend/media
 /backend/node_modules
+/backend/node_modules/
+/backend/node_modules/*
 /backend/.DS_Store
 /backend/.idea
 /backend/.vscode
