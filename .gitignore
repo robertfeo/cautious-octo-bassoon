@@ -1,0 +1,23 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# misc
+.vscode
+.env
+
+# frontend
+/frontend/build
+/frontend/dist
+/frontend/node_modules
+/frontend/.DS_Store
+/frontend/.idea
+/frontend/.vscode
+
+# backend
+/backend/build
+/backend/dist
+/backend/media
+/backend/node_modules
+/backend/.DS_Store
+/backend/.idea
+/backend/.vscode
+/backend/.pnpm-store
