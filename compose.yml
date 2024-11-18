@@ -1,15 +1,16 @@
 services:
-  backend: # Payload CMS backend
+  backend:
     container_name: backend
-    image: node:18-alpine
-    user: node
+    image: node:23.1.0
     ports:
       - '3000:3000'
     volumes:
-      - ./payload:/home/node/app
-      - ./payload/node_modules:/home/node/app/node_modules
+      - ./backend:/home/node/app
+      - ./backend/node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    networks:
+      - apps-network
+    command: sh -c "yarn install && yarn dev"
     depends_on:
       - database
     env_file:
@@ -17,16 +18,24 @@ services:
 
   database:
     container_name: database
-    image: postgres:latest
+    image: postgres:15.9-alpine
     restart: always
     shm_size: 128mb
     ports:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - apps-network
     env_file:
       - .env
 
+networks:
+  apps-network:
+    name: apps-network
+    driver: bridge
+
 volumes:
   db_data:
+    name: db_data
   node_modules:

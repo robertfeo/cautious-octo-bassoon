@@ -21,3 +21,4 @@
 /backend/.idea
 /backend/.vscode
 /backend/.pnpm-store
+/payload/.pnpm-store
