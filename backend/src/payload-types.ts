@@ -13,6 +13,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'blog-post': BlogPost;
     pages: Page;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -22,6 +23,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'blog-post': BlogPostSelect<false> | BlogPostSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -97,9 +99,9 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "blog-post".
  */
-export interface Page {
+export interface BlogPost {
   id: number;
   content?: {
     root: {
@@ -122,6 +124,38 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  name: string;
+  slug: string;
+  Layout?:
+    | (
+        | {
+            heading?: string | null;
+            text?: string | null;
+            backgroundImage?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            text?: string | null;
+            image?: (number | null) | Media;
+            direction?: ('left' | 'right') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'twoColumn';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -134,6 +168,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'blog-post';
+        value: number | BlogPost;
       } | null)
     | ({
         relationTo: 'pages';
@@ -216,11 +254,44 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-post_select".
+ */
+export interface BlogPostSelect<T extends boolean = true> {
+  content?: T;
+  content_html?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  content?: T;
-  content_html?: T;
+  name?: T;
+  slug?: T;
+  Layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              backgroundImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        twoColumn?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              image?: T;
+              direction?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
 }
