@@ -1,20 +1,20 @@
 services:
   backend:
     container_name: backend
-    image: node:23.1.0
+    image: node:18-alpine
     ports:
       - '3000:3000'
     volumes:
       - ./backend:/home/node/app
       - ./backend/node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
-    networks:
-      - simple-blog-network
     command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
     depends_on:
       - database
     env_file:
       - .env
+    networks:
+      - simple-blog-network
 
   database:
     container_name: database
