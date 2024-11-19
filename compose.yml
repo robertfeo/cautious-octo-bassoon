@@ -9,8 +9,8 @@ services:
       - ./backend/node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
     networks:
-      - apps-network
-    command: sh -c "yarn install && yarn dev"
+      - simple-blog-network
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
     depends_on:
       - database
     env_file:
@@ -26,13 +26,13 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
-      - apps-network
+      - simple-blog-network
     env_file:
       - .env
 
 networks:
-  apps-network:
-    name: apps-network
+  simple-blog-network:
+    name: simple-blog-network
     driver: bridge
 
 volumes:
