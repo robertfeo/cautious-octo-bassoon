@@ -1,20 +1,20 @@
 services:
-  backend:
-    container_name: backend
-    image: node:18-alpine
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./backend:/home/node/app
-      - ./backend/node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
-    depends_on:
-      - database
-    env_file:
-      - .env
-    networks:
-      - simple-blog-network
+  #next-payload:
+  #  container_name: next-payload
+  #  image: node:18-alpine
+  #  ports:
+  #    - '3000:3000'
+  #  volumes:
+  #    - ./next-payload:/home/node/app
+  #    - ./next-payload/node_modules:/home/node/app/node_modules
+  #  working_dir: /home/node/app/
+  #  command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+  #  depends_on:
+  #    - database
+  #  env_file:
+  #    - .env
+  #  networks:
+  #    - simple-blog-network
 
   database:
     container_name: database
@@ -25,6 +25,19 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - simple-blog-network
+    env_file:
+      - .env
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - '5050:80'
+    depends_on:
+      - database
     networks:
       - simple-blog-network
     env_file:
