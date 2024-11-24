@@ -14,6 +14,8 @@ import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
 import { Posts } from "./collections/Posts";
 import { Users } from "./collections/Users";
+import { Footer } from "./globals/Footer";
+import { Header } from "./globals/Header";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -38,6 +40,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname, "src"),
     },
   },
+  globals: [Header, Footer],
   collections: [Users, Media, Pages, Posts, Categories],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

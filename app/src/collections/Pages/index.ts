@@ -21,16 +21,26 @@ export const Pages: CollectionConfig = {
   },
   fields: [
     {
+      name: "slug",
+      label: "Slug",
+      type: "text",
+      admin: {
+        position: "sidebar",
+      },
+      required: true,
+      unique: true,
+    },
+    {
       name: "title",
       label: "Title",
       type: "text",
       required: true,
     },
     {
-      name: "content",
-      label: "Content",
-      type: "richText",
-      required: true,
+      name: "layout",
+      label: "Layout",
+      type: "blocks",
+      blocks: [],
     },
   ],
 };

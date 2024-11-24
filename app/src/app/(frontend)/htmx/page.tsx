@@ -9,14 +9,14 @@ export default function HtmxPage() {
   }, []);
 
   return (
-    <main className="flex flex-col justify-center gap-8">
-      <span
-        hx-get="/api/posts/post-content"
-        hx-trigger="load"
-        hx-target="#content"
-        hx-swap="innerHTML"
-        id="content"
-      ></span>
+    <main
+      hx-get="/api/posts/post-content"
+      hx-trigger="load"
+      hx-target="#content"
+      hx-swap="innerHTML"
+      className="flex flex-col justify-center items-center gap-8 w-full h-full"
+    >
+      <span id="content" className="p-5"></span>
     </main>
   );
 }
