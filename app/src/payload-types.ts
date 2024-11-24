@@ -198,6 +198,7 @@ export interface Post {
   id: number;
   title: string;
   likes?: number | null;
+  post_content_html?: string | null;
   content: {
     root: {
       type: string;
@@ -413,6 +414,7 @@ export interface PagesSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   likes?: T;
+  post_content_html?: T;
   content?: T;
   relatedPosts?: T;
   categories?: T;

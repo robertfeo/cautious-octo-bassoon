@@ -6,8 +6,10 @@ import {
     FixedToolbarFeature,
     HeadingFeature,
     HorizontalRuleFeature,
+    HTMLConverterFeature,
     InlineToolbarFeature,
     lexicalEditor,
+    lexicalHTML
 } from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 
@@ -44,6 +46,7 @@ export const Posts: CollectionConfig = {
             tabs: [
                 {
                     fields: [
+                        lexicalHTML('content', { name: 'post_content_html' }),
                         {
                             name: 'content',
                             type: 'richText',
@@ -51,6 +54,7 @@ export const Posts: CollectionConfig = {
                                 features: ({ rootFeatures }) => {
                                     return [
                                         ...rootFeatures,
+                                        HTMLConverterFeature({}),
                                         HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
                                         BlocksFeature({ blocks: [MediaBlock] }),
                                         FixedToolbarFeature(),
@@ -97,5 +101,31 @@ export const Posts: CollectionConfig = {
                 },
             ],
         }
+    ],
+    endpoints: [
+        {
+            path: '/post-content',
+            method: 'get',
+            handler: async (req) => {
+                const data = await req.payload.find({
+                    collection: 'posts',
+                });
+                const contentHtml = data.docs[0]?.post_content_html || '<p>No content found</p>';
+                if (contentHtml == null || contentHtml.length === 0) {
+                    return new Response(null, {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                        }
+                    });
+                } else {
+                    return new Response(contentHtml, {
+                        headers: {
+                            'Content-Type': 'text/html',
+                            'Access-Control-Allow-Origin': '*',
+                        }
+                    });
+                }
+            },
+        },
     ],
 }

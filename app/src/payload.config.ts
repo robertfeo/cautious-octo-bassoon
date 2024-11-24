@@ -2,6 +2,9 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { de } from '@payloadcms/translations/languages/de'
+import { en } from '@payloadcms/translations/languages/en'
+import { ro } from '@payloadcms/translations/languages/ro'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
@@ -17,6 +20,13 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  cors: {
+    origins: ['http://localhost:3000'],
+    headers: ['Content-Type', 'Authorization', 'hx-target', 'hx-request', 'hx-current-url'],
+  },
+  i18n: {
+    supportedLanguages: { en, de, ro },
+  },
   admin: {
     user: Users.slug,
     importMap: {
