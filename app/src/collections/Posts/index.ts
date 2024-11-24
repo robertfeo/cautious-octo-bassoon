@@ -1,131 +1,134 @@
-import { anyone } from '@/access/anyone'
-import { authenticated } from '@/access/authenticated'
-import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { anyone } from "@/access/anyone";
+import { authenticated } from "@/access/authenticated";
+import { MediaBlock } from "@/blocks/MediaBlock/config";
 import {
-    BlocksFeature,
-    FixedToolbarFeature,
-    HeadingFeature,
-    HorizontalRuleFeature,
-    HTMLConverterFeature,
-    InlineToolbarFeature,
-    lexicalEditor,
-    lexicalHTML
-} from '@payloadcms/richtext-lexical'
-import type { CollectionConfig } from 'payload'
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  HTMLConverterFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+  lexicalHTML,
+} from "@payloadcms/richtext-lexical";
+import type { CollectionConfig } from "payload";
 
 export const Posts: CollectionConfig = {
-    slug: 'posts',
-    access: {
-        create: authenticated,
-        read: anyone,
-        update: authenticated,
-        delete: authenticated,
+  slug: "posts",
+  access: {
+    create: authenticated,
+    read: anyone,
+    update: authenticated,
+    delete: authenticated,
+  },
+  admin: {
+    useAsTitle: "title",
+    defaultColumns: ["title", "updatedAt"],
+  },
+  fields: [
+    /* ...slugField(), */
+    {
+      name: "title",
+      label: "Title",
+      type: "text",
+      required: true,
     },
-    admin: {
-        useAsTitle: 'title',
-        defaultColumns: ['title', 'updatedAt'],
+    {
+      name: "likes",
+      label: "Likes",
+      type: "number",
+      admin: {
+        position: "sidebar",
+      },
     },
-    fields: [
-        /* ...slugField(), */
+    {
+      type: "tabs",
+      tabs: [
         {
-            name: 'title',
-            label: 'Title',
-            type: 'text',
-            required: true,
-        },
-        {
-            name: 'likes',
-            label: 'Likes',
-            type: 'number',
-            admin: {
-                position: 'sidebar',
+          fields: [
+            lexicalHTML("content", { name: "post_content_html" }),
+            {
+              name: "content",
+              type: "richText",
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HTMLConverterFeature({}),
+                    HeadingFeature({
+                      enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
+                    }),
+                    BlocksFeature({ blocks: [MediaBlock] }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                    HorizontalRuleFeature(),
+                  ];
+                },
+              }),
+              label: false,
+              required: true,
             },
+          ],
+          label: "Content",
         },
         {
-            type: 'tabs',
-            tabs: [
-                {
-                    fields: [
-                        lexicalHTML('content', { name: 'post_content_html' }),
-                        {
-                            name: 'content',
-                            type: 'richText',
-                            editor: lexicalEditor({
-                                features: ({ rootFeatures }) => {
-                                    return [
-                                        ...rootFeatures,
-                                        HTMLConverterFeature({}),
-                                        HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                                        BlocksFeature({ blocks: [MediaBlock] }),
-                                        FixedToolbarFeature(),
-                                        InlineToolbarFeature(),
-                                        HorizontalRuleFeature(),
-                                    ]
-                                },
-                            }),
-                            label: false,
-                            required: true,
-                        },
-                    ],
-                    label: 'Content',
-                },
-                {
-                    fields: [
-                        {
-                            name: 'relatedPosts',
-                            type: 'relationship',
-                            admin: {
-                                position: 'sidebar',
-                            },
-                            filterOptions: ({ id }) => {
-                                return {
-                                    id: {
-                                        not_in: [id],
-                                    },
-                                }
-                            },
-                            hasMany: true,
-                            relationTo: 'posts',
-                        },
-                        {
-                            name: 'categories',
-                            type: 'relationship',
-                            admin: {
-                                position: 'sidebar',
-                            },
-                            hasMany: true,
-                            relationTo: 'categories',
-                        },
-                    ],
-                    label: 'Meta',
-                },
-            ],
+          fields: [
+            {
+              name: "relatedPosts",
+              type: "relationship",
+              admin: {
+                position: "sidebar",
+              },
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                };
+              },
+              hasMany: true,
+              relationTo: "posts",
+            },
+            {
+              name: "categories",
+              type: "relationship",
+              admin: {
+                position: "sidebar",
+              },
+              hasMany: true,
+              relationTo: "categories",
+            },
+          ],
+          label: "Meta",
+        },
+      ],
+    },
+  ],
+  endpoints: [
+    {
+      path: "/post-content",
+      method: "get",
+      handler: async (req) => {
+        const data = await req.payload.find({
+          collection: "posts",
+        });
+        const contentHtml =
+          data.docs[0]?.post_content_html || "<p>No content found</p>";
+        if (contentHtml == null || contentHtml.length === 0) {
+          return new Response(null, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+          });
+        } else {
+          return new Response(contentHtml, {
+            headers: {
+              "Content-Type": "text/html",
+              "Access-Control-Allow-Origin": "*",
+            },
+          });
         }
-    ],
-    endpoints: [
-        {
-            path: '/post-content',
-            method: 'get',
-            handler: async (req) => {
-                const data = await req.payload.find({
-                    collection: 'posts',
-                });
-                const contentHtml = data.docs[0]?.post_content_html || '<p>No content found</p>';
-                if (contentHtml == null || contentHtml.length === 0) {
-                    return new Response(null, {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                        }
-                    });
-                } else {
-                    return new Response(contentHtml, {
-                        headers: {
-                            'Content-Type': 'text/html',
-                            'Access-Control-Allow-Origin': '*',
-                        }
-                    });
-                }
-            },
-        },
-    ],
-}
+      },
+    },
+  ],
+};

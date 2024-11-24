@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from "@payloadcms/db-postgres";
 
 export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.execute(sql`
@@ -114,7 +114,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "media_sizes_large_sizes_large_filename_idx" ON "media" USING btree ("sizes_large_filename");
   CREATE INDEX IF NOT EXISTS "media_sizes_xlarge_sizes_xlarge_filename_idx" ON "media" USING btree ("sizes_xlarge_filename");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_posts_id_idx" ON "payload_locked_documents_rels" USING btree ("posts_id");
-  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_categories_id_idx" ON "payload_locked_documents_rels" USING btree ("categories_id");`)
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_categories_id_idx" ON "payload_locked_documents_rels" USING btree ("categories_id");`);
 }
 
 export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
@@ -176,5 +176,5 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   ALTER TABLE "media" DROP COLUMN IF EXISTS "sizes_xlarge_filesize";
   ALTER TABLE "media" DROP COLUMN IF EXISTS "sizes_xlarge_filename";
   ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "posts_id";
-  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "categories_id";`)
+  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "categories_id";`);
 }
