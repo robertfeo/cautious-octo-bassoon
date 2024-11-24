@@ -2,6 +2,7 @@ import { CollectionConfig } from "payload";
 
 import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
+import { ImageBlock } from "@/blocks/ImageBlock/config";
 
 export const Pages: CollectionConfig = {
   slug: "pages",
@@ -12,8 +13,8 @@ export const Pages: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ["title", "slug", "updatedAt"],
-    useAsTitle: "title",
+    defaultColumns: ["name", "slug", "updatedAt"],
+    useAsTitle: "name",
   },
   labels: {
     singular: "Page",
@@ -31,8 +32,8 @@ export const Pages: CollectionConfig = {
       unique: true,
     },
     {
-      name: "title",
-      label: "Title",
+      name: "name",
+      label: "Name",
       type: "text",
       required: true,
     },
@@ -40,7 +41,7 @@ export const Pages: CollectionConfig = {
       name: "layout",
       label: "Layout",
       type: "blocks",
-      blocks: [],
+      blocks: [ImageBlock],
     },
   ],
 };

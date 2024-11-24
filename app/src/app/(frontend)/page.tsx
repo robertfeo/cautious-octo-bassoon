@@ -1,6 +1,8 @@
-import Link from "next/link";
+import PageTemplate from './[slug]/page';
 
-export default function Home() {
+export default PageTemplate;
+
+/* export default function Home() {
   return (
     <div className="items-center justify-items-center font-[family-name:var(--font-geist-sans)]">
       <main>
@@ -10,4 +12,4 @@ export default function Home() {
       </main>
     </div>
   );
-}
+} */

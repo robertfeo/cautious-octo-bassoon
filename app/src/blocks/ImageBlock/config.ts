@@ -1,7 +1,7 @@
 import { Block } from "payload";
 
-const ImageBlock: Block = {
-  slug: "image-block",
+export const ImageBlock: Block = {
+  slug: "image",
   labels: {
     singular: "Image Block",
     plural: "Image Blocks",

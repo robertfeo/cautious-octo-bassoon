@@ -1,7 +1,10 @@
 import { Page } from "@/payload-types";
 import React, { Fragment } from "react";
+import ImageBlockComponent from "./ImageBlock/Component";
 
-const blockComponents = {};
+const blockComponents = {
+  image: ImageBlockComponent,
+};
 
 export const RenderBlocks: React.FC<{
   blocks: Page["layout"][0][];
@@ -17,7 +20,8 @@ export const RenderBlocks: React.FC<{
           const { blockName, blockType } = block;
 
           if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType];
+            const Block =
+              blockComponents[blockType as keyof typeof blockComponents];
 
             if (Block) {
               return (

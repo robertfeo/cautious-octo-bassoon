@@ -1,5 +1,5 @@
-import FooterServer from "@/blocks/global/Footer/Server";
-import HeaderServer from "@/blocks/global/Header/Server";
+import FooterServer from "@/blocks/global/Footer/Component";
+import HeaderServer from "@/blocks/global/Header/Component";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -35,7 +35,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased pl-96 pr-96 w-full h-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full h-full`}
       >
         <HeaderServer />
         {children}

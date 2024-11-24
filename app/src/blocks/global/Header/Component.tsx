@@ -10,8 +10,8 @@ export default async function HeaderServer() {
     slug: "header",
   });
   return (
-    <header>
-      <div className="flex flex-row justify-between items-center">
+    <header className="w-full bg-sky-500">
+      <div className="flex flex-row justify-between items-center px-96">
         <Image
           width={100}
           height={100}
@@ -29,7 +29,7 @@ export default async function HeaderServer() {
         <div className="flex flex-row gap-4 *:no-underline *:text-white">
           {header.navigation.map((item, index) => {
             return (
-              <Link className="hover:text-sky-500" key={index} href={item.link}>
+              <Link className="hover:cursor-pointer" key={index} href={item.link}>
                 {item.label}
               </Link>
             );
