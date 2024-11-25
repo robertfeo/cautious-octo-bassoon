@@ -1,8 +1,29 @@
-import { CollectionConfig } from "payload";
-
 import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
 import { ImageBlock } from "@/blocks/ImageBlock/config";
+import type { FieldHook } from "payload";
+import { CollectionConfig } from "payload";
+
+const format = (val: string): string =>
+  val
+    .replace(/ /g, "-")
+    .replace(/[^\w-/]+/g, "")
+    .toLowerCase();
+
+const formatSlug =
+  (fallback: string): FieldHook =>
+  ({ value, originalDoc, data }) => {
+    if (typeof value === "string") {
+      return format(value);
+    }
+    const fallbackData = data?.[fallback] || originalDoc?.[fallback];
+
+    if (fallbackData && typeof fallbackData === "string") {
+      return format(fallbackData);
+    }
+
+    return value;
+  };
 
 export const Pages: CollectionConfig = {
   slug: "pages",
@@ -28,6 +49,9 @@ export const Pages: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
+      hooks: {
+        beforeValidate: [formatSlug("name")],
+      },
       required: true,
       unique: true,
     },
@@ -42,6 +66,7 @@ export const Pages: CollectionConfig = {
       label: "Layout",
       type: "blocks",
       blocks: [ImageBlock],
+      required: true,
     },
   ],
 };

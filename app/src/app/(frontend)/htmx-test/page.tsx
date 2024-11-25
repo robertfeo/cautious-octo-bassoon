@@ -14,9 +14,9 @@ export default function HtmxPage() {
       hx-trigger="load"
       hx-target="#content"
       hx-swap="innerHTML"
-      className="flex flex-col justify-center items-center gap-8 w-full h-full"
+      className="flex flex-col justify-center items-center gap-8 mx-96 text-justify"
     >
-      <span id="content" className="p-5"></span>
+      <span id="content"></span>
     </main>
   );
 }

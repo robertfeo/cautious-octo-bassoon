@@ -1,6 +1,5 @@
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
-import { MediaBlock } from "@/blocks/MediaBlock/config";
 import {
   BlocksFeature,
   FixedToolbarFeature,
@@ -11,7 +10,28 @@ import {
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, FieldHook } from "payload";
+
+const format = (val: string): string =>
+  val
+    .replace(/ /g, "-")
+    .replace(/[^\w-/]+/g, "")
+    .toLowerCase();
+
+const formatSlug =
+  (fallback: string): FieldHook =>
+  ({ value, originalDoc, data }) => {
+    if (typeof value === "string") {
+      return format(value);
+    }
+    const fallbackData = data?.[fallback] || originalDoc?.[fallback];
+
+    if (fallbackData && typeof fallbackData === "string") {
+      return format(fallbackData);
+    }
+
+    return value;
+  };
 
 export const Posts: CollectionConfig = {
   slug: "posts",
@@ -23,10 +43,23 @@ export const Posts: CollectionConfig = {
   },
   admin: {
     useAsTitle: "title",
-    defaultColumns: ["title", "updatedAt"],
+    defaultColumns: ["title", "slug", "updatedAt"],
   },
   fields: [
-    /* ...slugField(), */
+    {
+      name: "slug",
+      label: "Slug",
+      type: "text",
+      admin: {
+        position: "sidebar",
+      },
+      hooks: {
+        beforeValidate: [formatSlug("name")],
+        afterChange: [formatSlug("name")],
+      },
+      required: true,
+      unique: true,
+    },
     {
       name: "title",
       label: "Title",
@@ -58,7 +91,7 @@ export const Posts: CollectionConfig = {
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
-                    BlocksFeature({ blocks: [MediaBlock] }),
+                    BlocksFeature({ blocks: [] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),

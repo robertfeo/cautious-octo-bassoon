@@ -179,15 +179,13 @@ export interface Page {
   id: number;
   slug: string;
   name: string;
-  layout?:
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'image';
-      }[]
-    | null;
+  layout: {
+    image: number | Media;
+    caption?: string | null;
+    id?: string | null;
+    blockName?: string | null;
+    blockType: 'image';
+  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -197,6 +195,7 @@ export interface Page {
  */
 export interface Post {
   id: number;
+  slug: string;
   title: string;
   likes?: number | null;
   post_content_html?: string | null;
@@ -425,6 +424,7 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
+  slug?: T;
   title?: T;
   likes?: T;
   post_content_html?: T;
@@ -540,16 +540,6 @@ export interface FooterSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
- */
-export interface MediaBlock {
-  media: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,16 +1,15 @@
-import RenderBlocks from "@/blocks/RenderBlocks";
-import { Page as PageCollection } from "@/payload-types";
+import { Post as PostCollection } from "@/payload-types";
 import config from "@payload-config";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const paramsAwait = await params;
-  const slug = paramsAwait.slug || "home" || "index" || "default";
+  const slug = paramsAwait.slug;
   const payload = await getPayload({ config });
 
   const data = await payload.find({
-    collection: "pages",
+    collection: "posts",
     depth: 2,
     limit: 1,
     where: {
@@ -24,11 +23,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
     await notFound();
   }
 
-  const page = data.docs[0] as PageCollection;
+  const page = data.docs[0] as PostCollection;
+
+  console.log(page);
 
   return (
     <div className="px-96">
-      <RenderBlocks blocks={page.layout} />
+      {/* <RenderBlocks blocks= /> */}
+      {page.post_content_html}
     </div>
   );
 }

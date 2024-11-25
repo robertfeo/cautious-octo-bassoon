@@ -9,8 +9,9 @@ export default async function HeaderServer() {
   const header = await payload.findGlobal({
     slug: "header",
   });
+  
   return (
-    <header className="w-full bg-sky-500">
+    <header className="bg-sky-500">
       <div className="flex flex-row justify-between items-center px-96">
         <Image
           width={100}

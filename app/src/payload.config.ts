@@ -3,7 +3,6 @@ import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { de } from "@payloadcms/translations/languages/de";
 import { en } from "@payloadcms/translations/languages/en";
-import { ro } from "@payloadcms/translations/languages/ro";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -32,7 +31,7 @@ export default buildConfig({
     ],
   },
   i18n: {
-    supportedLanguages: { en, de, ro },
+    supportedLanguages: { en, de },
   },
   admin: {
     user: Users.slug,
