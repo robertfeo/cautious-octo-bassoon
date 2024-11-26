@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="px-96">
-      <div dangerouslySetInnerHTML={{ __html: page.post_content_html || "" }}>
+      <div className="text-justify" dangerouslySetInnerHTML={{ __html: page.post_content_html || "" }}>
       </div>
     </div>
   );
