@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const page = data.docs[0] as PageCollection;
 
   return (
-    <div className="px-96">
+    <div className="flex flex-col py-5 gap-y-5 px-96">
       <RenderBlocks blocks={page.layout} />
     </div>
   );

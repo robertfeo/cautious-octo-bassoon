@@ -107,6 +107,12 @@ export const Posts: CollectionConfig = {
         {
           fields: [
             {
+              name: "thumbnail",
+              label: "Thumbnail",
+              type: "upload",
+              relationTo: "media",
+            },
+            {
               name: "relatedPosts",
               type: "relationship",
               admin: {

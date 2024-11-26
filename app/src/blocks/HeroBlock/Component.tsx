@@ -23,7 +23,7 @@ export default function HeroBlockComponent({
         backgroundPosition: "center",
       }}
     >
-      <div className="p-6 text-black">
+      <div className="p-6">
         <h1>{heading}</h1>
         <p className="text-lg">{text}</p>
       </div>

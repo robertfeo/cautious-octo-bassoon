@@ -1,5 +1,6 @@
 import HeroBlockComponent from "@/blocks/HeroBlock/Component";
 import ImageBlockComponent from "@/blocks/ImageBlock/Component";
+import RecentPostsBlockComponent from "@/blocks/RecentPostsBlock/Component";
 import TwoColumnBlockComponent from "@/blocks/TwoColumnBlock/Component";
 import { Page } from "@/payload-types";
 import { Fragment } from "react";
@@ -8,6 +9,7 @@ const blockComponents = {
   image: ImageBlockComponent,
   hero: HeroBlockComponent,
   twoColumn: TwoColumnBlockComponent,
+  recentPosts: RecentPostsBlockComponent,
 };
 
 const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
