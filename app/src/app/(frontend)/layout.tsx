@@ -3,7 +3,6 @@ import HeaderServer from "@/blocks/global/Header/Component";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,12 +27,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" suppressHydrationWarning>
-      <head>
-        <Script
-          src="https://unpkg.com/htmx.org@2.0.3"
-          strategy="beforeInteractive"
-        />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full h-full`}
       >

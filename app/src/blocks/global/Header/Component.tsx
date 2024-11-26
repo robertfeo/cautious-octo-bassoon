@@ -9,7 +9,7 @@ export default async function HeaderServer() {
   const header = await payload.findGlobal({
     slug: "header",
   });
-  
+
   return (
     <header className="bg-sky-500">
       <div className="flex flex-row justify-between items-center px-96">
@@ -30,7 +30,11 @@ export default async function HeaderServer() {
         <div className="flex flex-row gap-4 *:no-underline *:text-white">
           {header.navigation.map((item, index) => {
             return (
-              <Link className="hover:cursor-pointer" key={index} href={item.link}>
+              <Link
+                className="hover:cursor-pointer"
+                key={index}
+                href={item.link}
+              >
                 {item.label}
               </Link>
             );

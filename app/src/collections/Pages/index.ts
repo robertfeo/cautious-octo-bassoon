@@ -1,6 +1,8 @@
 import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
+import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { ImageBlock } from "@/blocks/ImageBlock/config";
+import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
 import type { FieldHook } from "payload";
 import { CollectionConfig } from "payload";
 
@@ -65,7 +67,7 @@ export const Pages: CollectionConfig = {
       name: "layout",
       label: "Layout",
       type: "blocks",
-      blocks: [ImageBlock],
+      blocks: [ImageBlock, HeroBlock, TwoColumnBlock],
       required: true,
     },
   ],
