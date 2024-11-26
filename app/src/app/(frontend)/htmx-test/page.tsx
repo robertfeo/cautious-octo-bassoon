@@ -8,6 +8,8 @@ export default function HtmxPage() {
     }
   }, []);
 
+  console.log("HTMX PAGE");
+
   return (
     <main
       hx-get="/api/posts/post-content"
