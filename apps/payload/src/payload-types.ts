@@ -16,9 +16,9 @@ export interface Config {
     pages: Page;
     posts: Post;
     categories: Category;
-    "payload-locked-documents": PayloadLockedDocument;
-    "payload-preferences": PayloadPreference;
-    "payload-migrations": PayloadMigration;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
@@ -27,15 +27,9 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    "payload-locked-documents":
-      | PayloadLockedDocumentsSelect<false>
-      | PayloadLockedDocumentsSelect<true>;
-    "payload-preferences":
-      | PayloadPreferencesSelect<false>
-      | PayloadPreferencesSelect<true>;
-    "payload-migrations":
-      | PayloadMigrationsSelect<false>
-      | PayloadMigrationsSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: number;
@@ -50,7 +44,7 @@ export interface Config {
   };
   locale: null;
   user: User & {
-    collection: "users";
+    collection: 'users';
   };
   jobs: {
     tasks: unknown;
@@ -108,8 +102,8 @@ export interface Media {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ("ltr" | "rtl") | null;
-      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
       indent: number;
       version: number;
     };
@@ -185,40 +179,22 @@ export interface Page {
   id: number;
   slug: string;
   name: string;
-  layout: (
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "image";
-      }
-    | {
-        heading?: string | null;
-        text?: string | null;
-        backgroundImage?: (number | null) | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "hero";
-      }
-    | {
-        heading?: string | null;
-        text?: string | null;
-        image?: (number | null) | Media;
-        direction?: ("default" | "reverse") | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "twoColumn";
-      }
-    | {
-        heading?: string | null;
-        subheading?: string | null;
-        postLimit: number;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "recentPosts";
-      }
-  )[];
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  layout_html?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -240,8 +216,8 @@ export interface Post {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ("ltr" | "rtl") | null;
-      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
       indent: number;
       version: number;
     };
@@ -271,28 +247,28 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: "users";
+        relationTo: 'users';
         value: number | User;
       } | null)
     | ({
-        relationTo: "media";
+        relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
-        relationTo: "pages";
+        relationTo: 'pages';
         value: number | Page;
       } | null)
     | ({
-        relationTo: "posts";
+        relationTo: 'posts';
         value: number | Post;
       } | null)
     | ({
-        relationTo: "categories";
+        relationTo: 'categories';
         value: number | Category;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: number | User;
   };
   updatedAt: string;
@@ -305,7 +281,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: number;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: number | User;
   };
   key?: string | null;
@@ -438,46 +414,8 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   name?: T;
-  layout?:
-    | T
-    | {
-        image?:
-          | T
-          | {
-              image?: T;
-              caption?: T;
-              id?: T;
-              blockName?: T;
-            };
-        hero?:
-          | T
-          | {
-              heading?: T;
-              text?: T;
-              backgroundImage?: T;
-              id?: T;
-              blockName?: T;
-            };
-        twoColumn?:
-          | T
-          | {
-              heading?: T;
-              text?: T;
-              image?: T;
-              direction?: T;
-              id?: T;
-              blockName?: T;
-            };
-        recentPosts?:
-          | T
-          | {
-              heading?: T;
-              subheading?: T;
-              postLimit?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
+  content?: T;
+  layout_html?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -612,6 +550,7 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-declare module "payload" {
+
+declare module 'payload' {
   export interface GeneratedTypes extends Config {}
 }

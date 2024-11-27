@@ -1,12 +1,22 @@
 {
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  },
   "name": "bachelorarbeit",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "bachelorarbeit",
+  "dependencies": {
+    "turbo-linux-64": "^2.3.3"
   },
-  "keywords": [],
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean"
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "packageManager": "pnpm@9.13.0+sha512.beb9e2a803db336c10c9af682b58ad7181ca0fbd0d4119f2b33d5f2582e96d6c0d93c85b23869295b765170fbdaa92890c0da6ada457415039769edf3c959efe",
+  "engines": {
+    "node": ">=20.11.1"
+  }
 }

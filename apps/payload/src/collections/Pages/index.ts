@@ -4,6 +4,12 @@ import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { ImageBlock } from "@/blocks/ImageBlock/config";
 import { RecentPostsBlock } from "@/blocks/RecentPostsBlock/config";
 import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
+import {
+  BlocksFeature,
+  HTMLConverterFeature,
+  lexicalEditor,
+  lexicalHTML
+} from "@payloadcms/richtext-lexical";
 import type { FieldHook } from "payload";
 import { CollectionConfig } from "payload";
 
@@ -64,12 +70,57 @@ export const Pages: CollectionConfig = {
       type: "text",
       required: true,
     },
-    {
+    /* {
       name: "layout",
       label: "Layout",
       type: "blocks",
       blocks: [ImageBlock, HeroBlock, TwoColumnBlock, RecentPostsBlock],
       required: true,
+    }, */
+    {
+      name: "content",
+      type: "richText",
+      label: "Content",
+      editor: lexicalEditor({
+        features: ({ defaultFeatures, rootFeatures }) => [
+          ...defaultFeatures,
+          BlocksFeature({
+            blocks: [ImageBlock, HeroBlock, TwoColumnBlock, RecentPostsBlock],
+          }),
+          HTMLConverterFeature({}),
+        ],
+      }),
+    },
+    lexicalHTML('content', { name: 'layout_html' }),
+  ],
+  endpoints: [
+    {
+      path: "/by-slug/:slug",
+      method: "get",
+      handler: async (req) => {
+        const slug = req.routeParams?.slug;
+
+        const page = await req.payload.find({
+          collection: "pages",
+          depth: 2,
+          limit: 1,
+          where: {
+            slug: {
+              equals: slug,
+            },
+          },
+        });
+
+        if (page.docs.length === 0) {
+          return new Response("Page not found", { status: 404 });
+        }
+
+        console.log("PAYLOAD Page data fetched:", JSON.stringify(page.docs[0]));
+
+        return new Response(JSON.stringify(page.docs[0]), {
+          headers: { "Content-Type": "application/json" },
+        });
+      },
     },
   ],
 };

@@ -1,8 +1,8 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { de } from "@payloadcms/translations/languages/de";
-import { en } from "@payloadcms/translations/languages/en";
+/* import { de } from '@payloadcms/translations/languages/de';
+import { en } from '@payloadcms/translations/languages/en'; */
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -30,9 +30,9 @@ export default buildConfig({
       "hx-current-url",
     ],
   },
-  i18n: {
+  /* i18n: {
     supportedLanguages: { en, de },
-  },
+  }, */
   admin: {
     user: Users.slug,
     importMap: {

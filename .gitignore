@@ -1,29 +1,12 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+/node_modules
+
 # misc
 .vscode
 .env
+.turbo
+package-lock.json
+.dockerignore
 
-# frontend
-/frontend/build
-/frontend/dist
-/frontend/node_modules
-/frontend/.DS_Store
-/frontend/.idea
-/frontend/.vscode
-
-# next_payload
-/next_payload/build
-/next_payload/dist
-/next_payload/media
-/next_payload/node_modules
-/next_payload/node_modules/
-/next_payload/node_modules/*
-/next_payload/.DS_Store
-/next_payload/.idea
-/next_payload/.vscode
-/next_payload/.pnpm-store
-/next_payload-v3/node_modules
-
-/test-app
-/next_payload-v1
+apps/*/node_modules
