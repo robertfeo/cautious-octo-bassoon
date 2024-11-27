@@ -12,6 +12,7 @@ import {
 } from "@payloadcms/richtext-lexical";
 import type { FieldHook } from "payload";
 import { CollectionConfig } from "payload";
+import { revalidatePage } from "./hooks/revalidatePage";
 
 const format = (val: string): string =>
   val
@@ -70,13 +71,13 @@ export const Pages: CollectionConfig = {
       type: "text",
       required: true,
     },
-    /* {
+    {
       name: "layout",
       label: "Layout",
       type: "blocks",
       blocks: [ImageBlock, HeroBlock, TwoColumnBlock, RecentPostsBlock],
       required: true,
-    }, */
+    },
     {
       name: "content",
       type: "richText",
@@ -115,12 +116,13 @@ export const Pages: CollectionConfig = {
           return new Response("Page not found", { status: 404 });
         }
 
-        console.log("PAYLOAD Page data fetched:", JSON.stringify(page.docs[0]));
-
         return new Response(JSON.stringify(page.docs[0]), {
           headers: { "Content-Type": "application/json" },
         });
       },
     },
   ],
+  hooks: {
+    afterChange: [revalidatePage],
+  },
 };

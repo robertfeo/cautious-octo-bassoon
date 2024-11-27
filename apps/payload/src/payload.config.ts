@@ -8,6 +8,7 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
+import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
@@ -21,7 +22,7 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   cors: {
-    origins: ["http://localhost:3000"],
+    origins: ["http://localhost:3000", "http://localhost:3001"],
     headers: [
       "Content-Type",
       "Authorization",
@@ -53,6 +54,6 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    /* payloadCloudPlugin(), */
+    payloadCloudPlugin(),
   ],
 });

@@ -179,6 +179,40 @@ export interface Page {
   id: number;
   slug: string;
   name: string;
+  layout: (
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'image';
+      }
+    | {
+        heading?: string | null;
+        text?: string | null;
+        backgroundImage?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | {
+        heading?: string | null;
+        text?: string | null;
+        image?: (number | null) | Media;
+        direction?: ('default' | 'reverse') | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'twoColumn';
+      }
+    | {
+        heading?: string | null;
+        subheading?: string | null;
+        postLimit: number;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'recentPosts';
+      }
+  )[];
   content?: {
     root: {
       type: string;
@@ -414,6 +448,46 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   name?: T;
+  layout?:
+    | T
+    | {
+        image?:
+          | T
+          | {
+              image?: T;
+              caption?: T;
+              id?: T;
+              blockName?: T;
+            };
+        hero?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              backgroundImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        twoColumn?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              image?: T;
+              direction?: T;
+              id?: T;
+              blockName?: T;
+            };
+        recentPosts?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              postLimit?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   content?: T;
   layout_html?: T;
   updatedAt?: T;
