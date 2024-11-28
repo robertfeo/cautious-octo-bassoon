@@ -1,14 +1,16 @@
 import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
+import { CodeBlock } from "@/blocks/CodeBlock/config";
 import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { ImageBlock } from "@/blocks/ImageBlock/config";
 import { RecentPostsBlock } from "@/blocks/RecentPostsBlock/config";
 import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
+
 import {
   BlocksFeature,
   HTMLConverterFeature,
   lexicalEditor,
-  lexicalHTML
+  lexicalHTML,
 } from "@payloadcms/richtext-lexical";
 import type { FieldHook } from "payload";
 import { CollectionConfig } from "payload";
@@ -58,11 +60,11 @@ export const Pages: CollectionConfig = {
       type: "text",
       admin: {
         position: "sidebar",
+        disabled: true,
       },
       hooks: {
         beforeValidate: [formatSlug("name")],
       },
-      required: true,
       unique: true,
     },
     {
@@ -75,7 +77,13 @@ export const Pages: CollectionConfig = {
       name: "layout",
       label: "Layout",
       type: "blocks",
-      blocks: [ImageBlock, HeroBlock, TwoColumnBlock, RecentPostsBlock],
+      blocks: [
+        ImageBlock,
+        HeroBlock,
+        TwoColumnBlock,
+        RecentPostsBlock,
+        CodeBlock,
+      ],
       required: true,
     },
     {
@@ -86,13 +94,19 @@ export const Pages: CollectionConfig = {
         features: ({ defaultFeatures, rootFeatures }) => [
           ...defaultFeatures,
           BlocksFeature({
-            blocks: [ImageBlock, HeroBlock, TwoColumnBlock, RecentPostsBlock],
+            blocks: [
+              ImageBlock,
+              HeroBlock,
+              TwoColumnBlock,
+              RecentPostsBlock,
+              CodeBlock,
+            ],
           }),
           HTMLConverterFeature({}),
         ],
       }),
     },
-    lexicalHTML('content', { name: 'layout_html' }),
+    lexicalHTML("content", { name: "layout_html" }),
   ],
   endpoints: [
     {

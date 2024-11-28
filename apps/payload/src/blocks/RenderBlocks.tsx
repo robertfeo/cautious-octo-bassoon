@@ -1,3 +1,4 @@
+import { CodeBlockComponent } from "@/blocks/CodeBlock/Component";
 import HeroBlockComponent from "@/blocks/HeroBlock/Component";
 import ImageBlockComponent from "@/blocks/ImageBlock/Component";
 import RecentPostsBlockComponent from "@/blocks/RecentPostsBlock/Component";
@@ -10,6 +11,7 @@ const blockComponents = {
   hero: HeroBlockComponent,
   twoColumn: TwoColumnBlockComponent,
   recentPosts: RecentPostsBlockComponent,
+  code: CodeBlockComponent,
 };
 
 const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
@@ -32,8 +34,10 @@ const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
               );
             }
           }
-
-          return null;
+          else{
+            console.log('Block not found', blockType);
+            return null;
+          }
         })}
       </Fragment>
     );

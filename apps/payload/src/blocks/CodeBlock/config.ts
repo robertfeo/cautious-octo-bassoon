@@ -1,16 +1,33 @@
-import { Block } from "payload";
+import type { Block } from "payload";
 
 export const CodeBlock: Block = {
   slug: "code",
-  labels: {
-    singular: "Code Block",
-    plural: "Code Blocks",
-  },
+  interfaceName: "Code Block",
   fields: [
     {
+      name: "language",
+      type: "select",
+      defaultValue: "typescript",
+      options: [
+        {
+          label: "Typescript",
+          value: "typescript",
+        },
+        {
+          label: "Javascript",
+          value: "javascript",
+        },
+        {
+          label: "CSS",
+          value: "css",
+        },
+      ],
+    },
+    {
       name: "code",
-      label: "Code",
       type: "code",
+      label: false,
+      required: true,
     },
   ],
 };

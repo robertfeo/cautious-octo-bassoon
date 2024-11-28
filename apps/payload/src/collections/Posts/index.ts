@@ -1,5 +1,8 @@
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
+import { CodeBlock } from "@/blocks/CodeBlock/config";
+import { TestBlock } from "@/blocks/TestBlock/config";
+import { formatSlug } from "@/utils/formatSlug";
 import {
   BlocksFeature,
   FixedToolbarFeature,
@@ -10,28 +13,7 @@ import {
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
-import type { CollectionConfig, FieldHook } from "payload";
-
-const format = (val: string): string =>
-  val
-    .replace(/ /g, "-")
-    .replace(/[^\w-/]+/g, "")
-    .toLowerCase();
-
-const formatSlug =
-  (fallback: string): FieldHook =>
-  ({ value, originalDoc, data }) => {
-    if (typeof value === "string") {
-      return format(value);
-    }
-    const fallbackData = data?.[fallback] || originalDoc?.[fallback];
-
-    if (fallbackData && typeof fallbackData === "string") {
-      return format(fallbackData);
-    }
-
-    return value;
-  };
+import type { CollectionConfig } from "payload";
 
 export const Posts: CollectionConfig = {
   slug: "posts",
@@ -52,12 +34,11 @@ export const Posts: CollectionConfig = {
       type: "text",
       admin: {
         position: "sidebar",
+        disabled: false,
       },
       hooks: {
         beforeValidate: [formatSlug("name")],
-        afterChange: [formatSlug("name")],
       },
-      required: true,
       unique: true,
     },
     {
@@ -67,12 +48,22 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: "author",
+      type: "relationship",
+      relationTo: "users",
+      required: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "likes",
       label: "Likes",
       type: "number",
       admin: {
         position: "sidebar",
       },
+      defaultValue: 0,
     },
     {
       type: "tabs",
@@ -91,7 +82,7 @@ export const Posts: CollectionConfig = {
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
-                    BlocksFeature({ blocks: [] }),
+                    BlocksFeature({ blocks: [CodeBlock,TestBlock] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),

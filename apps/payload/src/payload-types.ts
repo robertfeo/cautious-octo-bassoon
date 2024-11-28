@@ -16,9 +16,9 @@ export interface Config {
     pages: Page;
     posts: Post;
     categories: Category;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    "payload-locked-documents": PayloadLockedDocument;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
@@ -27,9 +27,15 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+    "payload-locked-documents":
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>;
+    "payload-preferences":
+      | PayloadPreferencesSelect<false>
+      | PayloadPreferencesSelect<true>;
+    "payload-migrations":
+      | PayloadMigrationsSelect<false>
+      | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: number;
@@ -44,7 +50,7 @@ export interface Config {
   };
   locale: null;
   user: User & {
-    collection: 'users';
+    collection: "users";
   };
   jobs: {
     tasks: unknown;
@@ -102,8 +108,8 @@ export interface Media {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
       indent: number;
       version: number;
     };
@@ -177,15 +183,16 @@ export interface Media {
  */
 export interface Page {
   id: number;
-  slug: string;
+  slug?: string | null;
   name: string;
   layout: (
     | {
-        image: number | Media;
+        image?: (number | null) | Media;
+        url?: string | null;
         caption?: string | null;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'image';
+        blockType: "image";
       }
     | {
         heading?: string | null;
@@ -193,16 +200,16 @@ export interface Page {
         backgroundImage?: (number | null) | Media;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'hero';
+        blockType: "hero";
       }
     | {
         heading?: string | null;
         text?: string | null;
         image?: (number | null) | Media;
-        direction?: ('default' | 'reverse') | null;
+        direction?: ("default" | "reverse") | null;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'twoColumn';
+        blockType: "twoColumn";
       }
     | {
         heading?: string | null;
@@ -210,8 +217,9 @@ export interface Page {
         postLimit: number;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'recentPosts';
+        blockType: "recentPosts";
       }
+    | CodeBlock
   )[];
   content?: {
     root: {
@@ -221,8 +229,8 @@ export interface Page {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
       indent: number;
       version: number;
     };
@@ -234,12 +242,24 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Code Block".
+ */
+export interface CodeBlock {
+  language?: ("typescript" | "javascript" | "css") | null;
+  code: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "code";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
   id: number;
-  slug: string;
+  slug?: string | null;
   title: string;
+  author: number | User;
   likes?: number | null;
   post_content_html?: string | null;
   content: {
@@ -250,8 +270,8 @@ export interface Post {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
       indent: number;
       version: number;
     };
@@ -281,28 +301,28 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
+        relationTo: "users";
         value: number | User;
       } | null)
     | ({
-        relationTo: 'media';
+        relationTo: "media";
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'pages';
+        relationTo: "pages";
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'posts';
+        relationTo: "posts";
         value: number | Post;
       } | null)
     | ({
-        relationTo: 'categories';
+        relationTo: "categories";
         value: number | Category;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: number | User;
   };
   updatedAt: string;
@@ -315,7 +335,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: number;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: number | User;
   };
   key?: string | null;
@@ -455,6 +475,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               image?: T;
+              url?: T;
               caption?: T;
               id?: T;
               blockName?: T;
@@ -487,6 +508,14 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        code?:
+          | T
+          | {
+              language?: T;
+              code?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   content?: T;
   layout_html?: T;
@@ -500,6 +529,7 @@ export interface PagesSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   title?: T;
+  author?: T;
   likes?: T;
   post_content_html?: T;
   content?: T;
@@ -624,7 +654,6 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-
-declare module 'payload' {
+declare module "payload" {
   export interface GeneratedTypes extends Config {}
 }
