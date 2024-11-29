@@ -4,7 +4,8 @@ import ImageBlockComponent from "@/blocks/ImageBlock/Component";
 import RecentPostsBlockComponent from "@/blocks/RecentPostsBlock/Component";
 import TwoColumnBlockComponent from "@/blocks/TwoColumnBlock/Component";
 import { Page } from "@/payload-types";
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
+import { ContentBlock } from "./ContentBlock/Component";
 
 const blockComponents = {
   image: ImageBlockComponent,
@@ -12,12 +13,13 @@ const blockComponents = {
   twoColumn: TwoColumnBlockComponent,
   recentPosts: RecentPostsBlockComponent,
   code: CodeBlockComponent,
+  content: ContentBlock,
 };
 
 export const RenderBlocks: React.FC<{
-  blocks: Page['layout'][0][]
+  blocks: Page["layout"][0][];
 }> = (props) => {
-  const { blocks } = props
+  const { blocks } = props;
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0;
 
   if (hasBlocks) {
@@ -31,14 +33,14 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="py-4 w-full" key={index}>
-                  <Block id={blockName || `block-${index}`} {...block} />
+                <div className="py-20 w-full h-full" key={index}>
+                  {/* @ts-expect-error */}
+                  <Block {...block} />
                 </div>
               );
             }
-          }
-          else{
-            console.log('Block not found', blockType);
+          } else {
+            console.log("Block not found", blockType);
             return null;
           }
         })}

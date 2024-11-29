@@ -106,10 +106,11 @@ export interface Media {
 export interface Page {
   id: number;
   slug?: string | null;
-  name: string;
+  slugLock?: boolean | null;
+  title: string;
   layout: (
     | {
-        url?: string | null;
+        image: number | Media;
         caption?: string | null;
         id?: string | null;
         blockName?: string | null;
@@ -126,7 +127,7 @@ export interface Page {
     | {
         heading?: string | null;
         text?: string | null;
-        image?: (number | null) | Media;
+        image: number | Media;
         direction?: ('default' | 'reverse') | null;
         id?: string | null;
         blockName?: string | null;
@@ -179,6 +180,7 @@ export interface CodeBlock {
 export interface Post {
   id: number;
   slug?: string | null;
+  slugLock?: boolean | null;
   title: string;
   author: number | User;
   likes?: number | null;
@@ -198,7 +200,7 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  thumbnail?: (number | null) | Media;
+  thumbnail: number | Media;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
   updatedAt: string;
@@ -316,14 +318,15 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
-  name?: T;
+  slugLock?: T;
+  title?: T;
   layout?:
     | T
     | {
         image?:
           | T
           | {
-              url?: T;
+              image?: T;
               caption?: T;
               id?: T;
               blockName?: T;
@@ -376,6 +379,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   slug?: T;
+  slugLock?: T;
   title?: T;
   author?: T;
   likes?: T;
@@ -450,13 +454,11 @@ export interface Header {
 export interface Footer {
   id: number;
   logo: number | Media;
-  navigation?:
-    | {
-        label: string;
-        link: string;
-        id?: string | null;
-      }[]
-    | null;
+  navigation: {
+    label: string;
+    link: string;
+    id?: string | null;
+  }[];
   updatedAt?: string | null;
   createdAt?: string | null;
 }

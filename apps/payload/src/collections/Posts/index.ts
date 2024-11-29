@@ -1,7 +1,9 @@
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
 import { CodeBlock } from "@/blocks/CodeBlock/config";
-import { formatSlug } from "@/utils/formatSlug";
+import { HeroBlock } from "@/blocks/HeroBlock/config";
+import { HeroBlockFeature } from "@/features/HeroBlockFeature/config";
+import { slugField } from "@/fields/slug";
 import {
   BlocksFeature,
   FixedToolbarFeature,
@@ -10,7 +12,7 @@ import {
   HTMLConverterFeature,
   InlineToolbarFeature,
   lexicalEditor,
-  lexicalHTML,
+  lexicalHTML
 } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
 
@@ -27,19 +29,7 @@ export const Posts: CollectionConfig = {
     defaultColumns: ["title", "slug", "updatedAt"],
   },
   fields: [
-    {
-      name: "slug",
-      label: "Slug",
-      type: "text",
-      admin: {
-        position: "sidebar",
-        disabled: false,
-      },
-      hooks: {
-        beforeValidate: [formatSlug("name")],
-      },
-      unique: true,
-    },
+    ...slugField(),
     {
       name: "title",
       label: "Title",
@@ -78,10 +68,11 @@ export const Posts: CollectionConfig = {
                   return [
                     ...rootFeatures,
                     HTMLConverterFeature({}),
+                    HeroBlockFeature(),
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
-                    BlocksFeature({ blocks: [CodeBlock] }),
+                    BlocksFeature({ blocks: [CodeBlock, HeroBlock] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
@@ -99,8 +90,9 @@ export const Posts: CollectionConfig = {
             {
               name: "thumbnail",
               label: "Thumbnail",
-              type: "upload",
+              type: "relationship",
               relationTo: "media",
+              required: true,
             },
             {
               name: "relatedPosts",
@@ -157,6 +149,38 @@ export const Posts: CollectionConfig = {
             },
           });
         }
+      },
+    },
+    {
+      path: "/by-slug/:slug",
+      method: "get",
+      handler: async (req) => {
+        const slug = req.routeParams?.slug;
+
+        const page = await req.payload.find({
+          collection: "posts",
+          depth: 2,
+          limit: 1,
+          where: {
+            slug: {
+              equals: slug,
+            },
+          },
+        });
+
+        if (page.docs.length === 0) {
+          return new Response("Page not found", { status: 404 });
+        }
+
+        /* const html = await convertLexicalToHTML({
+          converters: HeroBlockHTMLConverter,
+          data: page.docs[0].content,
+          req,
+        }); */
+
+        return new Response(JSON.stringify(page.docs[0]), {
+          headers: { "Content-Type": "application/json" },
+        });
       },
     },
   ],

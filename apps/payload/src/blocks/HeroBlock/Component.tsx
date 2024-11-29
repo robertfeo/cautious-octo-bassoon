@@ -1,4 +1,4 @@
-type HeroBlockProps = {
+export type HeroBlockProps = {
   heading: string;
   text: string;
   backgroundImage?: {

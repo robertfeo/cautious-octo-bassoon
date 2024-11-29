@@ -6,6 +6,7 @@ import { ImageBlock } from "@/blocks/ImageBlock/config";
 import { RecentPostsBlock } from "@/blocks/RecentPostsBlock/config";
 import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
 
+import { slugField } from "@/fields/slug";
 import {
   BlocksFeature,
   FixedToolbarFeature,
@@ -17,7 +18,6 @@ import {
 } from "@payloadcms/richtext-lexical";
 import type { FieldHook } from "payload";
 import { CollectionConfig } from "payload";
-import { revalidatePage } from "./hooks/revalidatePage";
 
 const format = (val: string): string =>
   val
@@ -50,29 +50,17 @@ export const Pages: CollectionConfig = {
   },
   admin: {
     defaultColumns: ["name", "slug", "updatedAt"],
-    useAsTitle: "name",
+    useAsTitle: "title",
   },
   labels: {
     singular: "Page",
     plural: "Pages",
   },
   fields: [
+    ...slugField(),
     {
-      name: "slug",
-      label: "Slug",
-      type: "text",
-      admin: {
-        position: "sidebar",
-        disabled: true,
-      },
-      hooks: {
-        beforeValidate: [formatSlug("name")],
-      },
-      unique: true,
-    },
-    {
-      name: "name",
-      label: "Name",
+      name: "title",
+      label: "Title",
       type: "text",
       required: true,
     },
@@ -145,7 +133,4 @@ export const Pages: CollectionConfig = {
       },
     },
   ],
-  hooks: {
-    afterChange: [revalidatePage],
-  },
 };

@@ -12,7 +12,7 @@ export default async function FooterServer() {
 
   return (
     <footer className="bg-sky-500">
-      <div className="flex flex-col justify-center items-center px-96">
+      <div className="flex flex-col justify-center items-center px-80">
         <Image
           width={150}
           height={100}

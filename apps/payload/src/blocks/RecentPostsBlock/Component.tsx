@@ -38,8 +38,8 @@ export default async function RecentPostsBlockComponent({
                   objectFit="cover"
                 />
               ) : (
-                <div className="bg-gray-700 w-full h-full flex items-center justify-center">
-                  <span>No Image</span>
+                <div className="bg-zinc-700 w-full h-full flex items-center justify-center">
+                  <span className="text-white">No Image</span>
                 </div>
               )}
             </div>

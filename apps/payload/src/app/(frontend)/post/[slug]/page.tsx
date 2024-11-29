@@ -1,4 +1,5 @@
-import { Post as PostCollection } from "@/payload-types";
+import RichText from "@/components/RichText";
+import { Post } from "@/payload-types";
 import config from "@payload-config";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
@@ -6,6 +7,7 @@ import { getPayload } from "payload";
 export default async function Page({ params }: { params: { slug: string } }) {
   const paramsAwait = await params;
   const slug = paramsAwait.slug;
+
   const payload = await getPayload({ config });
 
   const data = await payload.find({
@@ -23,14 +25,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
     await notFound();
   }
 
-  const page = data.docs[0] as PostCollection;
+  const page = data.docs[0] as Post;
 
   return (
-    <div className="px-96">
-      <div
-        className="text-justify"
-        dangerouslySetInnerHTML={{ __html: page.post_content_html || "" }}
-      ></div>
+    <div className="px-80">
+      <div className="text-justify">
+        {/* @ts-expect-error */}
+        <RichText
+          className="mx-auto"
+          content={page.content}
+          enableGutter={false}
+        />
+      </div>
     </div>
   );
 }

@@ -20,8 +20,9 @@ export const TwoColumnBlock: Block = {
     {
       name: "image",
       label: "Image",
-      type: "upload",
+      type: "relationship",
       relationTo: "media",
+      required: true,
     },
     {
       name: "direction",

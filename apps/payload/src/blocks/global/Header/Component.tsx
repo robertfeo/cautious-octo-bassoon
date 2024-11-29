@@ -12,7 +12,7 @@ export default async function HeaderServer() {
 
   return (
     <header className="bg-sky-500">
-      <div className="flex flex-row justify-between items-center px-96">
+      <div className="flex flex-row justify-between items-center px-80">
         <Image
           width={150}
           height={100}
@@ -27,11 +27,11 @@ export default async function HeaderServer() {
               : "/default-image.png"
           }
         ></Image>
-        <div className="flex flex-row gap-4 *:no-underline *:text-white">
+        <div className="flex flex-row gap-4 *:no-underline *:text-black">
           {header.navigation.map((item, index) => {
             return (
               <Link
-                className="hover:cursor-pointer"
+                className="hover:cursor-pointer hover:text-white"
                 key={index}
                 href={'http://localhost:3000/' + item.link}
               >
