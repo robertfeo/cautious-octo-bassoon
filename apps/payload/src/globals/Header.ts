@@ -6,7 +6,7 @@ export const Header: GlobalConfig = {
     {
       name: "logo",
       label: "Logo",
-      type: "upload",
+      type: "relationship",
       relationTo: "media",
       required: true,
     },

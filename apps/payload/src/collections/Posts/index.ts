@@ -1,7 +1,6 @@
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
 import { CodeBlock } from "@/blocks/CodeBlock/config";
-import { TestBlock } from "@/blocks/TestBlock/config";
 import { formatSlug } from "@/utils/formatSlug";
 import {
   BlocksFeature,
@@ -82,7 +81,7 @@ export const Posts: CollectionConfig = {
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
-                    BlocksFeature({ blocks: [CodeBlock,TestBlock] }),
+                    BlocksFeature({ blocks: [CodeBlock] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),

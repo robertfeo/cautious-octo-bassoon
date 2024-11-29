@@ -4,7 +4,7 @@ import ImageBlockComponent from "@/blocks/ImageBlock/Component";
 import RecentPostsBlockComponent from "@/blocks/RecentPostsBlock/Component";
 import TwoColumnBlockComponent from "@/blocks/TwoColumnBlock/Component";
 import { Page } from "@/payload-types";
-import { Fragment } from "react";
+import React, { Fragment } from 'react';
 
 const blockComponents = {
   image: ImageBlockComponent,
@@ -14,7 +14,10 @@ const blockComponents = {
   code: CodeBlockComponent,
 };
 
-const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
+export const RenderBlocks: React.FC<{
+  blocks: Page['layout'][0][]
+}> = (props) => {
+  const { blocks } = props
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0;
 
   if (hasBlocks) {

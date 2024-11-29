@@ -6,7 +6,7 @@ export const Footer: GlobalConfig = {
     {
       name: "logo",
       label: "Logo",
-      type: "upload",
+      type: "relationship",
       relationTo: "media",
       required: true,
     },
@@ -30,6 +30,7 @@ export const Footer: GlobalConfig = {
       ],
       minRows: 1,
       maxRows: 6,
+      required: true,
     },
   ],
 };

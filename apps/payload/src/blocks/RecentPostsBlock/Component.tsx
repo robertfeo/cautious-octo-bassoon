@@ -22,18 +22,13 @@ export default async function RecentPostsBlockComponent({
     sort: "-createdAt",
   });
 
-  posts.docs.map((post: any) => {
-    post.slug = post.slug || post._id;
-    console.log(post);
-  });
-
   return (
-    <div className="bg-gray-900 text-white">
-      {/* <h2 className="text-3xl font-bold text-center">{heading}</h2>
-      <p className="text-lg text-center mt-2">{subheading}</p> */}
+    <div>
+      <h2 className="text-3xl font-bold text-center">{heading}</h2>
+      <p className="text-lg text-center mt-2">{subheading}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
         {posts.docs.map((post: any) => (
-          <div key={post.id} className="bg-gray-800 overflow-hidden">
+          <div key={post.id} className="overflow-hidden ring-1 ring-black ring-opacity-25">
             <div className="relative w-full h-48">
               {post.thumbnail ? (
                 <Image
@@ -51,13 +46,13 @@ export default async function RecentPostsBlockComponent({
             <div className="p-4">
               <h3 className="text-sm font-semibold text-pretty">
                 <Link
-                  className="no-underline text-white"
+                  className="no-underline text-zinc-600"
                   href={`/post/${post.slug}`}
                 >
                   {post.title}
                 </Link>
               </h3>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-zinc-600 mt-1">
                 {new Date(post.createdAt).toLocaleDateString()}
               </p>
             </div>

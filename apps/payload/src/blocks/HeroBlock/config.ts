@@ -20,8 +20,9 @@ export const HeroBlock: Block = {
     {
       name: "backgroundImage",
       label: "Background Image",
-      type: "upload",
+      type: "relationship",
       relationTo: "media",
+      required: true,
     },
   ],
 };

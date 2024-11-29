@@ -14,7 +14,7 @@ export default async function FooterServer() {
     <footer className="bg-sky-500">
       <div className="flex flex-col justify-center items-center px-96">
         <Image
-          width={100}
+          width={150}
           height={100}
           alt={
             typeof footer.logo === "object" && footer.logo.alt
@@ -24,7 +24,7 @@ export default async function FooterServer() {
           src={
             typeof footer.logo === "object" && footer.logo.url
               ? footer.logo.url
-              : "/default-image.png"
+              : "https://placehold.co/150x75/jpeg"
           }
         ></Image>
       </div>

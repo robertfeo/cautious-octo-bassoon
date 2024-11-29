@@ -24,8 +24,8 @@ export default function HeroBlockComponent({
       }}
     >
       <div className="p-6">
-        <h1>{heading}</h1>
-        <p className="text-lg">{text}</p>
+        <h1 className="text-white">{heading}</h1>
+        <p className="text-white text-lg">{text}</p>
       </div>
     </div>
   );

@@ -32,8 +32,6 @@ export const uploadFromUrl = async ({
       const filename = `${uuidv4()}${path.extname(value)}`;
       const filepath = path.join(tmpDir, filename);
 
-      console.log("Temporary file path:", filepath);
-
       // Download the image
       const response = await axios({
         method: "GET",

@@ -1,17 +1,48 @@
 import RenderBlocks from "@/blocks/RenderBlocks";
-import { Page as PageCollection } from "@/payload-types";
-import config from "@payload-config";
+import type { Page as PageType } from "@/payload-types";
+import configPromise from "@payload-config";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
+import { cache } from "react";
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const paramsAwait = await params;
-  const slug = paramsAwait.slug || "home" || "index" || "default";
-  const payload = await getPayload({ config });
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
-  const data = await payload.find({
+export default async function Page({ params: paramsPromise }: PageProps) {
+  const { slug = "home" } = await paramsPromise;
+  const url = "/" + slug;
+
+  let page: PageType | null;
+
+  page = await queryPageBySlug({
+    slug,
+  });
+
+  if (!page && slug === "home") {
+    notFound();
+  }
+
+  if (!page) {
+    notFound();
+  }
+
+  const { layout } = page;
+
+  return (
+    <div className="flex flex-col py-5 gap-y-5 px-96">
+      <RenderBlocks blocks={layout} />
+    </div>
+  );
+}
+
+const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+  const payload = await getPayload({ config: configPromise });
+
+  const result = await payload.find({
     collection: "pages",
-    depth: 2,
     limit: 1,
     where: {
       slug: {
@@ -20,15 +51,5 @@ export default async function Page({ params }: { params: { slug: string } }) {
     },
   });
 
-  if (data.docs.length === 0) {
-    await notFound();
-  }
-
-  const page = data.docs[0] as PageCollection;
-
-  return (
-    <div className="flex flex-col py-5 gap-y-5 px-96">
-      <RenderBlocks blocks={page.layout} />
-    </div>
-  );
-}
+  return result.docs?.[0] || null;
+});

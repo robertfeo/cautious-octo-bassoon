@@ -25,8 +25,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const page = data.docs[0] as PostCollection;
 
-  console.log("NEXTJS PAGE");
-
   return (
     <div className="px-96">
       <div

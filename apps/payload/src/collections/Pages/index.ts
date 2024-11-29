@@ -8,7 +8,10 @@ import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
 
 import {
   BlocksFeature,
+  FixedToolbarFeature,
+  HorizontalRuleFeature,
   HTMLConverterFeature,
+  InlineToolbarFeature,
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
@@ -91,20 +94,26 @@ export const Pages: CollectionConfig = {
       type: "richText",
       label: "Content",
       editor: lexicalEditor({
-        features: ({ defaultFeatures, rootFeatures }) => [
-          ...defaultFeatures,
-          BlocksFeature({
-            blocks: [
-              ImageBlock,
-              HeroBlock,
-              TwoColumnBlock,
-              RecentPostsBlock,
-              CodeBlock,
-            ],
-          }),
-          HTMLConverterFeature({}),
-        ],
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            BlocksFeature({
+              blocks: [
+                ImageBlock,
+                HeroBlock,
+                TwoColumnBlock,
+                RecentPostsBlock,
+                CodeBlock,
+              ],
+            }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+            HTMLConverterFeature(),
+          ];
+        },
       }),
+      required: true,
     },
     lexicalHTML("content", { name: "layout_html" }),
   ],

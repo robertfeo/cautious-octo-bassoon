@@ -14,7 +14,7 @@ export default async function HeaderServer() {
     <header className="bg-sky-500">
       <div className="flex flex-row justify-between items-center px-96">
         <Image
-          width={100}
+          width={150}
           height={100}
           alt={
             typeof header.logo === "object" && header.logo.alt
@@ -33,7 +33,7 @@ export default async function HeaderServer() {
               <Link
                 className="hover:cursor-pointer"
                 key={index}
-                href={item.link}
+                href={'http://localhost:3000/' + item.link}
               >
                 {item.label}
               </Link>
