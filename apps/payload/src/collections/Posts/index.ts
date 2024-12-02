@@ -2,6 +2,7 @@ import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
 import { CodeBlock } from "@/blocks/CodeBlock/config";
 import { HeroBlock } from "@/blocks/HeroBlock/config";
+import { MediaBlock } from "@/blocks/MediaBlock/config";
 import { HeroBlockFeature } from "@/features/HeroBlockFeature/config";
 import { slugField } from "@/fields/slug";
 import {
@@ -72,7 +73,9 @@ export const Posts: CollectionConfig = {
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
-                    BlocksFeature({ blocks: [CodeBlock, HeroBlock] }),
+                    BlocksFeature({
+                      blocks: [CodeBlock, HeroBlock, MediaBlock],
+                    }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),

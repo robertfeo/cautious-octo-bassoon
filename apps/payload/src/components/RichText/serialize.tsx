@@ -1,19 +1,19 @@
-/* import { BannerBlock } from '@/blocks/Banner/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component' */
-/* import { MediaBlock } from "@/blocks/MediaBlock/Component"; */
-/* import { CMSLink } from '@/components/Link' */
 import {
   CodeBlockComponent,
   CodeBlockProps,
 } from "@/blocks/CodeBlock/Component";
 import type { HeroBlockProps } from "@/blocks/HeroBlock/Component";
 import HeroBlockComponent from "@/blocks/HeroBlock/Component";
+import MediaBlockComponent, {
+  MediaBlockProps,
+} from "@/blocks/MediaBlock/Component";
 import {
   DefaultNodeTypes,
   SerializedBlockNode,
 } from "@payloadcms/richtext-lexical";
 import React, { Fragment, JSX } from "react";
 
+import Link from "next/link";
 import {
   IS_BOLD,
   IS_CODE,
@@ -27,6 +27,7 @@ import {
 export type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<HeroBlockProps>
+  | SerializedBlockNode<MediaBlockProps>
   | SerializedBlockNode<CodeBlockProps>;
 
 type Props = {
@@ -115,31 +116,12 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               }
               return null;
             case "hero":
-              return <HeroBlockComponent key={index} {...block} />;
-            /* case "mediaBlock":
-              return (
-                <MediaBlock
-                  className="col-start-1 col-span-3"
-                  imgClassName="m-0"
-                  key={index}
-                  {...block}
-                  captionClassName="mx-auto max-w-[48rem]"
-                  enableGutter={false}
-                  disableInnerContainer={true}
-                />
-              ); */
-            /* case "banner":
-              return (
-                <BannerBlock
-                  className="col-start-2 mb-4"
-                  key={index}
-                  {...block}
-                />
-              ); */
-            /* case "code":
-              return (
-                <CodeBlock className="col-start-2" key={index} {...block} />
-              ); */
+              return <HeroBlockComponent key={index} {...block} text={block.text || ''} />;
+            case "media":
+              if ("media" in block) {
+                return <MediaBlockComponent key={index} {...block} />;
+              }
+              return null;
             default:
               return null;
           }
@@ -171,7 +153,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 </Tag>
               );
             }
-            /* case "listitem": {
+            case "listitem": {
               if (node?.checked != null) {
                 return (
                   <li
@@ -203,20 +185,16 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             }
             case "link": {
               const fields = node.fields;
-
               return (
-                <CMSLink
+                <Link
                   key={index}
-                  newTab={Boolean(fields?.newTab)}
-                  reference={fields.doc as any}
+                  href={fields.url}
                   type={fields.linkType === "internal" ? "reference" : "custom"}
-                  url={fields.url}
                 >
                   {serializedChildren}
-                </CMSLink>
+                </Link>
               );
-            } */
-
+            }
             default:
               return null;
           }

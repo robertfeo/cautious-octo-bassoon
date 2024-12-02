@@ -30,7 +30,7 @@ export default async function HeaderServer() {
           {header.navigation.map((item, index) => {
             return (
               <Link
-                className="hover:cursor-pointer hover:text-white"
+                className="hover:cursor-pointer hover:text-sky-500"
                 key={index}
                 href={process.env.HOST + item.link}
               >

@@ -30,5 +30,22 @@ export const Media: CollectionConfig = {
       type: "textarea",
       required: false,
     },
+    {
+      name: "url-type",
+      label: "Media Type",
+      type: "radio",
+      required: true,
+      options: [
+        {
+          label: "Image",
+          value: "image",
+        },
+        {
+          label: "Video",
+          value: "video",
+        },
+      ],
+      defaultValue: "image",
+    },
   ],
 };

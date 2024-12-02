@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { Categories } from "./collections/Categories";
+import { Comments } from "./collections/Comments";
 import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
 import { Posts } from "./collections/Posts";
@@ -41,7 +42,7 @@ export default buildConfig({
     },
   },
   globals: [Header, Footer],
-  collections: [Users, Media, Pages, Posts, Categories],
+  collections: [Users, Media, Pages, Posts, Categories, Comments],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
