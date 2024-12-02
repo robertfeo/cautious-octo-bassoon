@@ -10,7 +10,7 @@ export default async function HeaderServer() {
   });
 
   return (
-    <header>
+    <header className="py-14">
       <div className="flex flex-row justify-between items-center px-80">
         <img
           width={150}
