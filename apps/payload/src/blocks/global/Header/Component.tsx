@@ -1,5 +1,4 @@
 import config from "@payload-config";
-import Image from "next/image";
 import Link from "next/link";
 import { getPayload } from "payload";
 
@@ -11,9 +10,9 @@ export default async function HeaderServer() {
   });
 
   return (
-    <header className="bg-sky-500">
+    <header>
       <div className="flex flex-row justify-between items-center px-80">
-        <Image
+        <img
           width={150}
           height={100}
           alt={
@@ -26,14 +25,14 @@ export default async function HeaderServer() {
               ? header.logo.url
               : "/default-image.png"
           }
-        ></Image>
+        ></img>
         <div className="flex flex-row gap-4 *:no-underline *:text-black">
           {header.navigation.map((item, index) => {
             return (
               <Link
                 className="hover:cursor-pointer hover:text-white"
                 key={index}
-                href={"http://localhost:3000/" + item.link}
+                href={process.env.HOST + item.link}
               >
                 {item.label}
               </Link>

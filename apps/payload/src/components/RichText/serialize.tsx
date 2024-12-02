@@ -110,7 +110,10 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
 
           switch (blockType) {
             case "code":
-              return <CodeBlockComponent key={index} {...block} />;
+              if ("code" in block) {
+                return <CodeBlockComponent key={index} {...block} />;
+              }
+              return null;
             case "hero":
               return <HeroBlockComponent key={index} {...block} />;
             /* case "mediaBlock":

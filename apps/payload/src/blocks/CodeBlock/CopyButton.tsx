@@ -15,7 +15,7 @@ export function CopyButton({ code }: { code: string }) {
 
   return (
     <button
-      className="flex items-center gap-2 px-2 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition"
+      className="my-4 flex items-center gap-1 px-2 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition"
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(code);

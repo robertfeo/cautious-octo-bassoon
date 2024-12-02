@@ -29,7 +29,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="px-80">
-      <div className="text-justify">
+      <div>
+        <div className="flex flex-row justify-between">
+          <p className="font-bold">
+            Author:{" "}
+            {typeof page.author === "object" && "name" in page.author
+              ? page.author.name
+              : ""}
+          </p>
+          <p className="font-bold">
+            Created:{" "}
+            {typeof page.author === "object" && "createdAt" in page.author
+              ? page.author.createdAt
+              : ""}
+          </p>
+        </div>
         <RichText
           className="mx-auto"
           content={page.content}

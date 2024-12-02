@@ -15,8 +15,14 @@ export default function ImageBlockComponent({
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <img src={image.url} alt={image.alt || ""} />
-      <p>{image.caption ? caption : ""}</p>
+      <div className="w-full h-60 overflow-hidden">
+        <img
+          src={image.url}
+          alt={image.alt || ""}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <p>{caption || ""}</p>
     </div>
   );
 }

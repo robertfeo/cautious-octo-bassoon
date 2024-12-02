@@ -11,6 +11,8 @@ const nextConfig = {
       "images.ctfassets.net",
       "4kwallpapers.com",
       "picsum.photos",
+      "www.orientsoftware.com",
+      "plus.unsplash.com",
     ],
   },
 };

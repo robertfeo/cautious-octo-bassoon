@@ -1,5 +1,4 @@
 import { Media } from "@/payload-types";
-import NextImage from "next/image";
 
 type TwoColumnBlockProps = {
   heading: string;
@@ -18,22 +17,22 @@ export default function TwoColumnBlockComponent({
 
   return (
     <div
-      className={`flex flex-col md:flex-row ${isReverse ? "md:flex-row-reverse" : ""} items-center gap-6`}
+      className={`flex flex-col md:flex-row ${isReverse ? "md:flex-row-reverse" : ""} justify-between gap-6`}
     >
-      <div className="flex-1 text-center md:text-left">
-        <h2 className="text-3xl font-bold mb-4">{heading}</h2>
-        <p className="text-lg text-justify">{text}</p>
+      <div className="flex flex-col text-center md:text-left">
+        <h2>{heading}</h2>
+        <p className="text-justify">{text}</p>
       </div>
 
       {image && (
-        <div className="flex-1">
-          <NextImage
+        <div>
+          <img
             src={image.url || ""}
             alt={image.alt || "Two Column Block Image"}
-            width={600}
-            height={400}
-            className="rounded-lg object-cover"
-          />
+            width={500}
+            height={300}
+            className="object-cover size-full"
+          ></img>
         </div>
       )}
     </div>

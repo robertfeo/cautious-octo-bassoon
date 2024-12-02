@@ -24,14 +24,14 @@ export const RenderBlocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const { blockName, blockType } = block;
+          const { blockType } = block;
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType];
 
             if (Block) {
               return (
-                <div className="py-20 w-full h-full" key={index}>
+                <div key={index}>
                   {/* @ts-expect-error */}
                   <Block {...block} />
                 </div>

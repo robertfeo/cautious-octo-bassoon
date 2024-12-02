@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Blog App",
   description: "A blog app",
+  keywords: ["blog", "app"],
 };
 
 export default async function RootLayout({
@@ -15,9 +16,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="de" suppressHydrationWarning>
-      <body className={`antialiased w-full h-full`}>
+      <body className="min-h-screen flex flex-col">
         <HeaderServer />
-        {children}
+        <main className="flex-grow">{children}</main>
         <FooterServer />
       </body>
     </html>
