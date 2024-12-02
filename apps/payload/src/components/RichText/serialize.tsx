@@ -1,10 +1,13 @@
 /* import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component' */
-/* import { CodeBlock, CodeBlockProps } from "@/blocks/Code/Component"; */
-import type { HeroBlockProps } from "@/blocks/HeroBlock/Component";
-import HeroBlockComponent from "@/blocks/HeroBlock/Component";
 /* import { MediaBlock } from "@/blocks/MediaBlock/Component"; */
 /* import { CMSLink } from '@/components/Link' */
+import {
+  CodeBlockComponent,
+  CodeBlockProps,
+} from "@/blocks/CodeBlock/Component";
+import type { HeroBlockProps } from "@/blocks/HeroBlock/Component";
+import HeroBlockComponent from "@/blocks/HeroBlock/Component";
 import {
   DefaultNodeTypes,
   SerializedBlockNode,
@@ -21,7 +24,10 @@ import {
   IS_UNDERLINE,
 } from "./nodeFormat";
 
-export type NodeTypes = DefaultNodeTypes | SerializedBlockNode<HeroBlockProps>;
+export type NodeTypes =
+  | DefaultNodeTypes
+  | SerializedBlockNode<HeroBlockProps>
+  | SerializedBlockNode<CodeBlockProps>;
 
 type Props = {
   nodes: NodeTypes[];
@@ -103,12 +109,9 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
 
           switch (blockType) {
+            case "code":
+              return <CodeBlockComponent key={index} {...block} />;
             case "hero":
-              /* console.log(
-                ReactDOMServer.renderToString(
-                  <HeroBlockComponent key={index} {...block} />,
-                ),
-              ); */
               return <HeroBlockComponent key={index} {...block} />;
             /* case "mediaBlock":
               return (

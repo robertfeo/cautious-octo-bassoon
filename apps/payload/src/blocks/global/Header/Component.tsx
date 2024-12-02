@@ -33,7 +33,7 @@ export default async function HeaderServer() {
               <Link
                 className="hover:cursor-pointer hover:text-white"
                 key={index}
-                href={'http://localhost:3000/' + item.link}
+                href={"http://localhost:3000/" + item.link}
               >
                 {item.label}
               </Link>

@@ -28,7 +28,10 @@ export default async function RecentPostsBlockComponent({
       <p className="text-lg text-center mt-2">{subheading}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
         {posts.docs.map((post: any) => (
-          <div key={post.id} className="overflow-hidden ring-1 ring-black ring-opacity-25">
+          <div
+            key={post.id}
+            className="overflow-hidden ring-1 ring-black ring-opacity-25"
+          >
             <div className="relative w-full h-48">
               {post.thumbnail ? (
                 <Image

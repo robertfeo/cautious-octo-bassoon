@@ -1,5 +1,5 @@
 "use client";
-import { Highlight, themes } from "prism-react-renderer";
+import { Highlight } from "prism-react-renderer";
 import React from "react";
 import { CopyButton } from "./CopyButton";
 
@@ -12,9 +12,9 @@ export const Code: React.FC<Props> = ({ code, language = "" }) => {
   if (!code) return null;
 
   return (
-    <Highlight code={code} language={language} theme={themes.vsDark}>
+    <Highlight code={code} language={language}>
       {({ getLineProps, getTokenProps, tokens }) => (
-        <pre className="bg-black p-4 border text-xs border-border rounded overflow-x-auto">
+        <pre className="bg-slate-900 p-4 border text-xs border-border rounded overflow-x-auto">
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({ className: "table-row", line })}>
               <span className="table-cell select-none text-right text-white/25">

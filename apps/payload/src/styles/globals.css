@@ -15,7 +15,7 @@
 }
 
 body {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200;
+  @apply bg-gray-50 text-gray-900;
   font-family: "Inter", sans-serif;
   line-height: 1.75;
   margin: 0;
@@ -27,7 +27,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-bold text-gray-800 dark:text-gray-100 leading-tight mt-6 mb-3;
+  @apply font-bold text-gray-800 leading-tight mt-6 mb-3;
 }
 
 h1 {
@@ -47,11 +47,11 @@ h4 {
 }
 
 p {
-  @apply text-base text-gray-700 dark:text-gray-300 mt-4 mb-6;
+  @apply text-base text-gray-700 mt-4 mb-6;
 }
 
 a {
-  @apply text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-500;
+  @apply text-blue-600 hover:text-blue-800;
 }
 
 ul,
@@ -65,19 +65,19 @@ ol li {
 }
 
 blockquote {
-  @apply border-l-4 border-gray-300 dark:border-gray-700 pl-4 text-gray-600 dark:text-gray-400 italic mt-6 mb-6;
+  @apply border-l-4 border-gray-300 text-gray-600 italic mt-6 mb-6;
 }
 
 code {
-  @apply bg-gray-100 dark:bg-gray-800 text-red-600 dark:text-red-400 px-1 py-0.5 rounded;
+  @apply bg-gray-100 text-red-600 px-1 py-0.5 rounded;
 }
 
 pre {
-  @apply bg-gray-100 dark:bg-gray-800 p-4 rounded text-sm overflow-auto mt-6 mb-6;
+  @apply bg-gray-100 p-4 rounded text-sm overflow-auto mt-6 mb-6;
 }
 
 hr {
-  @apply border-gray-300 dark:border-gray-700 my-6;
+  @apply border-gray-300 my-6;
 }
 
 table {
@@ -86,9 +86,9 @@ table {
 
 th,
 td {
-  @apply border border-gray-300 dark:border-gray-700 px-4 py-2 text-left;
+  @apply border border-gray-300 px-4 py-2 text-left;
 }
 
 th {
-  @apply bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-medium;
+  @apply bg-gray-200 text-gray-900 font-medium;
 }

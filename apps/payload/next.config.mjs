@@ -4,13 +4,13 @@ import { withPayload } from "@payloadcms/next/withPayload";
 const nextConfig = {
   images: {
     domains: [
-      'i.imgur.com',
-      'placehold.co',
-      'images.unsplash.com',
-      'upload.wikimedia.org',
-      'images.ctfassets.net',
-      '4kwallpapers.com',
-      'picsum.photos'
+      "i.imgur.com",
+      "placehold.co",
+      "images.unsplash.com",
+      "upload.wikimedia.org",
+      "images.ctfassets.net",
+      "4kwallpapers.com",
+      "picsum.photos",
     ],
   },
 };

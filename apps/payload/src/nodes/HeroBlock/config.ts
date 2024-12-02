@@ -1,6 +1,6 @@
 import {
-    DecoratorNode,
-    SerializedLexicalNode,
+  DecoratorNode,
+  SerializedLexicalNode,
 } from "@payloadcms/richtext-lexical/lexical"; // adjust the import path as necessary
 
 export type SerializedHeroBlockNode = SerializedLexicalNode & {

@@ -3,7 +3,6 @@ import type { Page as PageType } from "@/payload-types";
 import configPromise from "@payload-config";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
-{/* @ts-expect-error */}
 import { cache } from "react";
 
 type PageProps = {
@@ -34,7 +33,6 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 
   return (
     <div className="flex flex-col px-80">
-      {/* @ts-expect-error */}
       <RenderBlocks blocks={layout} />
     </div>
   );

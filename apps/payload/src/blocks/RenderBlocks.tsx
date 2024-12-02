@@ -5,7 +5,6 @@ import RecentPostsBlockComponent from "@/blocks/RecentPostsBlock/Component";
 import TwoColumnBlockComponent from "@/blocks/TwoColumnBlock/Component";
 import { Page } from "@/payload-types";
 import React, { Fragment } from "react";
-import { ContentBlock } from "./ContentBlock/Component";
 
 const blockComponents = {
   image: ImageBlockComponent,
@@ -13,7 +12,6 @@ const blockComponents = {
   twoColumn: TwoColumnBlockComponent,
   recentPosts: RecentPostsBlockComponent,
   code: CodeBlockComponent,
-  content: ContentBlock,
 };
 
 export const RenderBlocks: React.FC<{

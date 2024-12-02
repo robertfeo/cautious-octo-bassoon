@@ -30,7 +30,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <div className="px-80">
       <div className="text-justify">
-        {/* @ts-expect-error */}
         <RichText
           className="mx-auto"
           content={page.content}

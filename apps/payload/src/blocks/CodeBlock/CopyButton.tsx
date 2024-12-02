@@ -6,40 +6,41 @@ export function CopyButton({ code }: { code: string }) {
 
   function updateCopyStatus() {
     if (text === "Copy") {
-      setText(() => "Copied!");
+      setText("Copied!");
       setTimeout(() => {
-        setText(() => "Copy");
+        setText("Copy");
       }, 1000);
     }
   }
 
   return (
-    <div className="flex justify-end align-middle">
-      <button
-        className="flex gap-1"
-        onClick={async () => {
+    <button
+      className="flex items-center gap-2 px-2 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition"
+      onClick={async () => {
+        try {
           await navigator.clipboard.writeText(code);
           updateCopyStatus();
-        }}
-      />
-      <p>{text}</p>
-
-      <div className="w-6 h-6 dark:invert">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </div>
-    </div>
+        } catch (err) {
+          console.error("Failed to copy text: ", err);
+        }
+      }}
+      aria-label="Copy code to clipboard"
+    >
+      <span>{text}</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </button>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "name": "next15payload",
+  "name": "next-payload",
   "version": "1.0.0",
   "description": "A blank template to get started with Payload 3.0",
   "license": "MIT",
@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
-    "@types/react": "catalog:next15",
-    "@types/react-dom": "catalog:next15",
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.0.0",

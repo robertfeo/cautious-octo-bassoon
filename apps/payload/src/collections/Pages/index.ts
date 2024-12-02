@@ -7,15 +7,6 @@ import { RecentPostsBlock } from "@/blocks/RecentPostsBlock/config";
 import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
 
 import { slugField } from "@/fields/slug";
-import {
-  BlocksFeature,
-  FixedToolbarFeature,
-  HorizontalRuleFeature,
-  HTMLConverterFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-  lexicalHTML,
-} from "@payloadcms/richtext-lexical";
 import type { FieldHook } from "payload";
 import { CollectionConfig } from "payload";
 
@@ -77,33 +68,6 @@ export const Pages: CollectionConfig = {
       ],
       required: true,
     },
-    {
-      name: "content",
-      type: "richText",
-      label: "Content",
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            BlocksFeature({
-              blocks: [
-                ImageBlock,
-                HeroBlock,
-                TwoColumnBlock,
-                RecentPostsBlock,
-                CodeBlock,
-              ],
-            }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-            HorizontalRuleFeature(),
-            HTMLConverterFeature(),
-          ];
-        },
-      }),
-      required: true,
-    },
-    lexicalHTML("content", { name: "layout_html" }),
   ],
   endpoints: [
     {
