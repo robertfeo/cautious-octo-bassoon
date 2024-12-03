@@ -1,9 +1,9 @@
-import {
-  DecoratorNode,
-  SerializedLexicalNode,
-} from "@payloadcms/richtext-lexical/lexical"; // adjust the import path as necessary
+// nodes/HeroBlock/config.ts
+import { SerializedBlockNode } from "@payloadcms/richtext-lexical";
+import { DecoratorBlockNode } from "@payloadcms/richtext-lexical/lexical/react/LexicalDecoratorBlockNode";
+import { SerializedBlockNodeWithFields } from "../types";
 
-export type SerializedHeroBlockNode = SerializedLexicalNode & {
+export type SerializedHeroBlockNode = SerializedBlockNodeWithFields & {
   type: "hero";
   version: 1;
   fields: {
@@ -16,16 +16,16 @@ export type SerializedHeroBlockNode = SerializedLexicalNode & {
   };
 };
 
-export class HeroBlockNode extends DecoratorNode<null> {
+export class HeroBlockNode extends DecoratorBlockNode {
   __fields: SerializedHeroBlockNode["fields"];
 
-  constructor(fields: SerializedHeroBlockNode["fields"], key?: string) {
-    super(key);
+  constructor(fields: SerializedHeroBlockNode["fields"], format: any, key?: string) {
+    super(format, key);
     this.__fields = fields;
   }
 
   static getType(): string {
-    return "hero";
+    return "block";
   }
 
   static clone(node: HeroBlockNode): HeroBlockNode {
@@ -37,20 +37,12 @@ export class HeroBlockNode extends DecoratorNode<null> {
     return new HeroBlockNode(fields);
   }
 
-  exportJSON(): SerializedHeroBlockNode {
+  exportJSON(): SerializedBlockNode {
     return {
-      type: "hero",
+      ...super.exportJSON(),
+      type: "block",
       version: 1,
       fields: this.__fields,
     };
-  }
-
-  // Since we're on the server, we don't need to implement createDOM or decorate
-  /* createDOM(): null {
-    return null;
-  }*/
-
-  updateDOM(): false {
-    return false;
   }
 }

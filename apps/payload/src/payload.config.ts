@@ -1,14 +1,10 @@
-// storage-adapter-import-placeholder
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-/* import { de } from '@payloadcms/translations/languages/de';
-import { en } from '@payloadcms/translations/languages/en'; */
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
-import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { Categories } from "./collections/Categories";
 import { Comments } from "./collections/Comments";
 import { Media } from "./collections/Media";
@@ -32,9 +28,6 @@ export default buildConfig({
       "hx-current-url",
     ],
   },
-  /* i18n: {
-    supportedLanguages: { en, de },
-  }, */
   admin: {
     user: Users.slug,
     importMap: {
@@ -53,6 +46,5 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || "",
     },
   }),
-  sharp,
-  plugins: [payloadCloudPlugin()],
+  sharp
 });

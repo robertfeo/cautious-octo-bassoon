@@ -14,7 +14,6 @@ export const RecentPostsBlockComponent = async ({
   subheading,
   postLimit,
 }: RecentPostsBlockProps) => {
-  // Fetch recent posts from Payload CMS
   const posts = await fetchRecentPosts(postLimit);
 
   return (

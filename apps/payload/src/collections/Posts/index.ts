@@ -3,7 +3,6 @@ import { authenticated } from "@/access/authenticated";
 import { CodeBlock } from "@/blocks/CodeBlock/config";
 import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { MediaBlock } from "@/blocks/MediaBlock/config";
-import { HeroBlockFeature } from "@/features/HeroBlockFeature/config";
 import { slugField } from "@/fields/slug";
 import {
   BlocksFeature,
@@ -13,7 +12,7 @@ import {
   HTMLConverterFeature,
   InlineToolbarFeature,
   lexicalEditor,
-  lexicalHTML,
+  lexicalHTML
 } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
 
@@ -68,8 +67,10 @@ export const Posts: CollectionConfig = {
                 features: ({ rootFeatures }) => {
                   return [
                     ...rootFeatures,
-                    HTMLConverterFeature({}),
-                    HeroBlockFeature(),
+                    HTMLConverterFeature({
+                      
+                    }),
+                    /* HeroBlockFeature(), */
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
@@ -175,10 +176,33 @@ export const Posts: CollectionConfig = {
           return new Response("Page not found", { status: 404 });
         }
 
-        /* const html = await convertLexicalToHTML({
-          converters: HeroBlockHTMLConverter,
-          data: page.docs[0].content,
+        /* const content = page.docs[0].content;
+
+        const editorConfig = {
+          ...defaultEditorConfig,
+          features: [
+            ...defaultEditorFeatures,
+            HTMLConverterFeature({}),
+            HeroBlockFeature(),
+          ],
+        };
+
+        const sanitizedEditorConfig = await sanitizeServerEditorConfig(editorConfig, req.payload.config);
+
+        // Consolidate the HTML converters
+        const htmlConverters = consolidateHTMLConverters({
+          editorConfig: sanitizedEditorConfig,
+        });
+
+        // Convert the content to HTML
+        const html = await convertLexicalToHTML({
+          converters: htmlConverters,
+          data: content,
           req,
+        });
+
+        return new Response(html, {
+          headers: { "Content-Type": "text/json" },
         }); */
 
         return new Response(JSON.stringify(page.docs[0]), {
