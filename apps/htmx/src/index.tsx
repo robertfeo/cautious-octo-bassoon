@@ -10,8 +10,8 @@ const port = 3001;
 const app = new Elysia()
   .use(html())
   .use(logger())
-  .get("/:slug", async ({ params, headers }) => {
-    const slug = params.slug || "home";
+  .get('/', async ({ headers }) => {
+    const slug = 'home';
     const pageData = await fetchPageData(slug);
 
     if (!pageData) {
@@ -20,7 +20,31 @@ const app = new Elysia()
 
     const content = <RenderBlocks blocks={pageData.layout} />;
 
-    if (headers["hx-request"]) {
+    if (headers['hx-request']) {
+      return content;
+    } else {
+      return <Layout>{content}</Layout>;
+    }
+  })
+  .get('/:slug', async ({ params, headers }) => {
+    const slug = params.slug;
+
+    if (slug === 'home' || slug === 'index') {
+      return new Response(null, {
+        status: 302,
+        headers: { Location: '/' },
+      });
+    }
+
+    const pageData = await fetchPageData(slug);
+
+    if (!pageData) {
+      return <Layout>Page Not Found</Layout>;
+    }
+
+    const content = <RenderBlocks blocks={pageData.layout} />;
+
+    if (headers['hx-request']) {
       return content;
     } else {
       return <Layout>{content}</Layout>;

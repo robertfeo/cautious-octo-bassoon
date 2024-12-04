@@ -1,28 +1,37 @@
-import { Html } from "@elysiajs/html";
+// src/components/Header.tsx
 
-export const Header = () => {
+import { Html } from '@elysiajs/html';
+
+export const Header = ({ header }) => {
   return (
-    <header class="py-4">
-      <nav class="flex space-x-4">
-        <a
-          href="/home"
-          class="text-blue-500"
-          hx-get="/page/home"
-          hx-target="#content"
-          hx-swap="innerHTML"
-        >
-          Home
-        </a>
-        <a
-          href="/blog"
-          class="text-blue-500"
-          hx-get="/about"
-          hx-target="#content"
-          hx-swap="innerHTML"
-        >
-          Blog
-        </a>
-      </nav>
+    <header class="py-14">
+      <div class="flex flex-row justify-between items-center px-80">
+        <img
+          width="150"
+          height="100"
+          alt={
+            typeof header.logo === 'object' && header.logo.alt
+              ? header.logo.alt
+              : 'default alt text'
+          }
+          src={
+            typeof header.logo === 'object' && header.logo.url
+              ? header.logo.url
+              : '/default-image.png'
+          }
+        />
+        <div class="flex flex-row gap-4">
+          {header.navigation.map((item, index) => (
+            <a
+              class="hover:cursor-pointer hover:text-sky-500"
+              key={index}
+              href={`${process.env.HOST}${item.link}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
     </header>
   );
 };

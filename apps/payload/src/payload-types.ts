@@ -119,14 +119,7 @@ export interface Page {
         blockName?: string | null;
         blockType: 'image';
       }
-    | {
-        heading?: string | null;
-        text?: string | null;
-        backgroundImage: number | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'hero';
-      }
+    | HeroBlock
     | {
         heading?: string | null;
         text?: string | null;
@@ -148,6 +141,18 @@ export interface Page {
   )[];
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  heading?: string | null;
+  text?: string | null;
+  backgroundImage: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

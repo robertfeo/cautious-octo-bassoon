@@ -3,6 +3,7 @@ import { authenticated } from "@/access/authenticated";
 import { CodeBlock } from "@/blocks/CodeBlock/config";
 import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { MediaBlock } from "@/blocks/MediaBlock/config";
+import { BlockConverterFeature } from "@/features/CustomHTMLBlock";
 import { slugField } from "@/fields/slug";
 import {
   BlocksFeature,
@@ -70,7 +71,7 @@ export const Posts: CollectionConfig = {
                     HTMLConverterFeature({
                       
                     }),
-                    /* HeroBlockFeature(), */
+                    BlockConverterFeature(),
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
