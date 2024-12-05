@@ -2,6 +2,7 @@ import { withPayload } from "@payloadcms/next/withPayload";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images: {
     domains: [
       "i.imgur.com",
@@ -14,7 +15,7 @@ const nextConfig = {
       "www.orientsoftware.com",
       "plus.unsplash.com",
     ],
-  },
+  }
 };
 
 export default withPayload(nextConfig);

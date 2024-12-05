@@ -16,6 +16,10 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "typescript-lit-html-plugin",
+        "format": { "enabled": false }
       }
     ],
     "paths": {

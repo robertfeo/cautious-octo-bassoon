@@ -3,7 +3,7 @@ import { authenticated } from "@/access/authenticated";
 import { CodeBlock } from "@/blocks/CodeBlock/config";
 import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { MediaBlock } from "@/blocks/MediaBlock/config";
-import { BlockConverterFeature } from "@/features/CustomHTMLBlock";
+import { BlockConverterFeature } from "@/features/CustomBlockFeature";
 import { slugField } from "@/fields/slug";
 import {
   BlocksFeature,
@@ -132,11 +132,16 @@ export const Posts: CollectionConfig = {
   ],
   endpoints: [
     {
-      path: "/post-content",
+      path: "/post-content/:slug",
       method: "get",
       handler: async (req) => {
         const data = await req.payload.find({
           collection: "posts",
+          where: {
+            slug: {
+              equals: req.routeParams?.slug,
+            },
+          },
         });
         const contentHtml =
           data.docs[0]?.post_content_html || "<p>No content found</p>";
@@ -176,35 +181,6 @@ export const Posts: CollectionConfig = {
         if (page.docs.length === 0) {
           return new Response("Page not found", { status: 404 });
         }
-
-        /* const content = page.docs[0].content;
-
-        const editorConfig = {
-          ...defaultEditorConfig,
-          features: [
-            ...defaultEditorFeatures,
-            HTMLConverterFeature({}),
-            HeroBlockFeature(),
-          ],
-        };
-
-        const sanitizedEditorConfig = await sanitizeServerEditorConfig(editorConfig, req.payload.config);
-
-        // Consolidate the HTML converters
-        const htmlConverters = consolidateHTMLConverters({
-          editorConfig: sanitizedEditorConfig,
-        });
-
-        // Convert the content to HTML
-        const html = await convertLexicalToHTML({
-          converters: htmlConverters,
-          data: content,
-          req,
-        });
-
-        return new Response(html, {
-          headers: { "Content-Type": "text/json" },
-        }); */
 
         return new Response(JSON.stringify(page.docs[0]), {
           headers: { "Content-Type": "application/json" },
