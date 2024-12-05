@@ -2,6 +2,7 @@ import { logger } from "@chneau/elysia-logger";
 import { html, Html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import { Layout } from "./components/Layout";
+import { NotFound } from "./components/NotFoung";
 import { RenderBlocks } from "./components/RenderBlocks";
 import { fetchPageData } from "./utils/payload";
 
@@ -10,29 +11,29 @@ const port = 3001;
 const app = new Elysia()
   .use(html())
   .use(logger())
-  .get('/', async ({ headers }) => {
-    const slug = 'home';
+  .get("/", async ({ headers }) => {
+    const slug = "home";
     const pageData = await fetchPageData(slug);
 
     if (!pageData) {
-      return <Layout>Page Not Found</Layout>;
+      return <NotFound />;
     }
 
-    const content = <RenderBlocks blocks={pageData.layout} />;
+    return pageData;
 
-    if (headers['hx-request']) {
-      return content;
+    /* if (headers["hx-request"]) {
+      return pageData;
     } else {
-      return <Layout>{content}</Layout>;
-    }
+      return <Layout>{pageData}</Layout>;
+    } */
   })
-  .get('/:slug', async ({ params, headers }) => {
+  .get("/:slug", async ({ params, headers }) => {
     const slug = params.slug;
 
-    if (slug === 'home' || slug === 'index') {
+    if (slug === "home" || slug === "index") {
       return new Response(null, {
         status: 302,
-        headers: { Location: '/' },
+        headers: { Location: "/" },
       });
     }
 
@@ -44,7 +45,7 @@ const app = new Elysia()
 
     const content = <RenderBlocks blocks={pageData.layout} />;
 
-    if (headers['hx-request']) {
+    if (headers["hx-request"]) {
       return content;
     } else {
       return <Layout>{content}</Layout>;

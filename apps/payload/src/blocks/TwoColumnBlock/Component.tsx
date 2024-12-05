@@ -1,18 +1,18 @@
 import { Media } from "@/payload-types";
 
-type TwoColumnBlockProps = {
+export type TwoColumnBlockProps = {
   heading: string;
   text: string;
   image: Media;
   direction?: "default" | "reverse";
 };
 
-export default function TwoColumnBlockComponent({
+export const TwoColumnBlockComponent: React.FC<TwoColumnBlockProps> = ({
   heading,
   text,
   image,
   direction = "default",
-}: TwoColumnBlockProps) {
+}: TwoColumnBlockProps) => {
   const isReverse = direction === "reverse";
 
   return (
@@ -24,17 +24,15 @@ export default function TwoColumnBlockComponent({
         <p className="text-justify">{text}</p>
       </div>
 
-      {image && (
-        <div>
-          <img
-            src={image.url || ""}
-            alt={image.alt || "Two Column Block Image"}
-            width={500}
-            height={300}
-            className="object-cover size-full"
-          ></img>
-        </div>
-      )}
+      <div>
+        <img
+          src={image.url || ""}
+          alt={image.alt || "Two Column Block Image"}
+          width={500}
+          height={300}
+          className="object-cover size-full"
+        ></img>
+      </div>
     </div>
   );
 }

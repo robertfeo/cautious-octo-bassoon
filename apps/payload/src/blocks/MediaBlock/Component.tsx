@@ -1,18 +1,19 @@
 import { Media } from "@/payload-types";
+import { ReactNode } from "react";
 
 export type MediaBlockProps = {
   heading: string;
-  text?: string;
+  text: string;
   media: Media;
-  alignment?: "left" | "right";
+  alignment: "left" | "right";
 };
 
-export default function MediaBlockComponent({
+export const MediaBlockComponent: React.FC<MediaBlockProps> = ({
   heading,
   text,
   media,
   alignment = "left",
-}: MediaBlockProps) {
+}: MediaBlockProps): ReactNode => {
   const isRightAligned = alignment === "right";
 
   const isYouTubeVideo = (url: string) =>
@@ -61,4 +62,4 @@ export default function MediaBlockComponent({
       </div>
     </div>
   );
-}
+};

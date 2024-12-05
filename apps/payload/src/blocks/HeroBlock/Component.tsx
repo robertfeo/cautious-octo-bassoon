@@ -1,17 +1,17 @@
 export type HeroBlockProps = {
   heading: string;
-  text: string;
+  text?: string;
   backgroundImage?: {
     url: string;
     alt?: string;
   };
 };
 
-export default function HeroBlockComponent({
+export const HeroBlockComponent: React.FC<HeroBlockProps> = ({
   heading,
   text,
   backgroundImage,
-}: HeroBlockProps) {
+}: HeroBlockProps) => {
   return (
     <div
       className="relative flex flex-col justify-center p-8"
@@ -31,4 +31,4 @@ export default function HeroBlockComponent({
       </div>
     </div>
   );
-}
+};

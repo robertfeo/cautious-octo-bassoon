@@ -1,14 +1,14 @@
 import { Media } from "@/payload-types";
 
-type ImageBlockProps = {
+export type ImageBlockProps = {
   image: Media;
   caption?: string;
 };
 
-export default function ImageBlockComponent({
+export const ImageBlockComponent: React.FC<ImageBlockProps> = ({
   image,
   caption,
-}: ImageBlockProps) {
+}: ImageBlockProps) => {
   if (!image || typeof image === "number") {
     return null;
   }
@@ -25,4 +25,4 @@ export default function ImageBlockComponent({
       <p>{caption || ""}</p>
     </div>
   );
-}
+};

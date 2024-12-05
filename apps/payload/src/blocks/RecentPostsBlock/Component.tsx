@@ -3,17 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPayload } from "payload";
 
-type RecentPostsBlockProps = {
+export type RecentPostsBlockProps = {
   heading: string;
   subheading: string;
   postLimit: number;
 };
 
-export default async function RecentPostsBlockComponent({
-  heading,
-  subheading,
-  postLimit,
-}: RecentPostsBlockProps) {
+export const RecentPostsBlockComponent: React.FC<
+  RecentPostsBlockProps
+> = async ({ heading, subheading, postLimit }: RecentPostsBlockProps) => {
   const payload = await getPayload({ config });
 
   const posts = await payload.find({
@@ -64,4 +62,4 @@ export default async function RecentPostsBlockComponent({
       </div>
     </div>
   );
-}
+};

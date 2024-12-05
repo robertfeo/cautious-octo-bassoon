@@ -110,6 +110,22 @@ export interface Page {
   id: number;
   slug?: string | null;
   slugLock?: boolean | null;
+  pageHtml?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   title: string;
   layout: (
     | {
@@ -176,7 +192,7 @@ export interface Post {
   title: string;
   author: number | User;
   likes?: number | null;
-  post_content_html?: string | null;
+  postHtml?: string | null;
   content: {
     root: {
       type: string;
@@ -328,6 +344,8 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
+  pageHtml?: T;
+  content?: T;
   title?: T;
   layout?:
     | T
@@ -390,7 +408,7 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   author?: T;
   likes?: T;
-  post_content_html?: T;
+  postHtml?: T;
   content?: T;
   thumbnail?: T;
   relatedPosts?: T;

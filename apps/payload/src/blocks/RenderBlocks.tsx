@@ -1,8 +1,8 @@
 import { CodeBlockComponent } from "@/blocks/CodeBlock/Component";
-import HeroBlockComponent from "@/blocks/HeroBlock/Component";
-import ImageBlockComponent from "@/blocks/ImageBlock/Component";
-import RecentPostsBlockComponent from "@/blocks/RecentPostsBlock/Component";
-import TwoColumnBlockComponent from "@/blocks/TwoColumnBlock/Component";
+import { HeroBlockComponent } from "@/blocks/HeroBlock/Component";
+import { ImageBlockComponent } from "@/blocks/ImageBlock/Component";
+import { RecentPostsBlockComponent } from "@/blocks/RecentPostsBlock/Component";
+import { TwoColumnBlockComponent } from "@/blocks/TwoColumnBlock/Component";
 import { Page } from "@/payload-types";
 import React, { Fragment } from "react";
 

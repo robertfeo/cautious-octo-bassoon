@@ -1,10 +1,10 @@
 import { Html } from "@elysiajs/html";
 
 // Import your block components
-import HeroBlockComponent from "../../../payload/src/blocks/HeroBlock/Component";
-import ImageBlockComponent from "../../../payload/src/blocks/ImageBlock/Component";
-import RecentPostsBlockComponent from "../../../payload/src/blocks/RecentPostsBlock/Component";
-import TwoColumnBlockComponent from "../../../payload/src/blocks/TwoColumnBlock/Component";
+import { HeroBlockComponent } from "../../../payload/src/blocks/HeroBlock/Component";
+import { ImageBlockComponent } from "../../../payload/src/blocks/ImageBlock/Component";
+import { RecentPostsBlockComponent } from "../../../payload/src/blocks/RecentPostsBlock/Component";
+import { TwoColumnBlockComponent } from "../../../payload/src/blocks/TwoColumnBlock/Component";
 
 const blockComponents = {
   hero: HeroBlockComponent,

@@ -1,7 +1,8 @@
+import configPromise from "@payload-config";
 import { BlockFields, SerializedBlockNode } from "@payloadcms/richtext-lexical";
-import { JsonObject } from "payload";
+import { JsonObject, getPayload } from "payload";
 
-export const renderToHTML = (node: SerializedBlockNode): string => {
+export const renderToHTML = async (node: SerializedBlockNode): Promise<string> => {
     const { fields } = node;
     const blockType = fields.blockType;
 
@@ -10,12 +11,20 @@ export const renderToHTML = (node: SerializedBlockNode): string => {
             return renderHeroHTML(fields);
         case "code":
             return renderCodeHTML(fields);
+        case "media":
+            return await renderMediaHTML(fields);
+        case "twoColumn":
+            return renderTwoColumnHTML(fields);
+        case "recentPosts":
+            return renderRecentPostsHTML(fields);
+        case "image":
+            return renderImageHTML(fields);
         default:
             return `<span>Unknown block type ${blockType}</span>`;
     }
 };
 
-const renderHeroHTML = (fields: BlockFields<JsonObject>) => {
+function renderHeroHTML(fields: BlockFields<JsonObject>): string {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
         return "<div>Error: Missing or invalid fields data</div>";
@@ -38,13 +47,190 @@ const renderHeroHTML = (fields: BlockFields<JsonObject>) => {
     `;
 };
 
-const renderCodeHTML = (fields: BlockFields<JsonObject>) => {
+function renderCodeHTML(fields: BlockFields<JsonObject>): string {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return /*html*/ `<div>Error: Missing or invalid fields data</div>`;
+        return `<div>Error: Missing or invalid fields data</div>`;
     }
 
     const { code = "" } = fields;
 
-    return /*html*/ `<pre><code>${code}</code></pre>`;
+    return `<pre><code>${code}</code></pre>`;
 };
+
+async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string> {
+    if (!fields || typeof fields !== "object") {
+        console.error("Error: 'fields' is undefined or not an object.");
+        return `<div>Error: Missing or invalid fields data</div>`;
+    }
+
+    const payload = await getPayload({ config: configPromise });
+
+    const { heading = "", text = "", alignment = "left" } = fields;
+
+    const media = (await payload.find({
+        collection: "media",
+        limit: 1,
+        where: {
+            id: {
+                equals: fields.media,
+            },
+        },
+    })).docs[0];
+
+    const isRightAligned = alignment === "right";
+
+    const isYouTubeVideo = (url: string) =>
+        url.includes("youtube.com") || url.includes("youtu.be");
+
+    let mediaContent = "";
+    if (media) {
+        if (media["url-type"] === "video") {
+            if (isYouTubeVideo(media.url)) {
+                mediaContent = `
+                    <iframe
+                        width="560"
+                        height="315"
+                        src="${media.url}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        class="w-full max-w-lg"
+                    ></iframe>
+                `;
+            } else {
+                mediaContent = `
+                    <video
+                        controls
+                        src="${media.url}"
+                        width="560"
+                        height="315"
+                        class="w-full max-w-lg h-auto"
+                    >
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+            }
+        } else {
+            mediaContent = `
+                <img
+                    src="${media.url}"
+                    alt="${media.alt || heading || "Media Block"}"
+                    class="object-cover w-full max-w-lg h-auto"
+                />
+            `;
+        }
+    }
+
+    return `
+        <div
+            class="flex flex-col md:flex-row ${isRightAligned ? "md:flex-row-reverse" : ""
+        } justify-between items-center"
+        >
+            <div class="flex flex-col text-center md:text-left max-w-md">
+                <h2 class="text-2xl font-bold mb-4">${heading}</h2>
+                ${text ? `<p class="text-justify">${text}</p>` : ""}
+            </div>
+            <div class="flex-1 max-w-lg">
+                ${mediaContent}
+            </div>
+        </div>
+    `;
+}
+
+function renderTwoColumnHTML(fields: BlockFields<JsonObject>): string {
+    return `<div>Two column block</div>`;
+}
+
+async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<string> {
+    if (!fields || typeof fields !== "object") {
+        console.error("Error: 'fields' is undefined or not an object.");
+        return `<div>Error: Missing or invalid fields data</div>`;
+    }
+
+    const { heading = "Recent Posts", subheading = "", postLimit = 4 } = fields;
+
+    const payload = await getPayload({ config: await configPromise });
+
+    try {
+        const posts = await payload.find({
+            collection: "posts",
+            limit: postLimit,
+            sort: "-createdAt",
+        });
+
+        const postsHTML = posts.docs
+            .map((post: any) => {
+                const thumbnailHTML = post.thumbnail
+                    ? `<img src="${post.thumbnail.url}" alt="${post.thumbnail.alt || "Post thumbnail"}" class="object-cover w-full h-full" />`
+                    : `<div class="bg-zinc-700 w-full h-full flex items-center justify-center">
+                        <span class="text-white">No Image</span>
+                    </div>`;
+
+                const postDate = new Date(post.createdAt).toLocaleDateString();
+
+                return `
+                    <div class="overflow-hidden ring-1 ring-black ring-opacity-25">
+                        <div class="relative w-full h-48">
+                            ${thumbnailHTML}
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-sm font-semibold text-pretty">
+                                <a class="no-underline text-zinc-600" href="/post/${post.slug}">
+                                    ${post.title}
+                                </a>
+                            </h3>
+                            <p class="text-xs text-zinc-600 mt-1">${postDate}</p>
+                        </div>
+                    </div>
+                `;
+            })
+            .join(""); // Join all individual post HTML strings into a single string
+
+        // Return the full HTML for the block
+        return `
+            <div>
+                <h2 class="text-3xl font-bold text-center">${heading}</h2>
+                <p class="text-lg text-center mt-2">${subheading}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                    ${postsHTML}
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        return `<div>Error loading recent posts</div>`;
+    }
+}
+
+
+async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string> {
+    const payload = await getPayload({ config: configPromise });
+
+    const media = (await payload.find({
+        collection: "media",
+        limit: 1,
+        where: {
+            id: {
+                equals: fields.image,
+            },
+        },
+    })).docs[0];
+
+    if (!media || typeof media === "number") {
+        return "";
+    }
+
+    return `
+        <div class="flex flex-col justify-center items-center">
+            <div class="w-full h-60 overflow-hidden">
+                <img
+                    src="${media.url}"
+                    alt="${media.alt || ""}"
+                    class="w-full h-full object-cover"
+                />
+            </div>
+            <p>${fields.caption || ""}</p>
+        </div>
+    `;
+}
+

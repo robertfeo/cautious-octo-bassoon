@@ -3,8 +3,9 @@ import {
   CodeBlockProps,
 } from "@/blocks/CodeBlock/Component";
 import type { HeroBlockProps } from "@/blocks/HeroBlock/Component";
-import HeroBlockComponent from "@/blocks/HeroBlock/Component";
-import MediaBlockComponent, {
+import { HeroBlockComponent } from "@/blocks/HeroBlock/Component";
+import {
+  MediaBlockComponent,
   MediaBlockProps,
 } from "@/blocks/MediaBlock/Component";
 import {
@@ -13,6 +14,15 @@ import {
 } from "@payloadcms/richtext-lexical";
 import React, { Fragment, JSX } from "react";
 
+import {
+  ImageBlockComponent,
+  ImageBlockProps,
+} from "@/blocks/ImageBlock/Component";
+import { RecentPostsBlockProps } from "@/blocks/RecentPostsBlock/Component";
+import {
+  TwoColumnBlockComponent,
+  TwoColumnBlockProps,
+} from "@/blocks/TwoColumnBlock/Component";
 import Link from "next/link";
 import {
   IS_BOLD,
@@ -28,7 +38,10 @@ export type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<HeroBlockProps>
   | SerializedBlockNode<MediaBlockProps>
-  | SerializedBlockNode<CodeBlockProps>;
+  | SerializedBlockNode<CodeBlockProps>
+  | SerializedBlockNode<ImageBlockProps>
+  | SerializedBlockNode<RecentPostsBlockProps>
+  | SerializedBlockNode<TwoColumnBlockProps>;
 
 type Props = {
   nodes: NodeTypes[];
@@ -77,9 +90,6 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           return text;
         }
 
-        // NOTE: Hacky fix for
-        // https://github.com/facebook/lexical/blob/d10c4e6e55261b2fdd7d1845aed46151d0f06a8c/packages/lexical-list/src/LexicalListItemNode.ts#L133
-        // which does not return checked: false (only true - i.e. there is no prop for false)
         const serializedChildrenFn = (node: NodeTypes): JSX.Element | null => {
           if (node.children == null) {
             return null;
@@ -114,17 +124,31 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               if ("code" in block) {
                 return <CodeBlockComponent key={index} {...block} />;
               }
-              return null;
+              break;
             case "hero":
-              return <HeroBlockComponent key={index} {...block} text={block.text || ''} />;
+              if ("text" in block) {
+                return <HeroBlockComponent key={index} {...block} />;
+              }
+              break;
             case "media":
               if ("media" in block) {
                 return <MediaBlockComponent key={index} {...block} />;
               }
-              return null;
+              break;
+            case "image":
+              if ("image" in block) {
+                return <ImageBlockComponent key={index} {...block} />;
+              }
+              break;
+            case "twoColumn":
+              if ("image" in block && "text" in block) {
+                return <TwoColumnBlockComponent key={index} {...block} />;
+              }
+              break;
             default:
               return null;
           }
+          return null;
         } else {
           switch (node.type) {
             case "linebreak": {
