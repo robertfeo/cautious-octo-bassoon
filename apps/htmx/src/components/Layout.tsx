@@ -1,20 +1,32 @@
-import { Html } from '@elysiajs/html';
-import { Footer } from './Footer';
-import { Header } from './Header';
+import { Html } from "@elysiajs/html";
+import { Content } from "./Content";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 
-export const Layout = ({ children }: { children: any }) => {
+export const Layout = ({
+  pageSlug,
+  header,
+  footer,
+}: {
+  pageSlug?: string;
+  header?: any;
+  footer?: any;
+}) => {
   return (
-    <html lang="en">
+    <html lang="de">
       <head>
-        <title>My Elysia App</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
+        <meta name="htmx-config" content='{"selfRequestsOnly":false}'></meta>
+          <title>Blog Payload + HTMX App</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <script
+            src="https://unpkg.com/htmx.org@2.0.3"
+            integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+            crossorigin="anonymous"
+          ></script>
       </head>
-      <body class="antialiased w-full h-full">
-        <Header header/>
-        <div id="content">{children}</div>
-        <Footer />
-      </body>
+      <Header header={header} />
+      <Content pageSlug={pageSlug} />
+      <Footer footer={footer} />
     </html>
   );
 };

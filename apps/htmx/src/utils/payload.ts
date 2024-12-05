@@ -22,3 +22,29 @@ export async function fetchPageData(slug: string) {
     return null;
   }
 }
+
+export async function fetchGlobalData(slug: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/globals/${slug}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Error fetching global data:", response.statusText);
+      return null;
+    }
+
+    const globalData = await response.json();
+
+    return globalData;
+  } catch (error) {
+    console.error("Error fetching global data:", error);
+    return null;
+  }
+}

@@ -1,8 +1,6 @@
-// src/components/Header.tsx
+import { Html } from "@elysiajs/html";
 
-import { Html } from '@elysiajs/html';
-
-export const Header = ({ header }) => {
+export const Header = ({ header }: any) => {
   return (
     <header class="py-14">
       <div class="flex flex-row justify-between items-center px-80">
@@ -10,18 +8,18 @@ export const Header = ({ header }) => {
           width="150"
           height="100"
           alt={
-            typeof header.logo === 'object' && header.logo.alt
+            typeof header.logo === "object" && header.logo.alt
               ? header.logo.alt
-              : 'default alt text'
+              : "default alt text"
           }
           src={
-            typeof header.logo === 'object' && header.logo.url
+            typeof header.logo === "object" && header.logo.url
               ? header.logo.url
-              : '/default-image.png'
+              : "/default-image.png"
           }
         />
         <div class="flex flex-row gap-4">
-          {header.navigation.map((item, index) => (
+          {header.navigation.map((item: any, index: any) => (
             <a
               class="hover:cursor-pointer hover:text-sky-500"
               key={index}

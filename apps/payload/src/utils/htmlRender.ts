@@ -1,3 +1,4 @@
+import { Media } from "@/payload-types";
 import configPromise from "@payload-config";
 import { BlockFields, SerializedBlockNode } from "@payloadcms/richtext-lexical";
 import { JsonObject, getPayload } from "payload";
@@ -137,8 +138,38 @@ async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string>
     `;
 }
 
-function renderTwoColumnHTML(fields: BlockFields<JsonObject>): string {
-    return `<div>Two column block</div>`;
+async function renderTwoColumnHTML(fields: BlockFields<JsonObject>): Promise<string> {
+    if (!fields || typeof fields !== "object") {
+        console.error("Error: 'fields' is undefined or not an object.");
+        return `<div>Error: Missing or invalid fields data</div>`;
+    }
+
+    const { heading = "", text = "", direction = "default" } = fields;
+
+    const isReverse = direction === "reverse";
+
+    const image = await getMediaFromPayload(fields.image);
+
+    return `
+        <div
+            class="flex flex-col md:flex-row ${isReverse ? "md:flex-row-reverse" : ""} justify-between gap-6"
+        >
+            <div class="flex flex-col text-center md:text-left">
+                <h2>${heading}</h2>
+                <p class="text-justify">${text}</p>
+            </div>
+
+            <div>
+                <img
+                    src="${image.url || ""}"
+                    alt="${image.alt || "Two Column Block Image"}"
+                    width="500"
+                    height="300"
+                    class="object-cover size-full"
+                />
+            </div>
+        </div>
+    `;
 }
 
 async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<string> {
@@ -234,3 +265,18 @@ async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string>
     `;
 }
 
+async function getMediaFromPayload(mediaId: number): Promise<Media> {
+    const payload = await getPayload({ config: configPromise });
+
+    const media = (await payload.find({
+        collection: "media",
+        limit: 1,
+        where: {
+            id: {
+                equals: mediaId,
+            },
+        },
+    })).docs[0];
+
+    return media;
+}

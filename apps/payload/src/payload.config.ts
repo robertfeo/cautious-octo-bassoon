@@ -26,6 +26,7 @@ export default buildConfig({
       "hx-target",
       "hx-request",
       "hx-current-url",
+      "hx-trigger",
     ],
   },
   admin: {
