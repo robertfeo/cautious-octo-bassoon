@@ -18,7 +18,10 @@ import {
   ImageBlockComponent,
   ImageBlockProps,
 } from "@/blocks/ImageBlock/Component";
-import { RecentPostsBlockProps } from "@/blocks/RecentPostsBlock/Component";
+import {
+  RecentPostsBlockComponent,
+  RecentPostsBlockProps,
+} from "@/blocks/RecentPostsBlock/Component";
 import {
   TwoColumnBlockComponent,
   TwoColumnBlockProps,
@@ -143,6 +146,11 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             case "twoColumn":
               if ("image" in block && "text" in block) {
                 return <TwoColumnBlockComponent key={index} {...block} />;
+              }
+              break;
+            case "recentPosts":
+              if ("postLimit" in block) {
+                return <RecentPostsBlockComponent key={index} {...block} />;
               }
               break;
             default:

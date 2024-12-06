@@ -1,4 +1,4 @@
-import RenderBlocks from "@/blocks/RenderBlocks";
+import RichText from "@/components/RichText";
 import type { Page as PageType } from "@/payload-types";
 import configPromise from "@payload-config";
 import { notFound } from "next/navigation";
@@ -29,11 +29,15 @@ export default async function Page({ params: paramsPromise }: PageProps) {
     notFound();
   }
 
-  const { layout } = page;
+  /* const { layout } = page; */
 
   return (
-    <div className="flex flex-col px-80">
-      <RenderBlocks blocks={layout} />
+    <div className="flex flex-col w-3/4 justify-center mx-auto">
+      {/* <RenderBlocks blocks={layout} /> */}
+      <RichText
+        content={page.content || []}
+        enableGutter={false}
+      />
     </div>
   );
 }

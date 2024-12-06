@@ -96,7 +96,7 @@ export const Pages: CollectionConfig = {
         RecentPostsBlock,
         CodeBlock,
       ],
-      required: true,
+      required: false,
     },
   ],
   endpoints: [

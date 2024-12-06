@@ -9,7 +9,7 @@ export const Content = ({ pageSlug, children }: ContentProps) => {
     return (
         <main class="flex-grow">
             <div
-                class="flex flex-col px-80"
+                class="flex flex-col w-3/4 justify-center mx-auto"
                 id="dynamic-content"
                 hx-get={`${process.env.BACKEND_HOST}/api/pages/by-slug/${pageSlug}`}
                 hx-trigger="load"

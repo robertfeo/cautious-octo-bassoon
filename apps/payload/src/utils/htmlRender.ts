@@ -25,26 +25,28 @@ export const renderToHTML = async (node: SerializedBlockNode): Promise<string> =
     }
 };
 
-function renderHeroHTML(fields: BlockFields<JsonObject>): string {
+async function renderHeroHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
         return "<div>Error: Missing or invalid fields data</div>";
     }
 
-    const { backgroundImage, heading = "", text = "" } = fields;
+    const { heading = "", text = "" } = fields;
+
+    const backgroundImage = await getMediaFromPayload(fields.backgroundImage);
 
     const backgroundStyle = backgroundImage?.url
         ? `style="background-image: url(${backgroundImage.url}); background-size: cover; background-position: center;"`
         : "";
 
     return `
-      <div class="relative flex flex-col justify-center p-8" ${backgroundStyle}>
-        <div class="absolute inset-0 bg-black bg-opacity-50 m-5"></div>
-        <div class="relative z-10">
-          ${heading ? `<h1 class="text-white text-3xl font-bold mb-4">${heading}</h1>` : ""}
-          ${text ? `<p class="text-white text-lg">${text}</p>` : ""}
+        <div class="relative flex flex-col justify-center p-8" ${backgroundStyle}>
+            <div class="absolute inset-0 bg-black bg-opacity-50 m-5"></div>
+            <div class="relative z-10">
+                ${heading ? `<h1 class="text-white text-3xl font-bold mb-4">${heading}</h1>` : ""}
+                ${text ? `<p class="text-white text-lg">${text}</p>` : ""}
+            </div>
         </div>
-      </div>
     `;
 };
 
@@ -215,9 +217,8 @@ async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<s
                     </div>
                 `;
             })
-            .join(""); // Join all individual post HTML strings into a single string
+            .join("");
 
-        // Return the full HTML for the block
         return `
             <div>
                 <h2 class="text-3xl font-bold text-center">${heading}</h2>
@@ -233,10 +234,9 @@ async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<s
     }
 }
 
-
 async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string> {
-    const payload = await getPayload({ config: configPromise });
 
+    /* const payload = await getPayload({ config: configPromise });
     const media = (await payload.find({
         collection: "media",
         limit: 1,
@@ -245,7 +245,9 @@ async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string>
                 equals: fields.image,
             },
         },
-    })).docs[0];
+    })).docs[0]; */
+
+    const media = await getMediaFromPayload(fields.image);
 
     if (!media || typeof media === "number") {
         return "";
