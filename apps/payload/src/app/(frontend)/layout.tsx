@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog App",
+  title: "Blog Payload + Next.js",
   description: "A blog app",
   keywords: ["blog", "app"],
 };

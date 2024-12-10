@@ -16,17 +16,19 @@ export const Layout = ({
     <html lang="de">
       <head>
         <meta name="htmx-config" content='{"selfRequestsOnly":false}'></meta>
-          <title>Blog Payload + HTMX App</title>
-          <script src="https://cdn.tailwindcss.com"></script>
-          <script
-            src="https://unpkg.com/htmx.org@2.0.3"
-            integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
-            crossorigin="anonymous"
-          ></script>
+        <title>Blog Payload + HTMX</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script
+          src="https://unpkg.com/htmx.org@2.0.3"
+          integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+          crossorigin="anonymous"
+        ></script>
       </head>
-      <Header header={header} />
-      <Content pageSlug={pageSlug} />
-      <Footer footer={footer} />
+      <body class="min-h-screen flex flex-col bg-zinc-50">
+        <Header header={header} />
+        <Content pageSlug={pageSlug} />
+        <Footer footer={footer} />
+      </body>
     </html>
   );
 };

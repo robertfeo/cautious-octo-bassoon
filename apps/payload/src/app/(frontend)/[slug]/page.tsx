@@ -13,7 +13,6 @@ type PageProps = {
 
 export default async function Page({ params: paramsPromise }: PageProps) {
   const { slug = "home" } = await paramsPromise;
-  const url = "/" + slug;
 
   let page: PageType | null;
 
