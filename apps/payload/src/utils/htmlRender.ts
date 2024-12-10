@@ -53,7 +53,7 @@ async function renderHeroHTML(fields: BlockFields<JsonObject>): Promise<string> 
 function renderCodeHTML(fields: BlockFields<JsonObject>): string {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Error: Missing or invalid fields data</div>`;
+        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const { code = "" } = fields;
@@ -64,7 +64,7 @@ function renderCodeHTML(fields: BlockFields<JsonObject>): string {
 async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Error: Missing or invalid fields data</div>`;
+        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const payload = await getPayload({ config: configPromise });
@@ -143,7 +143,7 @@ async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string>
 async function renderTwoColumnHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Error: Missing or invalid fields data</div>`;
+        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const { heading = "", text = "", direction = "default" } = fields;
@@ -177,7 +177,7 @@ async function renderTwoColumnHTML(fields: BlockFields<JsonObject>): Promise<str
 async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Error: Missing or invalid fields data</div>`;
+        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const { heading = "Recent Posts", subheading = "", postLimit = 4 } = fields;
