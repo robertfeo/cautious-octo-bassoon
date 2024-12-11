@@ -11,7 +11,7 @@ export default async function HeaderServer() {
 
   return (
     <header className="py-14">
-      <div className="flex flex-row justify-between items-center px-80">
+      <div className="flex flex-row justify-between items-center mx-auto w-4/6">
         <img
           width={150}
           height={100}

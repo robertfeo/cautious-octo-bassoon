@@ -22,13 +22,14 @@ export default buildConfig({
     origins: ["http://localhost:3000", "http://localhost:3001"],
     headers: [
       "Content-Type",
-      "Authorization",
       "hx-target",
       "hx-request",
       "hx-current-url",
       "hx-trigger",
+      "hx-post",
     ],
   },
+  telemetry: true,
   admin: {
     user: Users.slug,
     importMap: {

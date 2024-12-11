@@ -67,19 +67,9 @@ async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string>
         return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
-    const payload = await getPayload({ config: configPromise });
-
     const { heading = "", text = "", alignment = "left" } = fields;
 
-    const media = (await payload.find({
-        collection: "media",
-        limit: 1,
-        where: {
-            id: {
-                equals: fields.media,
-            },
-        },
-    })).docs[0];
+    const media = await getMediaFromPayload(fields.media);
 
     const isRightAligned = alignment === "right";
 
@@ -180,7 +170,7 @@ async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<s
         return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
-    const { heading = "Recent Posts", subheading = "", postLimit = 4 } = fields;
+    const { heading = "", subheading = "", postLimit = 4 } = fields;
 
     const payload = await getPayload({ config: await configPromise });
 
@@ -235,17 +225,6 @@ async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<s
 }
 
 async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string> {
-
-    /* const payload = await getPayload({ config: configPromise });
-    const media = (await payload.find({
-        collection: "media",
-        limit: 1,
-        where: {
-            id: {
-                equals: fields.image,
-            },
-        },
-    })).docs[0]; */
 
     const media = await getMediaFromPayload(fields.image);
 

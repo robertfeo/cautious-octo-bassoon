@@ -24,6 +24,7 @@ export const Header = ({ header }: any) => {
               class="hover:cursor-pointer hover:text-sky-500"
               key={index}
               href={`${process.env.HOST}${item.link}`}
+              hx-boost="true"
             >
               {item.label}
             </a>

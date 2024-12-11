@@ -2,15 +2,18 @@ import { Html } from "@elysiajs/html";
 import { Content } from "./Content";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { Post } from "./Post";
 
 export const Layout = ({
   pageSlug,
   header,
   footer,
+  isPost = false,
 }: {
   pageSlug?: string;
   header?: any;
   footer?: any;
+  isPost?: boolean;
 }) => {
   return (
     <html lang="de">
@@ -26,7 +29,7 @@ export const Layout = ({
       </head>
       <body class="min-h-screen flex flex-col bg-zinc-50">
         <Header header={header} />
-        <Content pageSlug={pageSlug} />
+        {isPost ? <Post pageSlug={pageSlug} /> : <Content pageSlug={pageSlug} />}
         <Footer footer={footer} />
       </body>
     </html>

@@ -130,7 +130,7 @@ export const Posts: CollectionConfig = {
   ],
   endpoints: [
     {
-      path: "/post-content/:slug",
+      path: "/by-slug/:slug",
       method: "get",
       handler: async (req) => {
         const data = await req.payload.find({
@@ -159,8 +159,8 @@ export const Posts: CollectionConfig = {
         }
       },
     },
-    {
-      path: "/by-slug/:slug",
+    /* {
+      path: "/post-json/:slug",
       method: "get",
       handler: async (req) => {
         const slug = req.routeParams?.slug;
@@ -184,6 +184,6 @@ export const Posts: CollectionConfig = {
           headers: { "Content-Type": "application/json" },
         });
       },
-    },
+    }, */
   ],
 };

@@ -1,0 +1,25 @@
+import { Html } from "@elysiajs/html";
+import { CommentForm } from "./CommentForm";
+
+type PostProps = {
+    pageSlug?: string;
+    children?: any;
+};
+
+export const Post = ({ pageSlug, children }: PostProps) => {
+    return (
+        <main class="flex-grow">
+            <article
+                class="flex flex-col w-4/6 justify-center mx-auto"
+                id="dynamic-post-content"
+                hx-get={`${process.env.BACKEND_HOST}/api/posts/by-slug/${pageSlug}`}
+                hx-trigger="load"
+                hx-swap="innerHTML"
+                hx-target="#dynamic-post-content"
+            >
+                <p class="text-center">Loading Post...</p>
+            </article>
+            <CommentForm pageSlug={pageSlug} />
+        </main>
+    );
+};

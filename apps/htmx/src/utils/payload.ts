@@ -23,6 +23,31 @@ export async function fetchPageData(slug: string) {
   }
 }
 
+export async function fetchPostData(slug: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/post/by-slug/${slug}`,
+      {
+        headers: {
+          Accept: "text/html",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Error fetching page data:", response.statusText);
+      return null;
+    }
+
+    const htmlContent = await response.text();
+
+    return htmlContent;
+  } catch (error) {
+    console.error("Error fetching page data:", error);
+    return null;
+  }
+}
+
 export async function fetchGlobalData(slug: string) {
   try {
     const response = await fetch(

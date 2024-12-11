@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const page = data.docs[0] as Post;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col w-4/6 justify-center mx-auto">
       <div className="flex flex-row justify-between">
         <p className="font-bold">
           Author:{" "}

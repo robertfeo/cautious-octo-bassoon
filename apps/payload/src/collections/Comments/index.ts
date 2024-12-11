@@ -5,7 +5,7 @@ import type { CollectionConfig } from "payload";
 export const Comments: CollectionConfig = {
   slug: "comments",
   access: {
-    create: authenticated,
+    create: anyone,
     read: anyone,
     update: authenticated,
     delete: authenticated,
@@ -28,12 +28,8 @@ export const Comments: CollectionConfig = {
     {
       name: "author",
       label: "Author",
-      type: "relationship",
-      relationTo: "users",
+      type: "textarea",
       required: true,
-      admin: {
-        position: "sidebar",
-      },
     },
     {
       name: "content",
@@ -76,29 +72,8 @@ export const Comments: CollectionConfig = {
             },
           });
         }
-      },
-    },
-    {
-      path: "/create",
-      method: "post",
-      handler: async (req) => {
-        const { post, author, content } = req.body;
-        const data = await req.payload.create({
-          collection: "comments",
-          data: {
-            post,
-            author,
-            content,
-          },
-        });
-        return new Response(JSON.stringify(data), {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        });
-      },
-    },
+      }
+    }
   ],
   timestamps: true,
 };

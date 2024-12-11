@@ -20,7 +20,7 @@ const app = new Elysia()
       <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
     );
   })
-  .get("/:slug", async ({ params }) => {
+  .get("/:slug", async ({ params }: any) => {
     const slug = params.slug;
 
     if (slug === "home" || slug === "index") {
@@ -35,6 +35,16 @@ const app = new Elysia()
 
     return (
       <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
+    );
+  })
+  .get("post/:slug", async ({ params }: any) => {
+    const slug = params.slug;
+
+    const headerGlobal = await fetchGlobalData("header");
+    const footerGlobal = await fetchGlobalData("footer");
+
+    return (
+      <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} isPost={true} />
     );
   })
   .listen(port);
