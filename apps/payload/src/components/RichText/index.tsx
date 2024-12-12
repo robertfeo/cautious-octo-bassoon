@@ -13,8 +13,6 @@ type Props = {
 const RichText: React.FC<Props> = ({
   className,
   content,
-  enableGutter = true,
-  enableProse = true,
 }) => {
   if (!content) {
     return null;
@@ -24,7 +22,7 @@ const RichText: React.FC<Props> = ({
     <div
       className={cn(
         /* customCSS */
-        "gap-10",
+        "space-y-10 mt-0 pt-0",
         className,
       )}
     >

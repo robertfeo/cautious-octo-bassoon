@@ -6,7 +6,7 @@ type CommentFormProps = {
 
 export const CommentForm = ({ pageSlug }: CommentFormProps) => {
     return (
-        <div class="flex flex-col w-3/4 justify-center mx-auto mt-8">
+        <div class="flex flex-col w-4/6 justify-center mx-auto mt-8">
             <form
                 hx-post={`${process.env.BACKEND_HOST}/api/comments/create`}
                 hx-headers='{"Content-Type": "application/json"}'

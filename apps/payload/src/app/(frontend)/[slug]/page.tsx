@@ -65,7 +65,7 @@ const Page = async ({ params: paramsPromise }: { params: Promise<{ slug: string 
 
   return (
     <>
-      <div className="flex flex-col w-3/4 justify-center mx-auto">
+      <div className="flex flex-col w-4/6 justify-center mx-auto">
         <RichText content={page.content || []} enableGutter={false} />
       </div>
     </>
