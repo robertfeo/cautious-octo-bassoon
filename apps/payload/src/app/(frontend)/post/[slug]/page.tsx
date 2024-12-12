@@ -2,8 +2,23 @@ import Comments from "@/components/Comments";
 import RichText from "@/components/RichText";
 import { Post } from "@/payload-types";
 import config from "@payload-config";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
+
+export async function generateMetadata({
+  params: paramsPromise,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const params = await paramsPromise;
+  const slug = params.slug || "home";
+
+  return {
+    title: `Post - ${slug}`,
+    description: `This is the ${slug} page.`,
+  };
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const paramsAwait = await params;

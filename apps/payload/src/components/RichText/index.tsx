@@ -24,6 +24,7 @@ const RichText: React.FC<Props> = ({
     <div
       className={cn(
         /* customCSS */
+        "gap-10",
         className,
       )}
     >
