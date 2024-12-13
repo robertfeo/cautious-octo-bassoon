@@ -2,9 +2,11 @@ import FooterServer from "@/blocks/global/Footer/Component";
 import HeaderServer from "@/blocks/global/Header/Component";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
-  title: "Blog Payload + Next.js",
+  title: "Page - Home",
   description: "A blog app",
   keywords: ["blog", "app"],
 };
@@ -18,7 +20,9 @@ export default async function RootLayout({
     <html lang="de" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col">
         <HeaderServer />
-        <main className="flex-grow">{children}</main>
+        <Suspense fallback={<Loading />}>
+          <main className="flex-grow">{children}</main>
+        </Suspense>
         <FooterServer />
       </body>
     </html>

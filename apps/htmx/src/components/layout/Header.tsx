@@ -3,7 +3,7 @@ import { Html } from "@elysiajs/html";
 export const Header = ({ header }: any) => {
   return (
     <header class="py-14">
-      <div class="flex flex-row justify-between items-center px-80">
+      <div class="flex flex-row w-4/6 justify-between items-center mx-auto">
         <img
           width="150"
           height="100"

@@ -53,9 +53,14 @@ export const RecentPostsBlockComponent: React.FC<
                   {post.title}
                 </Link>
               </h3>
-              <p className="text-xs text-zinc-600 mt-1">
-                {new Date(post.createdAt).toLocaleDateString()}
-              </p>
+              <div className="flex flex-row justify-between items-center">
+                <p className="text-xs text-zinc-600 mt-1">
+                  {new Date(post.createdAt).toLocaleDateString()}
+                </p>
+                <p className="text-xs text-zinc-600 mt-1">
+                  Likes: {post.likes}
+                </p>
+              </div>
             </div>
           </div>
         ))}

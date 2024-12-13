@@ -14,9 +14,13 @@ export async function generateMetadata({
   const params = await paramsPromise;
   const slug = params.slug || "home";
 
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   return {
-    title: `Post - ${slug}`,
-    description: `This is the ${slug} page.`,
+    title: `Post - ${capitalizeFirstLetter(slug)}`,
+    description: `This is the ${capitalizeFirstLetter(slug)} page.`,
   };
 }
 

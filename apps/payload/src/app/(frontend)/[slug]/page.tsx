@@ -17,12 +17,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const params = await paramsPromise; // Await the params object
-  const slug = params.slug;
+  const params = await paramsPromise;
+  const slug = params.slug || "home";
+
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return {
-    title: `Page - ${slug}`,
-    description: `This is the ${slug} page.`,
+    title: `Page - ${capitalizeFirstLetter(slug)}`,
+    description: `This is the ${capitalizeFirstLetter(slug)} page.`,
   };
 }
 
@@ -32,7 +36,7 @@ export async function generateStaticParams() {
 
   const result = await payload.find({
     collection: "pages",
-    limit: 100, // Adjust the limit as needed
+    limit: 100,
   });
 
   return result.docs.map((doc) => ({
@@ -40,9 +44,8 @@ export async function generateStaticParams() {
   }));
 }
 
-// Page component to render the content dynamically
 const Page = async ({ params: paramsPromise }: { params: Promise<{ slug: string }> }) => {
-  const params = await paramsPromise; // Await the params object
+  const params = await paramsPromise;
   const slug = params.slug || "home";
 
   const payload = await getPayload({ config: configPromise });

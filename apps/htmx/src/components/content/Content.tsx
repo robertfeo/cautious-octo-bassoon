@@ -2,10 +2,9 @@ import { Html } from "@elysiajs/html";
 
 type ContentProps = {
     pageSlug?: string;
-    children?: any;
 };
 
-export const Content = ({ pageSlug, children }: ContentProps) => {
+export const Content = ({ pageSlug }: ContentProps) => {
     return (
         <main class="flex-grow">
             <div

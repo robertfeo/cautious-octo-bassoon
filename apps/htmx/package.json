@@ -8,16 +8,16 @@
   "dependencies": {
     "@chneau/elysia-logger": "^1.0.10",
     "@elysiajs/html": "^1.1.1",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "autoprefixer": "^10.4.20",
-    "dompurify": "^3.2.2",
+    "dompurify": "^3.2.3",
     "elysia": "latest",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.49",
-    "preact": "^10.25.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "preact": "^10.25.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tailwindcss": "^3.4.16"
   },
   "devDependencies": {

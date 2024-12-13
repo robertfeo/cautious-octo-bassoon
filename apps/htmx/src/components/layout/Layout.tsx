@@ -1,8 +1,8 @@
 import { Html } from "@elysiajs/html";
-import { Content } from "./Content";
+import { Content } from "../content/Content";
+import { Post } from "../content/Post";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { Post } from "./Post";
 
 export const Layout = ({
   pageSlug,
@@ -26,6 +26,12 @@ export const Layout = ({
           integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
           crossorigin="anonymous"
         ></script>
+        <link
+          rel="stylesheet"
+          href="globals.css"></link>
+        <link
+          rel="stylesheet"
+          href="output.css"></link>
       </head>
       <body class="min-h-screen flex flex-col bg-zinc-50">
         <Header header={header} />

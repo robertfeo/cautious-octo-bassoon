@@ -14,6 +14,7 @@ const nextConfig = {
       "picsum.photos",
       "www.orientsoftware.com",
       "plus.unsplash.com",
+      "static.vecteezy.com",
     ],
   }
 };

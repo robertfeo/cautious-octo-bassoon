@@ -1,14 +1,18 @@
 import { logger } from "@chneau/elysia-logger";
 import { Html, html } from "@elysiajs/html";
 import { Elysia } from "elysia";
-import { Layout } from "./components/Layout";
+import { Layout } from "./components/layout/Layout";
 import { fetchGlobalData } from "./utils/payload";
 
 const port = 3001;
 
 const app = new Elysia()
   .use(html())
-  .use(logger())
+  .use(
+    logger({
+      level: "error",
+    })
+  )
   .get("/favicon.ico", Bun.file("favicon.ico"))
   .get("/", async () => {
     const slug = "home";
