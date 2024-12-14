@@ -127,34 +127,36 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   title: string;
-  layout: (
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'image';
-      }
-    | HeroBlock
-    | {
-        heading?: string | null;
-        text?: string | null;
-        image: number | Media;
-        direction?: ('default' | 'reverse') | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'twoColumn';
-      }
-    | {
-        heading?: string | null;
-        subheading?: string | null;
-        postLimit: number;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'recentPosts';
-      }
-    | CodeBlock
-  )[];
+  layout?:
+    | (
+        | {
+            image: number | Media;
+            caption?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'image';
+          }
+        | HeroBlock
+        | {
+            heading?: string | null;
+            text?: string | null;
+            image: number | Media;
+            direction?: ('default' | 'reverse') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'twoColumn';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            postLimit: number;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'recentPosts';
+          }
+        | CodeBlock
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -231,8 +233,10 @@ export interface Category {
 export interface Comment {
   id: number;
   post: number | Post;
-  author: number | User;
+  author: string;
   content: string;
+  email?: string | null;
+  website?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -433,6 +437,8 @@ export interface CommentsSelect<T extends boolean = true> {
   post?: T;
   author?: T;
   content?: T;
+  email?: T;
+  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }

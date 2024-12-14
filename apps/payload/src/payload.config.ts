@@ -18,14 +18,19 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  csrf: ["http://localhost:3001"],
   cors: {
     origins: ["http://localhost:3000", "http://localhost:3001"],
     headers: [
       "Content-Type",
-      "hx-target",
+      "Access-Control-Allow-Origin",
       "hx-request",
+      "hx-target",
       "hx-current-url",
       "hx-trigger",
+      "hx-include",
+      "hx-swap",
+      "hx-headers",
       "hx-post",
     ],
   },

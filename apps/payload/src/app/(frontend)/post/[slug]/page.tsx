@@ -59,7 +59,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <p className="font-bold">
           Created:{" "}
           {typeof page.author === "object" && "createdAt" in page.author
-            ? page.author.createdAt
+            ? new Date(page.author.createdAt).toLocaleDateString()
             : ""}
         </p>
       </div>

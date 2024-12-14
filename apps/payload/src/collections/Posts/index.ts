@@ -159,31 +159,5 @@ export const Posts: CollectionConfig = {
         }
       },
     },
-    /* {
-      path: "/post-json/:slug",
-      method: "get",
-      handler: async (req) => {
-        const slug = req.routeParams?.slug;
-
-        const page = await req.payload.find({
-          collection: "posts",
-          depth: 2,
-          limit: 1,
-          where: {
-            slug: {
-              equals: slug,
-            },
-          },
-        });
-
-        if (page.docs.length === 0) {
-          return new Response("Page not found", { status: 404 });
-        }
-
-        return new Response(JSON.stringify(page.docs[0]), {
-          headers: { "Content-Type": "application/json" },
-        });
-      },
-    }, */
   ],
 };

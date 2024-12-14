@@ -7,7 +7,9 @@
   },
   "dependencies": {
     "@chneau/elysia-logger": "^1.0.10",
+    "@elysiajs/cors": "^1.1.1",
     "@elysiajs/html": "^1.1.1",
+    "@gtramontina.com/elysia-tailwind": "2.0.0",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "autoprefixer": "^10.4.20",

@@ -5,32 +5,12 @@ import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { ImageBlock } from "@/blocks/ImageBlock/config";
 import { RecentPostsBlock } from "@/blocks/RecentPostsBlock/config";
 import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
-import { BlockConverterFeature } from "@/features/BlockConverterFeature";
 
+import { BlockConverterFeature } from "@/features/BlockConverterFeature";
 import { slugField } from "@/fields/slug";
 import { BlocksFeature, FixedToolbarFeature, HeadingFeature, HorizontalRuleFeature, HTMLConverterFeature, InlineToolbarFeature, lexicalEditor, lexicalHTML } from "@payloadcms/richtext-lexical";
 import { CollectionConfig } from "payload";
-
-/* const format = (val: string): string =>
-  val
-    .replace(/ /g, "-")
-    .replace(/[^\w-/]+/g, "")
-    .toLowerCase();
-
-const formatSlug =
-  (fallback: string): FieldHook =>
-  ({ value, originalDoc, data }) => {
-    if (typeof value === "string") {
-      return format(value);
-    }
-    const fallbackData = data?.[fallback] || originalDoc?.[fallback];
-
-    if (fallbackData && typeof fallbackData === "string") {
-      return format(fallbackData);
-    }
-
-    return value;
-  }; */
+import { revalidatePage } from "./hooks/revalidatePage";
 
 export const Pages: CollectionConfig = {
   slug: "pages",
@@ -39,6 +19,9 @@ export const Pages: CollectionConfig = {
     delete: authenticated,
     read: authenticatedOrPublished,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [revalidatePage],
   },
   admin: {
     defaultColumns: ["name", "slug", "updatedAt"],

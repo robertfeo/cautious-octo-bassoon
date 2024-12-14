@@ -1,5 +1,7 @@
-import { logger } from "@chneau/elysia-logger";
-import { Html, html } from "@elysiajs/html";
+import { logger } from '@chneau/elysia-logger';
+import { cors } from '@elysiajs/cors';
+import html, { Html } from "@elysiajs/html";
+import { tailwind } from "@gtramontina.com/elysia-tailwind";
 import { Elysia } from "elysia";
 import { Layout } from "./components/layout/Layout";
 import { fetchGlobalData } from "./utils/payload";
@@ -7,23 +9,35 @@ import { fetchGlobalData } from "./utils/payload";
 const port = 3001;
 
 const app = new Elysia()
-  .use(html())
-  .use(
-    logger({
-      level: "error",
-    })
-  )
-  .get("/favicon.ico", Bun.file("favicon.ico"))
-  .get("/", async () => {
-    const slug = "home";
+  .use(tailwind({                           // 2. Use
+    path: "./public/globals.css",       // 2.1 Where to serve the compiled stylesheet;
+    source: "./public/globals.css",        // 2.2 Specify source file path (where your @tailwind directives are);
+    config: "./tailwind.config.js",       // 2.3 Specify config file path or Config object;
+    options: {                            // 2.4 Optionally Specify options:
+      minify: true,                     // 2.4.1 Minify the output stylesheet (default: NODE_ENV === "production");
+      map: true,                        // 2.4.2 Generate source map (default: NODE_ENV !== "production");
+      autoprefixer: false               // 2.4.3 Whether to use autoprefixer;
+  },
+  }))
+  .use(cors({
+    origin: "*",
+    allowedHeaders: ["Content-Type", "Access-Control-Allow-Origin", "hx-request", "hx-target", "hx-current-url", "hx-trigger", "hx-include", "hx-swap", "hx-headers", "hx-post"],
+    credentials: true,
+  }))
+  .use(logger())
+  .use(html)
+/* .get("/favicon.ico", Bun.file("favicon.ico")) */
 
-    const headerGlobal = await fetchGlobalData("header");
-    const footerGlobal = await fetchGlobalData("footer");
+app.get("/", async () => {
+  const slug = "home";
 
-    return (
-      <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
-    );
-  })
+  const headerGlobal = await fetchGlobalData("header");
+  const footerGlobal = await fetchGlobalData("footer");
+
+  return (
+    <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
+  );
+})
   .get("/:slug", async ({ params }: any) => {
     const slug = params.slug;
 
@@ -51,7 +65,8 @@ const app = new Elysia()
       <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} isPost={true} />
     );
   })
-  .listen(port);
+
+app.listen(port);
 
 console.log(
   `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`

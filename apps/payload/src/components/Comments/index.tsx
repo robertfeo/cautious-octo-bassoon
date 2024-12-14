@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export type Comment = {
   id: string;
   content: string;
-  author: { id: string; email: string };
+  author: string;
   createdAt: string;
 };
 
@@ -28,6 +28,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
         }
         const data = await res.json();
         setComments(data || []);
+        console.log("Comments fetched: ", JSON.stringify(comments));
       } catch (err) {
         setError("Could not load comments. Please try again later.");
       } finally {
@@ -51,7 +52,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
             <div className="p-8 flex flex-col bg-zinc-200" key={comment.id}>
               <p>{comment.content}</p>
               <p className="font-bold">
-                By {comment.author.email} on{" "}
+                By {comment.author} on{" "}
                 {new Date(comment.createdAt).toLocaleDateString()}
               </p>
             </div>
@@ -61,17 +62,44 @@ export default function Comments({ slug }: CommentsBlockProps) {
       <div>
         <h3 className="text-lg font-bold mb-4">Add a comment</h3>
         <form className="flex flex-col gap-4">
-          <label htmlFor="comment">Comment</label>
-          <textarea id="comment" name="comment" required></textarea>
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" required />
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" required />
-          <label htmlFor="website">Website</label>
-          <input id="website" name="website" type="url" />
-          <button className="bg-slate-400 p-2" type="submit">
+          <label className="font-bold" htmlFor="comment">Comment</label>
+          <textarea
+            id="comment"
+            name="content"
+            placeholder="Write your comment here..."
+            className="p-4 border border-gray-300 rounded-lg"
+            required
+          ></textarea>
+          <label className="font-bold" htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            className="p-4 border border-gray-300 rounded-lg"
+            required
+          />
+          <label className="font-bold" htmlFor="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Enter your name"
+            className="p-4 border border-gray-300 rounded-lg"
+            required
+          />
+          <label className="font-bold" htmlFor="website">Website</label>
+          <input
+            id="website"
+            name="website"
+            type="text"
+            placeholder="Enter your website"
+            className="p-4 border border-gray-300 rounded-lg"
+          />
+          <button className="self-end px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" type="submit">
             Submit
           </button>
+
         </form>
       </div>
     </div>

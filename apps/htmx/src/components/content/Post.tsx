@@ -1,8 +1,8 @@
 import { Html } from "@elysiajs/html";
-import { CommentForm } from "./CommentForm";
+import { Comments } from "./Comments";
 
 type PostProps = {
-    pageSlug?: string;
+    pageSlug: string;
     children?: any;
 };
 
@@ -19,7 +19,7 @@ export const Post = ({ pageSlug, children }: PostProps) => {
             >
                 <p class="text-center">Loading Post...</p>
             </article>
-            <CommentForm pageSlug={pageSlug} />
+            <Comments slug={pageSlug} />
         </main>
     );
 };

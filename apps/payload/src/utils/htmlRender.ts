@@ -1,4 +1,4 @@
-import { Media } from "@/payload-types";
+import { Comment, Media } from "@/payload-types";
 import configPromise from "@payload-config";
 import { BlockFields, SerializedBlockNode } from "@payloadcms/richtext-lexical";
 import { JsonObject, getPayload } from "payload";
@@ -260,4 +260,21 @@ async function getMediaFromPayload(mediaId: number): Promise<Media> {
     })).docs[0];
 
     return media;
+}
+
+export async function commentsAsHTML(comments: Comment[]): Promise<string> {
+    return comments
+        .map((comment) => {
+            return `
+            <div class="flex flex-col py-8">
+                <div class="p-8 flex flex-col bg-zinc-200">
+                    <p>${comment.content}</p>
+                    <p class="font-bold">
+                        By ${comment.author} on ${new Date(comment.createdAt).toLocaleDateString()}
+                    </p>
+                </div>
+            </div>
+            `;
+        })
+        .join("");
 }
