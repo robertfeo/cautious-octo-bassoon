@@ -17,7 +17,7 @@ export const Post = ({ pageSlug, children }: PostProps) => {
                 hx-swap="innerHTML"
                 hx-target="#dynamic-post-content"
             >
-                <p class="text-center">Loading Post...</p>
+                <p class="htmx-indicator text-center">Loading Post...</p>
             </article>
             <Comments slug={pageSlug} />
         </main>

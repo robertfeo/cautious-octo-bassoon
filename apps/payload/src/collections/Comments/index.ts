@@ -126,7 +126,7 @@ export const Comments: CollectionConfig = {
       path: "/create",
       method: "post",
       handler: async (req) => {
-        const body = new URLSearchParams(await req.text?.()); // Parse the form data
+        const body = new URLSearchParams(await req.text?.());
 
         console.log("Received data:", body);
 
@@ -135,8 +135,6 @@ export const Comments: CollectionConfig = {
         const content = body.get("content");
         const website = body.get("website");
         const email = body.get("email");
-
-        console.log("Received data:", { slug, author, content });
 
         if (!slug || !author || !content) {
           return new Response(
@@ -169,7 +167,7 @@ export const Comments: CollectionConfig = {
 
           const postId = post.docs[0].id;
 
-          const comment = await req.payload.create({
+          await req.payload.create({
             collection: "comments",
             data: {
               post: postId,
@@ -190,15 +188,8 @@ export const Comments: CollectionConfig = {
             },
           });
 
-          console.log("Comments:", comments.docs);
-
           return new Response(
-            /* `<div class="p-8 flex flex-col bg-zinc-200">
-                  <p>${comment.content}</p>
-                  <p class="font-bold">
-                      By ${comment.author} on ${new Date(comment.createdAt).toLocaleDateString()}
-                  </p>
-              </div>` */await commentsAsHTML(comments.docs),
+            await commentsAsHTML(comments.docs),
             {
               headers: {
                 "Content-Type": "text/html",
@@ -213,17 +204,6 @@ export const Comments: CollectionConfig = {
             { status: 500, headers: { "Content-Type": "application/json" } }
           );
         }
-        // Response for debugging purposes
-        /* return new Response(
-          JSON.stringify({ body }),
-          {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        ); */
       },
     },
   ],

@@ -24,6 +24,8 @@ export async function generateMetadata({
   };
 }
 
+function generateStaticParams() { }
+
 export default async function Page({ params }: { params: { slug: string } }) {
   const paramsAwait = await params;
   const slug = paramsAwait.slug;
