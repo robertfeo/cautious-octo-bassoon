@@ -1,6 +1,7 @@
 import { anyone } from "@/access/anyone";
 import { commentsAsHTML } from "@/utils/htmlRender";
 import type { CollectionConfig } from "payload";
+import sanitizeHtml from 'sanitize-html';
 
 export const Comments: CollectionConfig = {
   slug: "comments",
@@ -113,7 +114,7 @@ export const Comments: CollectionConfig = {
             },
           });
         } else {
-          return new Response(await commentsAsHTML(comments.docs), {
+          return new Response(sanitizeHtml(await commentsAsHTML(comments.docs)), {
             headers: {
               "Content-Type": "text/html",
               "Access-Control-Allow-Origin": "*",
@@ -189,7 +190,7 @@ export const Comments: CollectionConfig = {
           });
 
           return new Response(
-            await commentsAsHTML(comments.docs),
+            await sanitizeHtml(await commentsAsHTML(comments.docs)),
             {
               headers: {
                 "Content-Type": "text/html",

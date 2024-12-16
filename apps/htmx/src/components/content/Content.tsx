@@ -14,6 +14,7 @@ export const Content = ({ pageSlug }: ContentProps) => {
                 hx-trigger="load"
                 hx-swap="innerHTML"
                 hx-target="#dynamic-content"
+                hx-cache="true"
             >
                 <p class="text-center">Loading...</p>
             </div>

@@ -2,8 +2,11 @@ import { Comment, Media } from "@/payload-types";
 import configPromise from "@payload-config";
 import { BlockFields, SerializedBlockNode } from "@payloadcms/richtext-lexical";
 import { JsonObject, getPayload } from "payload";
+import sanitizeHtml from 'sanitize-html';
 
-export const renderToHTML = async (node: SerializedBlockNode): Promise<string> => {
+export const renderToHTML = async (
+    node: SerializedBlockNode,
+): Promise<string> => {
     const { fields } = node;
     const blockType = fields.blockType;
 
@@ -25,7 +28,9 @@ export const renderToHTML = async (node: SerializedBlockNode): Promise<string> =
     }
 };
 
-async function renderHeroHTML(fields: BlockFields<JsonObject>): Promise<string> {
+async function renderHeroHTML(
+    fields: BlockFields<JsonObject>,
+): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
         return "<div>Error: Missing or invalid fields data</div>";
@@ -39,7 +44,7 @@ async function renderHeroHTML(fields: BlockFields<JsonObject>): Promise<string> 
         ? `style="background-image: url(${backgroundImage.url}); background-size: cover; background-position: center;"`
         : "";
 
-    return `
+    return sanitizeHtml(`
         <div class="relative flex flex-col justify-center p-8" ${backgroundStyle}>
             <div class="absolute inset-0 bg-black bg-opacity-50 m-5"></div>
             <div class="relative z-10">
@@ -47,8 +52,8 @@ async function renderHeroHTML(fields: BlockFields<JsonObject>): Promise<string> 
                 ${text ? `<p class="text-white text-lg">${text}</p>` : ""}
             </div>
         </div>
-    `;
-};
+    `);
+}
 
 function renderCodeHTML(fields: BlockFields<JsonObject>): string {
     if (!fields || typeof fields !== "object") {
@@ -59,9 +64,11 @@ function renderCodeHTML(fields: BlockFields<JsonObject>): string {
     const { code = "" } = fields;
 
     return `<pre><code>${code}</code></pre>`;
-};
+}
 
-async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string> {
+async function renderMediaHTML(
+    fields: BlockFields<JsonObject>,
+): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
         return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
@@ -130,7 +137,9 @@ async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string>
     `;
 }
 
-async function renderTwoColumnHTML(fields: BlockFields<JsonObject>): Promise<string> {
+async function renderTwoColumnHTML(
+    fields: BlockFields<JsonObject>,
+): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
         return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
@@ -164,7 +173,9 @@ async function renderTwoColumnHTML(fields: BlockFields<JsonObject>): Promise<str
     `;
 }
 
-async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<string> {
+async function renderRecentPostsHTML(
+    fields: BlockFields<JsonObject>,
+): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
         return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
@@ -196,13 +207,20 @@ async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<s
                         <div class="relative w-full h-48">
                             ${thumbnailHTML}
                         </div>
-                        <div class="p-4">
+                        <div class="flex flex-col gap-2 p-4">
                             <h3 class="text-sm font-semibold text-pretty">
                                 <a class="no-underline text-zinc-600" href="/post/${post.slug}">
                                     ${post.title}
                                 </a>
                             </h3>
-                            <p class="text-xs text-zinc-600 mt-1">${postDate}</p>
+                            <div className="flex flex-row justify-between items-center">
+                                <p className="text-sm text-zinc-600 mt-1">
+                                ${postDate}
+                                </p>
+                                <p className="text-sm text-zinc-600 mt-1">
+                                Likes: ${post.likes}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -224,8 +242,9 @@ async function renderRecentPostsHTML(fields: BlockFields<JsonObject>): Promise<s
     }
 }
 
-async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string> {
-
+async function renderImageHTML(
+    fields: BlockFields<JsonObject>,
+): Promise<string> {
     const media = await getMediaFromPayload(fields.image);
 
     if (!media || typeof media === "number") {
@@ -249,15 +268,17 @@ async function renderImageHTML(fields: BlockFields<JsonObject>): Promise<string>
 async function getMediaFromPayload(mediaId: number): Promise<Media> {
     const payload = await getPayload({ config: configPromise });
 
-    const media = (await payload.find({
-        collection: "media",
-        limit: 1,
-        where: {
-            id: {
-                equals: mediaId,
+    const media = (
+        await payload.find({
+            collection: "media",
+            limit: 1,
+            where: {
+                id: {
+                    equals: mediaId,
+                },
             },
-        },
-    })).docs[0];
+        })
+    ).docs[0];
 
     return media;
 }

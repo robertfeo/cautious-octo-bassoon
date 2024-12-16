@@ -16,6 +16,7 @@ export const Post = ({ pageSlug, children }: PostProps) => {
                 hx-trigger="load"
                 hx-swap="innerHTML"
                 hx-target="#dynamic-post-content"
+                hx-cache="true"
             >
                 <p class="htmx-indicator text-center">Loading Post...</p>
             </article>

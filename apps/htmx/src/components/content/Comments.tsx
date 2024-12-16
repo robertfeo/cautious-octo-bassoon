@@ -1,17 +1,33 @@
 import { Html } from "@elysiajs/html";
+import sanitizeHtml from "sanitize-html";
 
 type CommentsProps = {
     slug: string;
 };
 
 export const Comments = ({ slug }: CommentsProps) => {
+
+    const sanitizeContent = (html: string) =>
+        sanitizeHtml(html, {
+            allowedTags: ["b", "i", "em", "strong", "a", "p", "div", "img"],
+            allowedAttributes: {
+                a: ["href"],
+            },
+        });
     return (
         <div class="flex flex-col w-4/6 justify-center mx-auto mt-8">
             <h3 class="text-lg font-bold mb-4">Comments</h3>
 
-            <div id="comment-section" hx-get={`${process.env.BACKEND_HOST}/api/comments/html-by-slug/${slug}`}
+            <div
+                id="comment-section"
+                hx-get={`${process.env.BACKEND_HOST}/api/comments/html-by-slug/${slug}`}
                 hx-trigger="load"
-                hx-swap="innerHTML">
+                hx-swap="innerHTML"
+                hx-on="htmx:beforeSwap: (event) => {
+                    const sanitized = sanitizeContent(event.detail.content);
+                    event.detail.content = sanitized;
+                }"
+            >
                 <p class="text-center">Loading comments...</p>
             </div>
 
