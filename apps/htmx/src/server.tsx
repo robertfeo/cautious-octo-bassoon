@@ -7,6 +7,8 @@ import { Layout } from "./components/layout/Layout";
 import { fetchGlobalData } from "./utils/payload";
 
 const port = 3001;
+let headerGlobal = null;
+let footerGlobal = null;
 
 const app = new Elysia()
   .use(tailwind({                           // 2. Use
@@ -17,7 +19,7 @@ const app = new Elysia()
       minify: true,                     // 2.4.1 Minify the output stylesheet (default: NODE_ENV === "production");
       map: true,                        // 2.4.2 Generate source map (default: NODE_ENV !== "production");
       autoprefixer: false               // 2.4.3 Whether to use autoprefixer;
-  },
+    },
   }))
   .use(cors({
     origin: "*",
@@ -31,8 +33,8 @@ const app = new Elysia()
 app.get("/", async () => {
   const slug = "home";
 
-  const headerGlobal = await fetchGlobalData("header");
-  const footerGlobal = await fetchGlobalData("footer");
+  headerGlobal = await fetchGlobalData("header");
+  footerGlobal = await fetchGlobalData("footer");
 
   return (
     <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
@@ -46,10 +48,10 @@ app.get("/", async () => {
         status: 302,
         headers: { Location: "/" },
       });
+    } else {
+      headerGlobal = await fetchGlobalData("header");
+      footerGlobal = await fetchGlobalData("footer");
     }
-
-    const headerGlobal = await fetchGlobalData("header");
-    const footerGlobal = await fetchGlobalData("footer");
 
     return (
       <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
