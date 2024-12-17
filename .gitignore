@@ -11,3 +11,5 @@ pnpm-lock.yaml
 .dockerignore
 
 apps/*/node_modules
+pnpm-lock.yaml
+apps/htmx/bun.lockb
