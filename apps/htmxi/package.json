@@ -1,0 +1,27 @@
+{
+  "name": "htmxn",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun dev:css | bun run --watch src/index.ts",
+    "build:css": "bunx tailwindcss -o public/global.css --minify",
+    "dev:css": "bunx tailwindcss -i ./src/styles/styles.css -o ./public/global.css --watch"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.1.1",
+    "@elysiajs/html": "^1.1.1",
+    "@elysiajs/static": "^1.1.1",
+    "@gtramontina.com/elysia-tailwind": "2.0.0",
+    "@tqman/nice-logger": "^1.0.7",
+    "elysia": "latest",
+    "htmx.org": "2.0.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "bun-types": "latest",
+    "concurrently": "^9.1.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
+  },
+  "module": "src/index.ts"
+}
