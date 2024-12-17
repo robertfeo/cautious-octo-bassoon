@@ -40,25 +40,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
   }, [slug]);
 
   return (
-    <div className="comments-block">
-      <h3 className="text-lg font-bold mb-4">Comments ({comments.length})</h3>
-
-      {loading && <p>Loading comments...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {!loading && comments.length === 0 && <p>No comments yet!</p>}
-      {!loading && comments.length > 0 && (
-        <div className="flex flex-col gap-8">
-          {comments.map((comment) => (
-            <div className="p-8 flex flex-col bg-zinc-200" key={comment.id}>
-              <p>{comment.content}</p>
-              <p className="font-bold">
-                By {comment.author} on{" "}
-                {new Date(comment.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="comments-block mt-8">
       <div>
         <h3 className="text-lg font-bold mb-4">Add a comment</h3>
         <form className="flex flex-col gap-4">
@@ -102,6 +84,25 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
         </form>
       </div>
+
+      <h3 className="text-lg font-bold mb-4">Comments ({comments.length})</h3>
+
+      {loading && <p>Loading comments...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+      {!loading && comments.length === 0 && <p>No comments yet!</p>}
+      {!loading && comments.length > 0 && (
+        <div className="flex flex-col gap-8">
+          {comments.map((comment) => (
+            <div className="p-8 flex flex-col bg-zinc-200" key={comment.id}>
+              <p>{comment.content}</p>
+              <p className="font-bold">
+                By {comment.author} on{" "}
+                {new Date(comment.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

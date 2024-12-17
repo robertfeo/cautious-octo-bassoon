@@ -10,7 +10,7 @@ export const Layout = ({
   footer,
   isPost = false,
 }: {
-  pageSlug?: string;
+  pageSlug: string;
   header?: any;
   footer?: any;
   isPost?: boolean;
@@ -18,20 +18,14 @@ export const Layout = ({
   return (
     <html lang="de">
       <head>
+        <meta charset="UTF-8"></meta>
         <meta name="htmx-config" content='{"selfRequestsOnly":false}'></meta>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico"></link>
+        <link href="./output.css" rel="stylesheet"></link>
         <title>Blog Payload + HTMX</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script
-          src="https://unpkg.com/htmx.org@2.0.3"
-          integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
-          crossorigin="anonymous"
-        ></script>
-        <link
-          rel="stylesheet"
-          href="globals.css"></link>
-        <link
-          rel="stylesheet"
-          href="output.css"></link>
+        {/* <script src="https://cdn.tailwindcss.com"></script> */}
+        {/* <link rel="stylesheet" href="/globals.css"></link> */}
+        <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
       </head>
       <body class="min-h-screen flex flex-col bg-zinc-50">
         <Header header={header} />

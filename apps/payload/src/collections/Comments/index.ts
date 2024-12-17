@@ -1,7 +1,6 @@
 import { anyone } from "@/access/anyone";
-import { commentsAsHTML } from "@/utils/htmlRender";
+import { commentsAsHTML, sanitizeContent } from "@/utils/htmlRender";
 import type { CollectionConfig } from "payload";
-import sanitizeHtml from 'sanitize-html';
 
 export const Comments: CollectionConfig = {
   slug: "comments",
@@ -114,7 +113,7 @@ export const Comments: CollectionConfig = {
             },
           });
         } else {
-          return new Response(sanitizeHtml(await commentsAsHTML(comments.docs)), {
+          return new Response(await commentsAsHTML(comments.docs), {
             headers: {
               "Content-Type": "text/html",
               "Access-Control-Allow-Origin": "*",
@@ -129,13 +128,11 @@ export const Comments: CollectionConfig = {
       handler: async (req) => {
         const body = new URLSearchParams(await req.text?.());
 
-        console.log("Received data:", body);
-
         const slug = body.get("slug");
-        const author = body.get("name");
-        const content = body.get("content");
-        const website = body.get("website");
-        const email = body.get("email");
+        const author = sanitizeContent(body.get("content") as string);
+        const content = sanitizeContent(body.get("content") as string);
+        const website = sanitizeContent(body.get("content") as string);
+        const email = sanitizeContent(body.get("content") as string);
 
         if (!slug || !author || !content) {
           return new Response(
@@ -190,7 +187,7 @@ export const Comments: CollectionConfig = {
           });
 
           return new Response(
-            await sanitizeHtml(await commentsAsHTML(comments.docs)),
+            await commentsAsHTML(comments.docs),
             {
               headers: {
                 "Content-Type": "text/html",

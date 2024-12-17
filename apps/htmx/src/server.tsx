@@ -1,7 +1,8 @@
-import { logger } from '@chneau/elysia-logger';
 import { cors } from '@elysiajs/cors';
-import html, { Html } from "@elysiajs/html";
+import { Html, html } from '@elysiajs/html';
+import { staticPlugin } from '@elysiajs/static';
 import { tailwind } from "@gtramontina.com/elysia-tailwind";
+import { logger } from "@tqman/nice-logger";
 import { Elysia } from "elysia";
 import { Layout } from "./components/layout/Layout";
 import { fetchGlobalData } from "./utils/payload";
@@ -10,25 +11,33 @@ const port = 3001;
 let headerGlobal = null;
 let footerGlobal = null;
 
-const app = new Elysia()
-  .use(tailwind({                           // 2. Use
-    path: "./public/globals.css",       // 2.1 Where to serve the compiled stylesheet;
-    source: "./public/globals.css",        // 2.2 Specify source file path (where your @tailwind directives are);
-    config: "./tailwind.config.js",       // 2.3 Specify config file path or Config object;
-    options: {                            // 2.4 Optionally Specify options:
-      minify: true,                     // 2.4.1 Minify the output stylesheet (default: NODE_ENV === "production");
-      map: true,                        // 2.4.2 Generate source map (default: NODE_ENV !== "production");
-      autoprefixer: false               // 2.4.3 Whether to use autoprefixer;
-    },
-  }))
-  .use(cors({
-    origin: "*",
-    allowedHeaders: ["Content-Type", "Access-Control-Allow-Origin", "hx-request", "hx-target", "hx-current-url", "hx-trigger", "hx-include", "hx-swap", "hx-headers", "hx-post"],
-    credentials: true,
-  }))
-  .use(logger())
-  .use(html)
-/* .get("/favicon.ico", Bun.file("favicon.ico")) */
+const app = new Elysia();
+
+app.use(html() as unknown as any)
+
+app.use(staticPlugin({
+  prefix: '/',
+  assets: 'public'
+}));
+
+app.use(tailwind({
+  path: "./public/styles.css",              // Serve CSS at /output.css
+  source: "./src/styles.css",   // Path to @tailwind directives
+  config: "./tailwind.config.js",   // Path to Tailwind config
+}));
+
+app.use(cors({
+  origin: "*",
+  allowedHeaders: ["Content-Type", "Access-Control-Allow-Origin", "hx-request", "hx-target", "hx-current-url", "hx-trigger", "hx-include", "hx-swap", "hx-headers", "hx-post"],
+  credentials: true,
+}))
+
+app.use(logger({
+  mode: "live",
+}))
+
+/* app.get('/globals.css', () => Bun.file('public/globals.css'))
+app.get('/output.css', () => Bun.file('public/output.css')) */
 
 app.get("/", async () => {
   const slug = "home";
@@ -40,33 +49,35 @@ app.get("/", async () => {
     <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
   );
 })
-  .get("/:slug", async ({ params }: any) => {
-    const slug = params.slug;
 
-    if (slug === "home" || slug === "index") {
-      return new Response(null, {
-        status: 302,
-        headers: { Location: "/" },
-      });
-    } else {
-      headerGlobal = await fetchGlobalData("header");
-      footerGlobal = await fetchGlobalData("footer");
-    }
+app.get("/:slug", async ({ params }: any) => {
+  const slug = params.slug;
 
-    return (
-      <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
-    );
-  })
-  .get("post/:slug", async ({ params }: any) => {
-    const slug = params.slug;
+  if (slug === "home" || slug === "index") {
+    return new Response(null, {
+      status: 302,
+      headers: { Location: "/" },
+    });
+  } else {
+    headerGlobal = await fetchGlobalData("header");
+    footerGlobal = await fetchGlobalData("footer");
+  }
 
-    const headerGlobal = await fetchGlobalData("header");
-    const footerGlobal = await fetchGlobalData("footer");
+  return (
+    <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} />
+  );
+})
 
-    return (
-      <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} isPost={true} />
-    );
-  })
+app.get("post/:slug", async ({ params }: any) => {
+  const slug = params.slug;
+
+  const headerGlobal = await fetchGlobalData("header");
+  const footerGlobal = await fetchGlobalData("footer");
+
+  return (
+    <Layout pageSlug={slug} header={headerGlobal} footer={footerGlobal} isPost={true} />
+  );
+})
 
 app.listen(port);
 

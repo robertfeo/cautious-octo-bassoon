@@ -2,7 +2,15 @@ import { Comment, Media } from "@/payload-types";
 import configPromise from "@payload-config";
 import { BlockFields, SerializedBlockNode } from "@payloadcms/richtext-lexical";
 import { JsonObject, getPayload } from "payload";
-import sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from "sanitize-html";
+
+export const sanitizeContent = (html: string) =>
+    sanitizeHtml(html, {
+        allowedTags: ["b", "i", "em", "strong", "a", "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "blockquote", "pre", "code", "img", "video", "iframe"],
+        allowedAttributes: {
+            "*": ["*"],
+        },
+    });
 
 export const renderToHTML = async (
     node: SerializedBlockNode,
@@ -44,15 +52,23 @@ async function renderHeroHTML(
         ? `style="background-image: url(${backgroundImage.url}); background-size: cover; background-position: center;"`
         : "";
 
-    return sanitizeHtml(`
+    return `
         <div class="relative flex flex-col justify-center p-8" ${backgroundStyle}>
-            <div class="absolute inset-0 bg-black bg-opacity-50 m-5"></div>
-            <div class="relative z-10">
-                ${heading ? `<h1 class="text-white text-3xl font-bold mb-4">${heading}</h1>` : ""}
+            <div style="
+                position: absolute; 
+                top: 0; 
+                right: 0; 
+                bottom: 0; 
+                left: 0; 
+                background-color: rgba(0, 0, 0, 0.5); 
+                margin: 1.25rem;
+            "></div>
+            <div class="relative p-6" style="z-index: 10;">
+                ${heading ? `<h1 class="text-white">${heading}</h1>` : ""}
                 ${text ? `<p class="text-white text-lg">${text}</p>` : ""}
             </div>
         </div>
-    `);
+    `;
 }
 
 function renderCodeHTML(fields: BlockFields<JsonObject>): string {
@@ -286,7 +302,7 @@ async function getMediaFromPayload(mediaId: number): Promise<Media> {
 export async function commentsAsHTML(comments: Comment[]): Promise<string> {
     return comments
         .map((comment) => {
-            return `
+            return sanitizeContent(`
             <div class="flex flex-col py-8">
                 <div class="p-8 flex flex-col bg-zinc-200">
                     <p>${comment.content}</p>
@@ -295,7 +311,7 @@ export async function commentsAsHTML(comments: Comment[]): Promise<string> {
                     </p>
                 </div>
             </div>
-            `;
+            `);
         })
         .join("");
 }
