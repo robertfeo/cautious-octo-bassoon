@@ -1,34 +1,26 @@
 {
-  "name": "htmx",
+  "name": "htmx-app",
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/server.tsx"
+    "dev": "bun dev:css | bun run --watch src/index.ts",
+    "build:css": "bunx tailwindcss -o public/global.css --minify",
+    "dev:css": "bunx tailwindcss -i ./src/styles/styles.css -o ./public/global.css --watch"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/html": "^1.1.1",
     "@elysiajs/static": "^1.1.1",
-    "@gtramontina.com/elysia-tailwind": "2.0.0",
-    "@rasla/logify": "^4.0.0",
+    "@gtramontina.com/elysia-tailwind": "^2.0.0",
     "@tqman/nice-logger": "^1.0.7",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.2",
-    "@types/sanitize-html": "^2.13.0",
-    "autoprefixer": "^10.4.20",
-    "dompurify": "^3.2.3",
-    "elysia": "^1.1.26",
-    "htmx.org": "2.0.4",
-    "jsdom": "^25.0.1",
-    "postcss": "^8.4.49",
-    "preact": "^10.25.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "sanitize-html": "^2.13.1",
-    "tailwindcss": "^3.4.16"
+    "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "autoprefixer": "^10.4.20",
+    "bun-types": "latest",
+    "concurrently": "^9.1.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
   },
-  "module": "src/server.tsx"
+  "module": "src/index.ts"
 }

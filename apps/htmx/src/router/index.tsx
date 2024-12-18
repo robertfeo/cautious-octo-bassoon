@@ -9,8 +9,15 @@ import { fetchGlobalData } from '../utils/payload';
 
 const router = new Elysia();
 
-let headerGlobal = await fetchGlobalData("header");
-let footerGlobal = await fetchGlobalData("footer");
+let headerGlobal = null;
+let footerGlobal = null;
+
+try {
+    headerGlobal = await fetchGlobalData("header");
+    footerGlobal = await fetchGlobalData("footer");
+} catch (error) {
+    console.error("Failed to fetch global data:", error);
+}
 
 router.use(cors({
     origin: "*",
