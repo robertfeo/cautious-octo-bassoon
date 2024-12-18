@@ -36,12 +36,10 @@ export const renderToHTML = async (
     }
 };
 
-async function renderHeroHTML(
-    fields: BlockFields<JsonObject>,
-): Promise<string> {
+async function renderHeroHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return "<div>Error: Missing or invalid fields data</div>";
+        return "<div class='error-message'>Error: Missing or invalid fields data</div>";
     }
 
     const { heading = "", text = "" } = fields;
@@ -49,26 +47,18 @@ async function renderHeroHTML(
     const backgroundImage = await getMediaFromPayload(fields.backgroundImage);
 
     const backgroundStyle = backgroundImage?.url
-        ? `style="background-image: url(${backgroundImage.url}); background-size: cover; background-position: center;"`
+        ? `style="background-image: url(${backgroundImage.url});"`
         : "";
 
     return `
-        <div class="relative flex flex-col justify-center p-8" ${backgroundStyle}>
-            <div style="
-                position: absolute; 
-                top: 0; 
-                right: 0; 
-                bottom: 0; 
-                left: 0; 
-                background-color: rgba(0, 0, 0, 0.5); 
-                margin: 1.25rem;
-            "></div>
-            <div class="relative p-6" style="z-index: 10;">
-                ${heading ? `<h1 class="text-white">${heading}</h1>` : ""}
-                ${text ? `<p class="text-white text-lg">${text}</p>` : ""}
+            <div class="hero-block" ${backgroundStyle}>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    ${heading ? `<h1 class="hero-heading">${heading}</h1>` : ""}
+                    ${text ? `<p class="hero-text">${text}</p>` : ""}
+                </div>
             </div>
-        </div>
-    `;
+        `;
 }
 
 function renderCodeHTML(fields: BlockFields<JsonObject>): string {
@@ -82,18 +72,15 @@ function renderCodeHTML(fields: BlockFields<JsonObject>): string {
     return `<pre><code>${code}</code></pre>`;
 }
 
-async function renderMediaHTML(
-    fields: BlockFields<JsonObject>,
-): Promise<string> {
+async function renderMediaHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
+        return `<div class="error-message">Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const { heading = "", text = "", alignment = "left" } = fields;
 
     const media = await getMediaFromPayload(fields.media);
-
     const isRightAligned = alignment === "right";
 
     const isYouTubeVideo = (url: string) =>
@@ -105,12 +92,10 @@ async function renderMediaHTML(
             if (isYouTubeVideo(media.url)) {
                 mediaContent = `
                     <iframe
-                        width="560"
-                        height="315"
                         src="${media.url}"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen
-                        class="w-full max-w-lg"
+                        class="media-block-video"
                     ></iframe>
                 `;
             } else {
@@ -118,9 +103,7 @@ async function renderMediaHTML(
                     <video
                         controls
                         src="${media.url}"
-                        width="560"
-                        height="315"
-                        class="w-full max-w-lg h-auto"
+                        class="media-block-video"
                     >
                         Your browser does not support the video tag.
                     </video>
@@ -131,58 +114,49 @@ async function renderMediaHTML(
                 <img
                     src="${media.url}"
                     alt="${media.alt || heading || "Media Block"}"
-                    class="object-cover w-full max-w-lg h-auto"
+                    class="media-block-image"
                 />
             `;
         }
     }
 
     return `
-        <div
-            class="flex flex-col md:flex-row ${isRightAligned ? "md:flex-row-reverse" : ""
-        } justify-between items-center"
-        >
-            <div class="flex flex-col text-center md:text-left max-w-md">
-                <h2 class="text-2xl font-bold mb-4">${heading}</h2>
-                ${text ? `<p class="text-justify">${text}</p>` : ""}
+        <div class="media-block-container ${isRightAligned ? "reverse" : ""}">
+            <div class="media-block-content">
+                <h2 class="media-block-heading">${heading}</h2>
+                ${text ? `<p class="media-block-text">${text}</p>` : ""}
             </div>
-            <div class="flex-1 max-w-lg">
+            <div class="media-block-media">
                 ${mediaContent}
             </div>
         </div>
     `;
 }
 
-async function renderTwoColumnHTML(
-    fields: BlockFields<JsonObject>,
-): Promise<string> {
+async function renderTwoColumnHTML(fields: BlockFields<JsonObject>): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
+        return `<div class="error-message">Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const { heading = "", text = "", direction = "default" } = fields;
 
     const isReverse = direction === "reverse";
-
     const image = await getMediaFromPayload(fields.image);
 
     return `
-        <div
-            class="flex flex-col md:flex-row ${isReverse ? "md:flex-row-reverse" : ""} justify-between gap-6"
-        >
-            <div class="flex flex-col text-center md:text-left">
-                <h2>${heading}</h2>
-                <p class="text-justify">${text}</p>
+        <div class="two-column-block ${isReverse ? "reverse" : ""}">
+            <div class="two-column-content">
+                <h2 class="two-column-heading">${heading}</h2>
+                <p class="two-column-text">${text}</p>
             </div>
-
-            <div>
+            <div class="two-column-image">
                 <img
-                    src="${image.url || ""}"
-                    alt="${image.alt || "Two Column Block Image"}"
+                    src="${image?.url || ""}"
+                    alt="${image?.alt || "Two Column Block Image"}"
                     width="500"
                     height="300"
-                    class="object-cover size-full"
+                    class="responsive-image"
                 />
             </div>
         </div>
@@ -194,7 +168,7 @@ async function renderRecentPostsHTML(
 ): Promise<string> {
     if (!fields || typeof fields !== "object") {
         console.error("Error: 'fields' is undefined or not an object.");
-        return `<div>Fehler: Fehlende oder ungültige Felderdaten</div>`;
+        return `<div class="error-message">Fehler: Fehlende oder ungültige Felderdaten</div>`;
     }
 
     const { heading = "", subheading = "", postLimit = 4 } = fields;
@@ -211,50 +185,44 @@ async function renderRecentPostsHTML(
         const postsHTML = posts.docs
             .map((post: any) => {
                 const thumbnailHTML = post.thumbnail
-                    ? `<img src="${post.thumbnail.url}" alt="${post.thumbnail.alt || "Post thumbnail"}" class="object-cover w-full h-full" />`
-                    : `<div class="bg-zinc-700 w-full h-full flex items-center justify-center">
-                        <span class="text-white">No Image</span>
-                    </div>`;
+                    ? `<img src="${post.thumbnail.url}" alt="${post.thumbnail.alt || "Post thumbnail"}" class="thumbnail" />`
+                    : `<div class="thumbnail placeholder">
+                            <span>No Image</span>
+                        </div>`;
 
                 const postDate = new Date(post.createdAt).toLocaleDateString();
 
                 return `
-                    <div class="overflow-hidden ring-1 ring-black ring-opacity-25">
-                        <div class="relative w-full h-48">
-                            ${thumbnailHTML}
-                        </div>
-                        <div class="flex flex-col gap-2 p-4">
-                            <h3 class="text-sm font-semibold text-pretty">
-                                <a class="no-underline text-zinc-600" href="/post/${post.slug}">
-                                    ${post.title}
-                                </a>
-                            </h3>
-                            <div className="flex flex-row justify-between items-center">
-                                <p className="text-sm text-zinc-600 mt-1">
-                                ${postDate}
-                                </p>
-                                <p className="text-sm text-zinc-600 mt-1">
-                                Likes: ${post.likes}
-                                </p>
+                        <div class="post-card">
+                            <div class="post-thumbnail">
+                                ${thumbnailHTML}
+                            </div>
+                            <div class="post-details">
+                                <h3 class="post-title">
+                                    <a href="/post/${post.slug}">${post.title}</a>
+                                </h3>
+                                <div class="post-meta">
+                                    <p class="post-date">${postDate}</p>
+                                    <p class="post-likes">Likes: ${post.likes}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
             })
             .join("");
 
         return `
-            <div>
-                <h2 class="text-3xl font-bold text-center">${heading}</h2>
-                <p class="text-lg text-center mt-2">${subheading}</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-                    ${postsHTML}
+                <div class="recent-posts-container">
+                    <h2 class="section-heading">${heading}</h2>
+                    <p class="section-subheading">${subheading}</p>
+                    <div class="posts-grid">
+                        ${postsHTML}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
     } catch (error) {
         console.error("Error fetching posts:", error);
-        return `<div>Error loading recent posts</div>`;
+        return `<div class="error-message">Error loading recent posts</div>`;
     }
 }
 
@@ -303,14 +271,14 @@ export async function commentsAsHTML(comments: Comment[]): Promise<string> {
     return comments
         .map((comment) => {
             return sanitizeContent(`
-            <div class="flex flex-col py-8">
-                <div class="p-8 flex flex-col bg-zinc-200">
-                    <p>${comment.content}</p>
-                    <p class="font-bold">
-                        By ${comment.author} on ${new Date(comment.createdAt).toLocaleDateString()}
-                    </p>
+                <div class="comment-wrapper">
+                    <div class="comment-content">
+                        <p>${comment.content}</p>
+                        <p class="comment-author">
+                            By ${comment.author} on ${new Date(comment.createdAt).toLocaleDateString()}
+                        </p>
+                    </div>
                 </div>
-            </div>
             `);
         })
         .join("");

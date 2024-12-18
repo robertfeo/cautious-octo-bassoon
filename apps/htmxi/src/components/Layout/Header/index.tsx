@@ -18,13 +18,13 @@ export const Header = ({ header }: any) => {
               : "/default-image.png"
           }
         />
-        <div class="flex flex-row gap-4">
+        <div hx-boost="true" class="flex flex-row gap-4">
           {header.navigation.map((item: any, index: any) => (
             <a
               class="hover:cursor-pointer hover:text-sky-500"
               key={index}
               href={`${process.env.HOST}${item.link}`}
-              hx-boost="true"
+              hx-push-url="true"
             >
               {item.label}
             </a>

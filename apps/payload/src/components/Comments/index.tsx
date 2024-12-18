@@ -81,7 +81,6 @@ export default function Comments({ slug }: CommentsBlockProps) {
           <button className="self-end px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" type="submit">
             Submit
           </button>
-
         </form>
       </div>
 
@@ -93,9 +92,9 @@ export default function Comments({ slug }: CommentsBlockProps) {
       {!loading && comments.length > 0 && (
         <div className="flex flex-col gap-8">
           {comments.map((comment) => (
-            <div className="p-8 flex flex-col bg-zinc-200" key={comment.id}>
+            <div className="p-4 pl-8 flex flex-col bg-zinc-200" key={comment.id}>
               <p>{comment.content}</p>
-              <p className="font-bold">
+              <p className="font-bold text-sm">
                 By {comment.author} on{" "}
                 {new Date(comment.createdAt).toLocaleDateString()}
               </p>

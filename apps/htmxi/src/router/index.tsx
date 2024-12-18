@@ -44,7 +44,7 @@ router.get("/:slug", async ({ params: { slug } }) => {
 router.get("post/:slug", async ({ params: { slug } }) => {
     return (
         <MainLayout header={headerGlobal} footer={footerGlobal}>
-            <Post pageSlug={slug} />
+            <Post slug={slug} />
         </MainLayout>
     );
 })

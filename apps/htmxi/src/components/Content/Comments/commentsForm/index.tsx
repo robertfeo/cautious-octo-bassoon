@@ -14,6 +14,7 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
                 hx-include="[name]"
                 hx-target="#comment-section"
                 hx-swap="innerHTML"
+                hx-boost="true"
                 class="flex flex-col gap-4"
             >
                 <label for="comment" class="font-bold">Comment</label>

@@ -27,12 +27,11 @@ export const RenderBlocks: React.FC<{
           const { blockType } = block;
 
           if (blockType && blockType in blockComponents) {
+            {/* @ts-expect-error */}
             const Block = blockComponents[blockType];
-
             if (Block) {
               return (
                 <div key={index}>
-                  {/* @ts-expect-error */}
                   <Block {...block} />
                 </div>
               );
