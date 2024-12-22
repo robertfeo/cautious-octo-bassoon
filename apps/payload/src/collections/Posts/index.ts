@@ -213,40 +213,6 @@ export const Posts: CollectionConfig = {
       },
     },
     {
-      path: "/likes/:slug/delete",
-      method: "post",
-      handler: async (req) => {
-        const slug = req.routeParams?.slug;
-        const post = await req.payload.find({
-          collection: "posts",
-          where: { slug: { equals: slug } },
-          limit: 1,
-        });
-
-        if (!post.docs.length) {
-          return new Response("Post not found", { status: 404 });
-        }
-
-        const postId = post.docs[0].id;
-        const currentLikes = post.docs[0].likes || 0;
-
-        const updatedLikes = currentLikes > 0 ? currentLikes - 1 : 0;
-
-        await req.payload.update({
-          collection: "posts",
-          id: postId,
-          data: { likes: updatedLikes },
-        });
-
-        return new Response(`<span>${updatedLikes} Likes</span>`, {
-          headers: {
-            "Content-Type": "text/html",
-            "Access-Control-Allow-Origin": "*",
-          },
-        });
-      },
-    },
-    {
       path: "/likes/:slug/toggle",
       method: "post",
       handler: async (req) => {

@@ -15,6 +15,7 @@ export const Content = ({ slug }: ContentProps) => {
                 hx-swap="innerHTML"
                 hx-target="#dynamic-content"
                 hx-cache="true"
+                hx-indicator="#loading"
             >
             </div>
         </main>

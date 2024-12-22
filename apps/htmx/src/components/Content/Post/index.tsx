@@ -1,6 +1,7 @@
 import { Html } from "@elysiajs/html";
 import Loading from "../../Loading";
-import { Comments } from "../Comments";
+import { Comments } from "./Comments";
+import Like from "./Like";
 
 type PostProps = {
     slug: string;
@@ -16,23 +17,11 @@ export const Post = ({ slug }: PostProps) => {
                 hx-trigger="load"
                 hx-swap="innerHTML"
                 hx-target="#dynamic-post-content"
+                hx-indicator="#loading"
             >
                 <Loading />
             </article>
-            <div class="flex flex-col w-4/6 justify-center mx-auto">
-                <div id="like-button" class="mt-2">
-                    <form
-                        hx-post={`${process.env.BACKEND_HOST}/api/posts/likes/${slug}/toggle`}
-                        hx-target="this"
-                        hx-swap="innerHTML"
-                    >
-                        <input type="hidden" name="liked" value="false" />
-                        <button id="btn-like" type="submit">
-                            👍 Like
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <Like slug={slug} />
             <Comments slug={slug} />
         </main>
     );

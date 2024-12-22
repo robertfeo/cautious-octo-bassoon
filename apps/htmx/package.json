@@ -11,7 +11,9 @@
     "@elysiajs/cookie": "^0.8.0",
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/html": "^1.1.1",
+    "@elysiajs/server-timing": "^1.1.0",
     "@elysiajs/static": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.6",
     "@gtramontina.com/elysia-tailwind": "^2.0.0",
     "@tqman/nice-logger": "^1.0.7",
     "elysia": "latest"

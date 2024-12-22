@@ -5,13 +5,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
-// Revalidate the cache every 60 seconds
 export const revalidate = 60;
-
-// Enable dynamic params to handle unknown slugs
 export const dynamicParams = true;
 
-// Generate metadata for each dynamic page
 export async function generateMetadata({
   params: paramsPromise,
 }: {
@@ -30,7 +26,6 @@ export async function generateMetadata({
   };
 }
 
-// Pre-generate paths at build time
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
 
