@@ -18,12 +18,12 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
-  csrf: ["http://localhost:3001"],
   cors: {
     origins: ["http://localhost:3000", "http://localhost:3001"],
     headers: [
       "Content-Type",
       "Access-Control-Allow-Origin",
+      "hx-boost",
       "hx-request",
       "hx-target",
       "hx-current-url",
@@ -34,6 +34,10 @@ export default buildConfig({
       "hx-post",
     ],
   },
+  csrf: [
+    'https://localhost:3000',
+    'https://localhost:3001',
+  ],
   telemetry: true,
   admin: {
     user: Users.slug,

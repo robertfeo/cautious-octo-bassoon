@@ -1,5 +1,9 @@
 import { Html } from "@elysiajs/html";
 
+export type FooterProps = {
+  footer: any;
+};
+
 export const Footer = ({ footer }: any) => {
   return (
     <footer class="py-14">

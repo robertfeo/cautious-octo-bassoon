@@ -14,11 +14,19 @@
   }
 }
 
+html,
+body {
+  @apply h-full;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   @apply bg-gray-50 text-gray-900;
   font-family: "Inter", sans-serif;
   line-height: 1.75;
-  margin: 0;
 }
 
 h1,
@@ -509,6 +517,34 @@ th {
 
 .htmx-request .htmx-indicator {
   display: inline-block;
+}
+
+#loading {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+#loading.active {
+  display: block;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+      transform: rotate(360deg);
+  }
 }
 
 /* Like Count */

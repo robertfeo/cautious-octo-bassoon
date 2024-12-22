@@ -8,6 +8,7 @@
     "dev:css": "bunx tailwindcss -i ./src/styles/styles.css -o ./public/global.css --watch"
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.8.0",
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/html": "^1.1.1",
     "@elysiajs/static": "^1.1.1",

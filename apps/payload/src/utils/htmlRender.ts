@@ -268,9 +268,12 @@ async function getMediaFromPayload(mediaId: number): Promise<Media> {
 }
 
 export async function commentsAsHTML(comments: Comment[]): Promise<string> {
-    return comments
-        .map((comment) => {
-            return sanitizeContent(`
+    if (!comments || comments.length === 0) {
+        return "<p>No comments yet.</p>";
+    } else {
+        return comments
+            .map((comment) => {
+                return sanitizeContent(`
                 <div class="comment-wrapper">
                     <div class="comment-content">
                         <p>${comment.content}</p>
@@ -280,6 +283,7 @@ export async function commentsAsHTML(comments: Comment[]): Promise<string> {
                     </div>
                 </div>
             `);
-        })
-        .join("");
+            })
+            .join("");
+    }
 }

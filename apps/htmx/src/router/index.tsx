@@ -1,3 +1,4 @@
+import cookie from '@elysiajs/cookie';
 import { cors } from '@elysiajs/cors';
 import { Html } from "@elysiajs/html";
 import { Elysia } from "elysia";
@@ -23,7 +24,9 @@ router.use(cors({
     origin: "*",
     allowedHeaders: ["Content-Type", "Access-Control-Allow-Origin", "hx-request", "hx-target", "hx-current-url", "hx-trigger", "hx-include", "hx-swap", "hx-headers", "hx-post"],
     credentials: true,
-}))
+}));
+
+router.use(cookie());
 
 router.get('/', async () => {
     const slug = "home";
@@ -54,7 +57,7 @@ router.get("post/:slug", async ({ params: { slug } }) => {
             <Post slug={slug} />
         </MainLayout>
     );
-})
+});
 
 router.onError(({ code }) => {
     switch (code) {

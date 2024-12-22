@@ -1,4 +1,5 @@
 import { Html } from "@elysiajs/html";
+import Loading from "../../Loading";
 import { Comments } from "../Comments";
 
 type PostProps = {
@@ -7,7 +8,7 @@ type PostProps = {
 
 export const Post = ({ slug }: PostProps) => {
     return (
-        <main class="flex-grow">
+        <main hx-trigger="load" class="flex-grow">
             <article
                 class="flex flex-col w-4/6 justify-center mx-auto"
                 id="dynamic-post-content"
@@ -16,7 +17,7 @@ export const Post = ({ slug }: PostProps) => {
                 hx-swap="innerHTML"
                 hx-target="#dynamic-post-content"
             >
-                <p class="htmx-indicator text-center">Loading Post...</p>
+                <Loading />
             </article>
             <div class="flex flex-col w-4/6 justify-center mx-auto">
                 <div id="like-button" class="mt-2">

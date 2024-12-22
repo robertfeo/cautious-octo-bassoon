@@ -15,6 +15,8 @@ const nextConfig = {
       "www.orientsoftware.com",
       "plus.unsplash.com",
       "static.vecteezy.com",
+      "i.postimg.cc",
+      "www.centrovacanzesanmarino.com",
     ],
   }
 };

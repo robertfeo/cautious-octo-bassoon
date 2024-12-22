@@ -7,7 +7,7 @@ type CommentFormProps = {
 export const CommentForm = ({ slug }: CommentFormProps) => {
     return (
         <div class="flex flex-col w-full justify-center mx-auto mt-8">
-            <h3 className="text-lg font-bold mb-4">Add a comment</h3>
+            <h3 class="text-lg font-bold mb-4">Add a comment</h3>
             <form
                 hx-post={`${process.env.BACKEND_HOST}/api/comments/create`}
                 hx-headers='{"Content-Type": "application/json"}'
@@ -15,6 +15,7 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
                 hx-target="#comment-section"
                 hx-swap="innerHTML"
                 hx-boost="true"
+                hx-indicator="#loading"
                 class="flex flex-col gap-4"
             >
                 <label for="comment" class="font-bold">Comment</label>
@@ -67,6 +68,9 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
                     Submit
                 </button>
             </form>
+            <div id="loading" class="absolute w-full h-full top-0 left-0 bg-white bg-opacity-50 flex items-center justify-center">
+                <div class="spinner"></div>
+            </div>
         </div>
     );
 };

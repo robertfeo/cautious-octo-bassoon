@@ -1,5 +1,9 @@
 import { Html } from "@elysiajs/html";
 
+export type HeaderProps = {
+  header: any;
+};
+
 export const Header = ({ header }: any) => {
   return (
     <header class="py-14">
@@ -18,7 +22,7 @@ export const Header = ({ header }: any) => {
               : "/default-image.png"
           }
         />
-        <div hx-boost="true" class="flex flex-row gap-4">
+        <nav hx-boost="true" class="flex flex-row gap-4">
           {header.navigation.map((item: any, index: any) => (
             <a
               class="hover:cursor-pointer hover:text-sky-500"
@@ -29,7 +33,7 @@ export const Header = ({ header }: any) => {
               {item.label}
             </a>
           ))}
-        </div>
+        </nav>
       </div>
     </header>
   );

@@ -16,7 +16,6 @@ export const Content = ({ slug }: ContentProps) => {
                 hx-target="#dynamic-content"
                 hx-cache="true"
             >
-                <p class="text-center">Loading...</p>
             </div>
         </main>
     );

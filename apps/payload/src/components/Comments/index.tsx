@@ -17,19 +17,76 @@ export default function Comments({ slug }: CommentsBlockProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [formSubmitting, setFormSubmitting] = useState<boolean>(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  async function createComment(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setFormSubmitting(true);
+    setFormError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const commentData = {
+      slug,
+      author: formData.get("name"),
+      content: formData.get("content"),
+      email: formData.get("email"),
+      website: formData.get("website"),
+    };
+
+    console.log("Comment data being sent:", commentData);
+
+    // Validate required fields
+    if (!slug || !formData.get("name") || !formData.get("content")) {
+      setFormError("Slug, author, and content are required.");
+      setFormSubmitting(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/comments/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(commentData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to submit comment.");
+      }
+
+      const newComment = await res.json();
+
+      // Append the new comment to the list
+      setComments((prevComments) => [...prevComments, newComment]);
+    } catch (err) {
+      console.error("Error creating comment:", err);
+      setFormError("Could not submit the comment. Please try again.");
+    } finally {
+      setFormSubmitting(false);
+    }
+  }
 
   useEffect(() => {
     async function fetchComments() {
       try {
         setLoading(true);
         const res = await fetch(`/api/comments/by-slug/${slug}`);
+
         if (!res.ok) {
-          throw new Error("Failed to fetch comments");
+          console.error("Failed to fetch comments:", res.status, res.statusText);
+          throw new Error(`HTTP error! Status: ${res.status}`);
         }
-        const data = await res.json();
+
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : [];
+
         setComments(data || []);
-        console.log("Comments fetched: ", JSON.stringify(comments));
+        console.log("Comments fetched: ", JSON.stringify(data));
       } catch (err) {
+        console.error("Error fetching comments:", err);
         setError("Could not load comments. Please try again later.");
       } finally {
         setLoading(false);
@@ -43,7 +100,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
     <div className="comments-block mt-8">
       <div>
         <h3 className="text-lg font-bold mb-4">Add a comment</h3>
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={createComment}>
           <label className="font-bold" htmlFor="comment">Comment</label>
           <textarea
             id="comment"
@@ -79,7 +136,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
             className="p-4 border border-gray-300 rounded-lg"
           />
           <button className="self-end px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" type="submit">
-            Submit
+            {formSubmitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
@@ -92,7 +149,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
       {!loading && comments.length > 0 && (
         <div className="flex flex-col gap-8">
           {comments.map((comment) => (
-            <div className="p-4 pl-8 flex flex-col bg-zinc-200" key={comment.id}>
+            <div key={`${comment.id}-${comment.createdAt}`} className="p-4 pl-8 flex flex-col bg-zinc-200">
               <p>{comment.content}</p>
               <p className="font-bold text-sm">
                 By {comment.author} on{" "}

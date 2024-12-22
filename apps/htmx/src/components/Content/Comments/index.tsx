@@ -14,11 +14,9 @@ export const Comments = ({ slug }: CommentsProps) => {
             <div
                 id="comment-section"
                 hx-get={`${process.env.BACKEND_HOST}/api/comments/html-by-slug/${slug}`}
-                hx-trigger="load"
+                hx-trigger="revealed"
                 hx-swap="innerHTML"
-            >
-                <p class="text-center" hx-swap-oob="true">Loading comments...</p>
-            </div>
+            ></div>
         </div>
     );
 };

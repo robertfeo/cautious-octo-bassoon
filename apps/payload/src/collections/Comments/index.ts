@@ -126,33 +126,77 @@ export const Comments: CollectionConfig = {
       path: "/create",
       method: "post",
       handler: async (req) => {
-        const body = new URLSearchParams(await req.text?.());
-
-        const slug = body.get("slug");
-        const author = sanitizeContent(body.get("content") as string);
-        const content = sanitizeContent(body.get("content") as string);
-        const website = sanitizeContent(body.get("content") as string);
-        const email = sanitizeContent(body.get("content") as string);
-
-        if (!slug || !author || !content) {
-          return new Response(
-            JSON.stringify({ message: "Slug, author, and content are required." }),
-            {
-              status: 400,
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-              },
-            }
-          );
-        }
-
         try {
+          const contentType = req.headers.get("content-type");
+          let body;
+
+          if (contentType === "application/json") {
+            if (req.json) {
+              body = await req.json();
+            } else {
+              console.log("Invalid JSON body.");
+              return new Response(
+                JSON.stringify({ message: "Invalid JSON body." }),
+                {
+                  status: 400,
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                  },
+                }
+              );
+            }
+          } else if (contentType === "application/x-www-form-urlencoded") {
+            const urlEncodedBody = new URLSearchParams(await req.text?.());
+            body = Object.fromEntries(urlEncodedBody.entries());
+          } else {
+            return new Response(
+              JSON.stringify({ message: "Unsupported Content-Type." }),
+              {
+                status: 400,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            );
+          }
+
+          const { slug, name, content, website, email } = body;
+
+          const sanitizedAuthor = sanitizeContent(name);
+          const sanitizedContent = sanitizeContent(content);
+          const sanitizedWebsite = sanitizeContent(website);
+          const sanitizedEmail = sanitizeContent(email);
+
+          if ((!slug || !sanitizedAuthor || !sanitizedContent) && contentType === "application/json") {
+            return new Response(
+              JSON.stringify({ message: "Slug, author, and content are required." }),
+              {
+                status: 400,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            );
+          }
+          else if ((!slug || !sanitizedAuthor || !sanitizedContent) && contentType === "application/x-www-form-urlencoded") {
+            return new Response(
+              `<p>Slug, author, and content are required.</p>`,
+              {
+                status: 400,
+                headers: {
+                  "Content-Type": "application/html",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            );
+          }
+
           const post = await req.payload.find({
             collection: "posts",
-            where: {
-              slug: { equals: slug },
-            },
+            where: { slug: { equals: slug } },
             limit: 1,
           });
 
@@ -169,41 +213,48 @@ export const Comments: CollectionConfig = {
             collection: "comments",
             data: {
               post: postId,
-              author,
-              content,
-              website,
-              email,
+              author: sanitizedAuthor,
+              content: sanitizedContent,
+              website: sanitizedWebsite,
+              email: sanitizedEmail,
             },
           });
 
           const comments = await req.payload.find({
             collection: "comments",
             depth: 2,
-            where: {
-              "post.slug": {
-                equals: slug,
-              },
-            },
+            where: { "post.slug": { equals: slug } },
           });
 
-          return new Response(
-            await commentsAsHTML(comments.docs),
-            {
-              headers: {
-                "Content-Type": "text/html",
-                "Access-Control-Allow-Origin": "*",
-              },
-            }
-          );
+          if (contentType === "application/json") {
+            return new Response(
+              JSON.stringify(comments.docs),
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            );
+          } else {
+            return new Response(
+              await commentsAsHTML(comments.docs),
+              {
+                headers: {
+                  "Content-Type": "text/html",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            );
+          }
         } catch (error) {
-          console.error(error);
+          console.error("Error creating comment:", error);
           return new Response(
             JSON.stringify({ message: "Internal Server Error." }),
             { status: 500, headers: { "Content-Type": "application/json" } }
           );
         }
       },
-    },
+    }
   ],
-  timestamps: true,
 };
