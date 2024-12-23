@@ -104,10 +104,17 @@ export const Pages: CollectionConfig = {
           return new Response("Page not found", { status: 404 });
         }
 
+        const lastModified = new Date(page.docs[0].updatedAt).toUTCString();
+
+        if (req.headers.get("if-modified-since") === lastModified) {
+          return new Response(null, { status: 304 });
+        }        
+
         return new Response(page.docs[0].pageHtml, {
           headers: {
             "Content-Type": "text/html",
             "Access-Control-Allow-Origin": "*",
+            "Last-Modified": lastModified,
           },
         });
       },

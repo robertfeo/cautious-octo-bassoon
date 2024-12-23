@@ -13,12 +13,13 @@ import { Posts } from "./collections/Posts";
 import { Users } from "./collections/Users";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
+import { getServerSideURL } from "./utils/getURL";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
-  cors: {
+  /* cors: {
     origins: ["http://localhost:3000", "http://localhost:3001"],
     headers: [
       "Content-Type",
@@ -33,11 +34,23 @@ export default buildConfig({
       "hx-headers",
       "hx-post",
     ],
+  }, */
+  cors: {
+    origins: [getServerSideURL(), "http://localhost:3001"].filter(Boolean),
+    headers: [
+      "Content-Type",
+      "Access-Control-Allow-Origin",
+      "hx-boost",
+      "hx-request",
+      "hx-target",
+      "hx-current-url",
+      "hx-trigger",
+      "hx-include",
+      "hx-swap",
+      "hx-headers",
+      "hx-post",
+    ],
   },
-  csrf: [
-    'https://localhost:3000',
-    'https://localhost:3001',
-  ],
   telemetry: true,
   admin: {
     user: Users.slug,

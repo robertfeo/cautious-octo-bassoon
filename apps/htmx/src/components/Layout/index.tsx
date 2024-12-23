@@ -8,7 +8,7 @@ export default function MainLayout(props: { header: HeaderProps, footer: FooterP
             <head>
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <meta name="htmx-config" content='{"selfRequestsOnly":false}'></meta>
+                <meta name="htmx-config" content='{"selfRequestsOnly":false,"allowScriptTags":false}'></meta>
                 <link href="/global.css" rel="stylesheet" />
                 <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
                 <script>htmx.config.globalViewTransitions = true</script>

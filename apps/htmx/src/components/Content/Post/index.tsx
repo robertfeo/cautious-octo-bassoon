@@ -16,8 +16,7 @@ export const Post = ({ slug }: PostProps) => {
                 hx-get={`${process.env.BACKEND_HOST}/api/posts/by-slug/${slug}`}
                 hx-trigger="load"
                 hx-swap="innerHTML"
-                hx-target="#dynamic-post-content"
-                hx-indicator="#loading"
+                hx-target="this"
             >
                 <Loading />
             </article>

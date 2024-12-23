@@ -13,9 +13,8 @@ export const Content = ({ slug }: ContentProps) => {
                 hx-get={`${process.env.BACKEND_HOST}/api/pages/by-slug/${slug}`}
                 hx-trigger="load"
                 hx-swap="innerHTML"
-                hx-target="#dynamic-content"
+                hx-target="this"
                 hx-cache="true"
-                hx-indicator="#loading"
             >
             </div>
         </main>
