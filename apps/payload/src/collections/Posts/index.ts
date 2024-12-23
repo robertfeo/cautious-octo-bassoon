@@ -5,6 +5,7 @@ import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { MediaBlock } from "@/blocks/MediaBlock/config";
 import { BlockConverterFeature } from "@/features/BlockConverterFeature";
 import { slugField } from "@/fields/slug";
+import { access_control_headers } from "@/utils/headers";
 import {
   BlocksFeature,
   FixedToolbarFeature,
@@ -146,14 +147,22 @@ export const Posts: CollectionConfig = {
         if (contentHtml == null || contentHtml.length === 0) {
           return new Response(null, {
             headers: {
-              "Access-Control-Allow-Origin": "*",
+              ...access_control_headers,
             },
           });
         } else {
+          const lastModified = new Date(data.docs[0].updatedAt).toUTCString();
+
+          if (req.headers.get("if-modified-since") === lastModified) {
+            return new Response(null, { status: 304 });
+          }
+
           return new Response(contentHtml, {
             headers: {
+              ...access_control_headers,
               "Content-Type": "text/html",
-              "Access-Control-Allow-Origin": "*",
+              "Last-Modified": lastModified,
+              "Cache-Control": "max-age=500, must-revalidate",
             },
           });
         }

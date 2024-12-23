@@ -108,42 +108,17 @@ export const Pages: CollectionConfig = {
 
         if (req.headers.get("if-modified-since") === lastModified) {
           return new Response(null, { status: 304 });
-        }        
+        }
 
         return new Response(page.docs[0].pageHtml, {
           headers: {
             "Content-Type": "text/html",
             "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Hx-Request",
+            "Access-Control-Max-Age": "86400",
             "Last-Modified": lastModified,
-          },
-        });
-      },
-    },
-    {
-      path: "/raw/:slug",
-      method: "get",
-      handler: async (req) => {
-        const slug = req.routeParams?.slug;
-
-        const page = await req.payload.find({
-          collection: "pages",
-          depth: 2,
-          limit: 1,
-          where: {
-            slug: {
-              equals: slug,
-            },
-          },
-        });
-
-        if (page.docs.length === 0) {
-          return new Response("Page not found", { status: 404 });
-        }
-
-        return new Response(JSON.stringify(page.docs[0]), {
-          headers: {
-            "Content-Type": "text/json",
-            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": "max-age=3600, must-revalidate",
           },
         });
       },
