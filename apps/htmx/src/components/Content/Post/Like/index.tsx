@@ -6,26 +6,20 @@ type LikeProps = {
 
 export default function Like(props: LikeProps): JSX.Element {
     return (
-        <div class="flex flex-col w-4/6 justify-center mx-auto">
-            <div id="like-button" class="mt-2">
+        <div class="my-4 flex flex-col items-center">
+            <div id="like-button">
                 <form
+                    class="like-form"
                     hx-post={`${process.env.BACKEND_HOST}/api/posts/likes/${props.slug}/toggle`}
                     hx-target="this"
-                    hx-swap="innerHTML"
+                    hx-swap="outerHTML"
                 >
                     <input type="hidden" name="liked" value="false" />
-                    <button id="btn-like" type="submit">
-                        👍 Like
+                    <button id="btn-like" class="like-button" type="submit">
+                        👍
                     </button>
                 </form>
             </div>
         </div>
     );
-};
-
-
-
-
-
-
-
+}

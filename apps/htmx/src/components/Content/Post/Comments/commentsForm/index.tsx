@@ -10,6 +10,7 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
             <h3 class="text-lg font-bold mb-4">Add a comment</h3>
             <form
                 hx-post={`${process.env.BACKEND_HOST}/api/comments/create`}
+                hx-disabled-elt="submit-btn"
                 hx-headers='{"Content-Type": "application/json"}'
                 hx-include="[name]"
                 hx-target="#comment-section"
@@ -62,6 +63,7 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
                     value={slug}
                 />
                 <button
+                    id="submit-btn"
                     type="submit"
                     class="self-end px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                 >

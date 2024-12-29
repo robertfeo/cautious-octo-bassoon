@@ -579,12 +579,13 @@ video {
   margin-right: auto;
 }
 
-.mb-4 {
+.my-4 {
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
-.mt-2 {
-  margin-top: 0.5rem;
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .mt-4 {
@@ -1457,7 +1458,50 @@ th {
 
 /* LIKES */
 
-.like-buttons {
+.like-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  padding: 0.5rem;
+}
+
+.like-count {
+  color: #333;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0;
+  /* Remove default <p> margin */
+}
+
+.like-button {
+  background-color: #2563eb;
+  /* A nice blue */
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease;
+}
+
+.like-button:hover {
+  background-color: #1d4ed8;
+  /* Darker blue on hover */
+}
+
+.like-button:active {
+  background-color: #1e40af;
+  /* Even darker on click */
+  transform: scale(0.97);
+  /* Slight “press” effect */
+}
+
+/* .like-buttons {
   display: flex;
   gap: 10px;
   margin-top: 15px;
@@ -1487,7 +1531,7 @@ th {
   background-color: #ddd;
   color: #aaa;
   cursor: not-allowed;
-}
+} */
 
 /* Loading Indicator */
 

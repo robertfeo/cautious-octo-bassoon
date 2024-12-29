@@ -8,11 +8,13 @@ import { getPayload } from "payload";
 export const revalidate = 60;
 export const dynamicParams = true;
 
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params: paramsPromise,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const params = await paramsPromise;
   const slug = params.slug || "home";
 
@@ -39,7 +41,7 @@ export async function generateStaticParams() {
   }));
 }
 
-const Page = async ({ params: paramsPromise }: { params: Promise<{ slug: string }> }) => {
+const Page = async ({ params: paramsPromise }: PageProps) => {
   const params = await paramsPromise;
   const slug = params.slug || "home";
 
@@ -64,7 +66,7 @@ const Page = async ({ params: paramsPromise }: { params: Promise<{ slug: string 
   return (
     <>
       <div className="flex flex-col w-4/6 justify-center mx-auto">
-        <RichText content={page.content || []} enableGutter={false} />
+        <RichText content={page.content || []} />
       </div>
     </>
   );

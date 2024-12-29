@@ -6,8 +6,6 @@ import { serializeLexical } from "./serialize";
 type Props = {
   className?: string;
   content: Record<string, any>;
-  enableGutter?: boolean;
-  enableProse?: boolean;
 };
 
 const RichText: React.FC<Props> = ({
