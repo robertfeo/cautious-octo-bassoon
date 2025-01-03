@@ -1473,12 +1473,10 @@ th {
   font-weight: 600;
   font-size: 0.9rem;
   margin: 0;
-  /* Remove default <p> margin */
 }
 
 .like-button {
   background-color: #2563eb;
-  /* A nice blue */
   color: #fff;
   padding: 0.5rem 0.75rem;
   border: none;
@@ -1491,47 +1489,12 @@ th {
 
 .like-button:hover {
   background-color: #1d4ed8;
-  /* Darker blue on hover */
 }
 
 .like-button:active {
   background-color: #1e40af;
-  /* Even darker on click */
   transform: scale(0.97);
-  /* Slight “press” effect */
 }
-
-/* .like-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.like-buttons button {
-  background-color: #f4f4f4;
-  border: 2px solid #e2e2e2;
-  border-radius: 5px;
-  color: #333;
-  font-size: 16px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.like-buttons button:hover {
-  background-color: #e2e2e2;
-  border-color: #ccc;
-}
-
-.like-buttons button:active {
-  transform: scale(0.98);
-}
-
-.like-buttons button:disabled {
-  background-color: #ddd;
-  color: #aaa;
-  cursor: not-allowed;
-} */
 
 /* Loading Indicator */
 
