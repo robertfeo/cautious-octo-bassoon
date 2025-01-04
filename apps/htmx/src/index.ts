@@ -7,7 +7,7 @@ import { logger } from "@tqman/nice-logger";
 import { Elysia } from "elysia";
 import router from "./router";
 
-const port = process.env.PORT || 3001;
+const port = process.env.HTMX_PORT || 3001;
 
 const app = new Elysia()
 

@@ -17,12 +17,13 @@ import { getServerSideURL } from "./utils/getURL";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+const HTMX_HOST = process.env.HTMX_CONTAINER_NAME || "localhost";
+const HTMX_PORT = process.env.HTMX_PORT || 3001;
 
 export default buildConfig({
   cors: {
-    origins: [getServerSideURL(), "http://localhost:3001"].filter(Boolean),
+    origins: [getServerSideURL(), `http://${HTMX_HOST}:${HTMX_PORT}`].filter(Boolean),
     headers: [
-      /* ...Object.keys(access_control_headers), */
       "hx-boost",
       "hx-request",
       "hx-target",
@@ -53,5 +54,14 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || "",
     },
   }),
-  sharp
+  sharp,
+  endpoints: [
+    {
+      path: '/health',
+      method: 'get',
+      handler: async () => {
+        return Response.json({ status: 'ok' });
+      },
+    },
+  ],
 });

@@ -1,20 +1,51 @@
 services:
-  #next-payload:
-  #  container_name: next-payload
-  #  image: node:18-alpine
-  #  ports:
-  #    - '3000:3000'
-  #  volumes:
-  #    - ./next-payload:/home/node/app
-  #    - ./next-payload/node_modules:/home/node/app/node_modules
-  #  working_dir: /home/node/app/
-  #  command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
-  #  depends_on:
-  #    - database
-  #  env_file:
-  #    - .env
-  #  networks:
-  #    - simple-blog-network
+  next-payload:
+    container_name: ${PAYLOAD_CONTAINER_NAME}
+    image: node:18-alpine
+    ports:
+      - "${PAYLOAD_PORT}:3000"
+    volumes:
+      - ./apps/payload:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    working_dir: /home/node/app/
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/globals/header"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - database
+    env_file:
+      - .env
+    environment:
+      DATABASE_URI: "${DATABASE_URI}"
+      PAYLOAD_SECRET: "${PAYLOAD_SECRET}"
+      PAYLOAD_HOST: "${PAYLOAD_HOST}"
+    networks:
+      - ${NETWORK_NAME}
+
+  htmx-elysiajs:
+    container_name: ${HTMX_CONTAINER_NAME}
+    build:
+      context: ./apps/htmx
+      dockerfile: Dockerfile
+      args:
+        HTMX_PORT: "${HTMX_PORT}"
+        HTMX_HOST: "${HTMX_HOST}"
+        PAYLOAD_HOST: "${PAYLOAD_HOST}"
+    ports:
+      - "${HTMX_PORT}:3001"
+    env_file:
+      - .env
+    environment:
+      HTMX_PORT: "${HTMX_PORT}"
+      HTMX_HOST: "${HTMX_HOST}"
+      PAYLOAD_HOST: "${PAYLOAD_HOST}"
+    depends_on:
+      - ${PAYLOAD_CONTAINER_NAME}
+    networks:
+      - ${NETWORK_NAME}
 
   database:
     container_name: database
@@ -22,33 +53,45 @@ services:
     restart: always
     shm_size: 128mb
     ports:
-      - 5432:5432
+      - "${DATABASE_PORT}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-    networks:
-      - simple-blog-network
     env_file:
       - .env
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    networks:
+      - ${NETWORK_NAME}
 
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
     restart: always
     ports:
-      - '5050:80'
+      - "${PGADMIN_PORT}:80"
     depends_on:
       - database
-    networks:
-      - simple-blog-network
+    volumes:
+      - pg_data:/var/lib/pgadmin
     env_file:
       - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+    networks:
+      - ${NETWORK_NAME}
 
 networks:
   simple-blog-network:
-    name: simple-blog-network
+    name: ${NETWORK_NAME}
     driver: bridge
 
 volumes:
+  pg_data:
+      name: pg_data
   db_data:
     name: db_data
   node_modules:
+    name: node_modules

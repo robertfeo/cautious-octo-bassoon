@@ -13,7 +13,7 @@ export const Post = ({ slug }: PostProps) => {
             <article
                 class="flex flex-col w-4/6 justify-center mx-auto"
                 id="dynamic-post-content"
-                hx-get={`${process.env.BACKEND_HOST}/api/posts/by-slug/${slug}`}
+                hx-get={`${process.env.PAYLOAD_HOST}/api/posts/by-slug/${slug}`}
                 hx-trigger="load"
                 hx-swap="innerHTML"
                 hx-target="this"

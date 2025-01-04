@@ -9,7 +9,7 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
         <div class="flex flex-col w-full justify-center mx-auto mt-8">
             <h3 class="text-lg font-bold mb-4">Add a comment</h3>
             <form
-                hx-post={`${process.env.BACKEND_HOST}/api/comments/create`}
+                hx-post={`${process.env.PAYLOAD_HOST}/api/comments/create`}
                 hx-disabled-elt="submit-btn"
                 hx-headers='{"Content-Type": "application/json"}'
                 hx-include="[name]"

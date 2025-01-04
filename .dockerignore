@@ -1,33 +1,33 @@
 # Ignore node_modules directory
-next-payload/node_modules
+apps/*/node_modules
 
 # Ignore log files
-next-payload/npm-debug.log*
-next-payload/yarn-debug.log*
-next-payload/yarn-error.log*
+apps/*/npm-debug.log*
+apps/*/yarn-debug.log*
+apps/*/yarn-error.log*
 
 # Ignore environment variable files
-next-payload/.env
+apps/*/.env
 
 # Ignore build output
-next-payload/dist
-next-payload/build
+apps/*/dist
+apps/*/build
 
 # Ignore coverage directory
-next-payload/coverage
+apps/*/coverage
 
 # Ignore temporary files
-next-payload/tmp
-next-payload/temp
+apps/*/tmp
+apps/*/temp
 
 # Ignore editor directories and files
-next-payload/.idea
-next-payload/.vscode
-next-payload/*.suo
-next-payload/*.ntvs*
-next-payload/*.njsproj
-next-payload/*.sln
+apps/*/.idea
+apps/*/.vscode
+apps/*/*.suo
+apps/*/*.ntvs*
+apps/*/*.njsproj
+apps/*/*.sln
 
 # Ignore OS generated files
-next-payload/.DS_Store
-next-payload/Thumbs.db
+apps/*/.DS_Store
+apps/*/Thumbs.db

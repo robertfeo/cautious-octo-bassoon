@@ -1,15 +1,17 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
-
 /node_modules
+/.turbo
+/.pnpm-store
+/package-lock.json
+/pnpm-lock.yaml
 
 # misc
 .vscode
 .env
-.turbo
-package-lock.json
-pnpm-lock.yaml
 .dockerignore
 
 apps/*/node_modules
-pnpm-lock.yaml
+apps/*/.pnpm-store
+apps/*/.pnpm-lock.yaml
+apps/*/.dockerignore
 apps/htmx/bun.lockb
+apps/payload/pnpm-lock.yaml

@@ -10,7 +10,7 @@ export const Content = ({ slug }: ContentProps) => {
             <div
                 class="flex flex-col gap-10 w-4/6 justify-center mx-auto"
                 id="dynamic-content"
-                hx-get={`${process.env.BACKEND_HOST}/api/pages/by-slug/${slug}`}
+                hx-get={`${process.env.PAYLOAD_HOST}/api/pages/by-slug/${slug}`}
                 hx-trigger="load"
                 hx-swap="innerHTML"
                 hx-target="this"

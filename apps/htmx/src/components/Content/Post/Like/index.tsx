@@ -10,7 +10,7 @@ export default function Like(props: LikeProps): JSX.Element {
             <div id="like-button">
                 <form
                     class="like-form"
-                    hx-post={`${process.env.BACKEND_HOST}/api/posts/likes/${props.slug}/toggle`}
+                    hx-post={`${process.env.PAYLOAD_HOST}/api/posts/likes/${props.slug}/toggle`}
                     hx-target="this"
                     hx-swap="outerHTML"
                 >
