@@ -32,7 +32,7 @@ export default async function HeaderServer() {
               <Link
                 className="hover:cursor-pointer hover:text-sky-500"
                 key={index}
-                href={process.env.HOST + item.link}
+                href={process.env.PAYLOAD_LOCALHOST + item.link}
               >
                 {item.label}
               </Link>

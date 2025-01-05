@@ -20,9 +20,5 @@
     "node": ">=20.11.1"
   },
   "pnpm": {
-    "overrides": {
-      "@types/react": "catalog:next15",
-      "@types/react-dom": "catalog:next15"
-    }
   }
 }

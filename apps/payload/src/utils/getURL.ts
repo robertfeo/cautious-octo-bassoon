@@ -29,3 +29,14 @@ export const getClientSideURL = () => {
 
     return process.env.NEXT_PUBLIC_SERVER_URL || ''
 }
+
+export function getAllowedOrigins(): string[] {
+    const serverSideURL = process.env.PAYLOAD_HOST || "http://localhost:3000";
+    const htmxContainerURL = process.env.HTMX_CONTAINER_NAME && process.env.HTMX_PORT
+        ? `http://${process.env.HTMX_CONTAINER_NAME}:${process.env.HTMX_PORT}`
+        : null;
+
+    const localhostURL = "http://localhost:3001";
+
+    return [serverSideURL, localhostURL, htmxContainerURL].filter(Boolean) as string[];
+}

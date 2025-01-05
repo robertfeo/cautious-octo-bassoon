@@ -89,6 +89,8 @@ export const Pages: CollectionConfig = {
       handler: async (req) => {
         const slug = req.routeParams?.slug;
 
+        console.log("slug", slug);
+
         const page = await req.payload.find({
           collection: "pages",
           depth: 2,
@@ -116,9 +118,9 @@ export const Pages: CollectionConfig = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Hx-Request",
-            "Access-Control-Max-Age": "86400",
+            /* "Access-Control-Max-Age": "86400",
             "Last-Modified": lastModified,
-            "Cache-Control": "max-age=3600, must-revalidate",
+            "Cache-Control": "max-age=3600, must-revalidate", */
           },
         });
       },

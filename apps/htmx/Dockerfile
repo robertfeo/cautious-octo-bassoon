@@ -1,4 +1,10 @@
-FROM oven/bun
+FROM oven/bun:1.1.42
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    iputils-ping \
+    bash && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -23,7 +29,6 @@ COPY src src
 COPY tsconfig.json .
 COPY public public
 
-ENV NODE_ENV production
 CMD ["bun", "src/index.ts"]
 
 EXPOSE $HTMX_PORT

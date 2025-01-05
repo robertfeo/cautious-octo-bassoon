@@ -13,16 +13,14 @@ import { Posts } from "./collections/Posts";
 import { Users } from "./collections/Users";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
-import { getServerSideURL } from "./utils/getURL";
+import { getAllowedOrigins } from "./utils/getURL";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
-const HTMX_HOST = process.env.HTMX_CONTAINER_NAME || "localhost";
-const HTMX_PORT = process.env.HTMX_PORT || 3001;
 
 export default buildConfig({
   cors: {
-    origins: [getServerSideURL(), `http://${HTMX_HOST}:${HTMX_PORT}`].filter(Boolean),
+    origins: getAllowedOrigins(),
     headers: [
       "hx-boost",
       "hx-request",
@@ -57,10 +55,16 @@ export default buildConfig({
   sharp,
   endpoints: [
     {
-      path: '/health',
-      method: 'get',
-      handler: async () => {
-        return Response.json({ status: 'ok' });
+      path: "/*",
+      method: "options",
+      handler: async (req) => {
+        return new Response(null, {
+          headers: {
+            "Access-Control-Allow-Origin": req.headers.get("Origin") || "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Hx-Request",
+          },
+        });
       },
     },
   ],

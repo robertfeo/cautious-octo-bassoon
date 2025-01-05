@@ -1,8 +1,8 @@
 /node_modules
 /.turbo
 /.pnpm-store
-/package-lock.json
-/pnpm-lock.yaml
+package-lock.json
+pnpm-lock.yaml
 
 # misc
 .vscode

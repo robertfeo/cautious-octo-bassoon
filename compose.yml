@@ -21,9 +21,9 @@ services:
     environment:
       DATABASE_URI: "${DATABASE_URI}"
       PAYLOAD_SECRET: "${PAYLOAD_SECRET}"
-      PAYLOAD_HOST: "${PAYLOAD_HOST}"
+      PAYLOAD_LOCALHOST: "${PAYLOAD_LOCALHOST}"
     networks:
-      - ${NETWORK_NAME}
+      - simple-blog-network
 
   htmx-elysiajs:
     container_name: ${HTMX_CONTAINER_NAME}
@@ -45,7 +45,7 @@ services:
     depends_on:
       - ${PAYLOAD_CONTAINER_NAME}
     networks:
-      - ${NETWORK_NAME}
+      - simple-blog-network
 
   database:
     container_name: database
@@ -63,7 +63,7 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_DB: "${POSTGRES_DB}"
     networks:
-      - ${NETWORK_NAME}
+      - simple-blog-network
 
   pgadmin:
     container_name: pgadmin
@@ -81,11 +81,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
     networks:
-      - ${NETWORK_NAME}
+      - simple-blog-network
 
 networks:
   simple-blog-network:
-    name: ${NETWORK_NAME}
+    name: simple-blog-network
     driver: bridge
 
 volumes:
