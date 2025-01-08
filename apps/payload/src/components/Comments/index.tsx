@@ -34,11 +34,8 @@ export default function Comments({ slug }: CommentsBlockProps) {
       website: formData.get("website"),
     };
 
-    console.log("Comment data being sent:", commentData);
-
-    // Validate required fields
-    if (!slug || !formData.get("name") || !formData.get("content")) {
-      setFormError("Slug, author, and content are required.");
+    if (!formData.get("name") || !formData.get("content")) {
+      setFormError("Author and content are required.");
       setFormSubmitting(false);
       return;
     }
@@ -59,7 +56,8 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
       const newComment = await res.json();
 
-      // Append the new comment to the list
+      console.log("New comment created:", JSON.stringify(newComment, null, 2));
+
       setComments((prevComments) => [...prevComments, newComment]);
     } catch (err) {
       console.error("Error creating comment:", err);
@@ -84,9 +82,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
         const data = text ? JSON.parse(text) : [];
 
         setComments(data || []);
-        console.log("Comments fetched: ", JSON.stringify(data));
       } catch (err) {
-        console.error("Error fetching comments:", err);
         setError("Could not load comments. Please try again later.");
       } finally {
         setLoading(false);

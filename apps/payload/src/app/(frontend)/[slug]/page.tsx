@@ -6,21 +6,12 @@ import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
 export const revalidate = 60;
-export const dynamicParams = true;
 
-type PageProps = {
-  params: Promise<{ slug: string }>;
-};
+export async function generateMetadata({ params }: { params: { slug?: string } }): Promise<Metadata> {
+  const { slug = 'home' }  = await params;
 
-export async function generateMetadata({
-  params: paramsPromise,
-}: PageProps): Promise<Metadata> {
-  const params = await paramsPromise;
-  const slug = params.slug || "home";
-
-  const capitalizeFirstLetter = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
+  const capitalizeFirstLetter = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1);
 
   return {
     title: `Page - ${capitalizeFirstLetter(slug)}`,
@@ -30,26 +21,25 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
-
   const result = await payload.find({
     collection: "pages",
-    limit: 100,
+    limit: 1000,
+    pagination: false,
+    select: {
+      slug: true,
+    },
   });
 
-  return result.docs.map((doc) => ({
-    slug: doc.slug
-  }));
+  return result.docs.map((doc) => ({ slug: doc.slug }));
 }
 
-const Page = async ({ params: paramsPromise }: PageProps) => {
-  const params = await paramsPromise;
-  const slug = params.slug || "home";
-
+const queryPageBySlug = async (slug: string): Promise<PageType | null> => {
   const payload = await getPayload({ config: configPromise });
 
   const result = await payload.find({
     collection: "pages",
     limit: 1,
+    pagination: false,
     where: {
       slug: {
         equals: slug,
@@ -57,18 +47,23 @@ const Page = async ({ params: paramsPromise }: PageProps) => {
     },
   });
 
-  const page: PageType | null = result.docs?.[0] || null;
+  return result.docs?.[0] || null;
+};
+
+const Page = async ({ params }: { params: { slug?: string } }) => {
+  const { slug = 'home' }  = await params;
+  const page = await queryPageBySlug(slug);
 
   if (!page) {
     return notFound();
   }
 
   return (
-    <>
+    <article className="pt-16 pb-24">
       <div className="flex flex-col w-4/6 justify-center mx-auto">
         <RichText content={page.content || []} />
       </div>
-    </>
+    </article>
   );
 };
 

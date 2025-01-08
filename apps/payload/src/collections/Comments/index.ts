@@ -162,9 +162,9 @@ export const Comments: CollectionConfig = {
             );
           }
 
-          const { slug, name, content, website, email } = body;
+          const { slug, author, content, website, email } = body;
 
-          const sanitizedAuthor = sanitizeContent(name);
+          const sanitizedAuthor = sanitizeContent(author);
           const sanitizedContent = sanitizeContent(content);
           const sanitizedWebsite = sanitizeContent(website);
           const sanitizedEmail = sanitizeContent(email);

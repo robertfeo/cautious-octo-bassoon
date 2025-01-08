@@ -1,0 +1,29 @@
+{
+    "id": 3,
+    "slug": "home",
+    "slugLock": true,
+    "pageHtml": "<div>home content</div>",
+    "content": {
+        "root": {
+            "type": "root",
+            "format": "",
+            "indent": 0,
+            "version": 1,
+            "children": [
+                {
+                    "type": "block",
+                    "fields": {
+                        "id": "6768d1ebbef677faa244549c",
+                        "text": "A short introduction about your blog, e.g., \"Sharing travel experiences, tips, and guides to inspire your next adventure.",
+                        "heading": "Explore the World with Us",
+                        "blockName": "",
+                        "blockType": "hero",
+                        "backgroundImage": 5
+                    },
+                    "format": "",
+                    "version": 2
+                }
+            ]
+        }
+    }
+}

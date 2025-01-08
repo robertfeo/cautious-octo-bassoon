@@ -1,3 +1,5 @@
+"use server";
+
 import { cn } from "@/utils/cn";
 import React from "react";
 
@@ -19,7 +21,6 @@ const RichText: React.FC<Props> = ({
   return (
     <div
       className={cn(
-        /* customCSS */
         "space-y-10 mt-0 pt-0",
         className,
       )}

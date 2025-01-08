@@ -14,7 +14,6 @@ export const Content = ({ slug }: ContentProps) => {
                 hx-trigger="load"
                 hx-swap="innerHTML"
                 hx-target="this"
-                hx-cache="true"
             >
             </div>
         </main>

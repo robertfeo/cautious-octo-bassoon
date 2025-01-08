@@ -9,7 +9,6 @@ export const BlockConverterFeature = createServerFeature({
         converters: {
           html: {
             async converter(args) {
-              /* return sanitizeContent(ReactDOMServer.renderToString((args.node as React.ReactNode))); */
               return sanitizeContent(await renderToHTML(args.node));
             },
             nodeTypes: [BlockHTMLNode.getType()],
