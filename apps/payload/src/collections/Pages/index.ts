@@ -85,8 +85,6 @@ export const Pages: CollectionConfig = {
       handler: async (req) => {
         const slug = req.routeParams?.slug;
 
-        console.log("slug", slug);
-
         const page = await req.payload.find({
           collection: "pages",
           depth: 2,
@@ -99,7 +97,14 @@ export const Pages: CollectionConfig = {
         });
 
         if (page.docs.length === 0) {
-          return new Response("Page not found", { status: 404 });
+          return new Response('<a>Page not found</a>', {
+            status: 404,
+            statusText: "Not Found",
+            headers: {
+              "Content-Type": "text/html",
+              "Access-Control-Allow-Origin": "*"
+            },
+          });
         }
 
         const lastModified = new Date(page.docs[0].updatedAt).toUTCString();
@@ -109,14 +114,15 @@ export const Pages: CollectionConfig = {
         }
 
         return new Response(page.docs[0].pageHtml, {
+          status: 200,
           headers: {
             "Content-Type": "text/html",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Hx-Request",
-            /* "Access-Control-Max-Age": "86400",
+            "Access-Control-Max-Age": "86400",
             "Last-Modified": lastModified,
-            "Cache-Control": "max-age=3600, must-revalidate", */
+            "Cache-Control": "max-age=3600, must-revalidate",
           },
         });
       },

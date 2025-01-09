@@ -16,7 +16,10 @@
     "@elysiajs/swagger": "^1.1.6",
     "@gtramontina.com/elysia-tailwind": "^2.0.0",
     "@tqman/nice-logger": "^1.0.7",
-    "elysia": "latest"
+    "@types/node-cache": "^4.2.5",
+    "elysia": "latest",
+    "node-cache": "^5.1.2",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

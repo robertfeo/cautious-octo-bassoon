@@ -1,7 +1,7 @@
 import { Html } from "@elysiajs/html";
 
 export type HeaderProps = {
-  header: any;
+  header?: string;
 };
 
 export const Header = ({ header }: any) => {

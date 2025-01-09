@@ -1,7 +1,7 @@
 import { Html } from "@elysiajs/html";
 
 export type FooterProps = {
-  footer: any;
+  footer?: any;
 };
 
 export const Footer = ({ footer }: any) => {
