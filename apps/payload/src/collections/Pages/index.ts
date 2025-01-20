@@ -20,7 +20,7 @@ export const Pages: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ["name", "slug", "updatedAt"],
+    defaultColumns: ["title", "slug", "updatedAt"],
     useAsTitle: "title",
   },
   labels: {
@@ -29,6 +29,12 @@ export const Pages: CollectionConfig = {
   },
   fields: [
     ...slugField(),
+    {
+      name: "title",
+      label: "Title",
+      type: "text",
+      required: true,
+    },
     lexicalHTML("content", { name: "pageHtml" }),
     {
       name: "content",
@@ -56,25 +62,6 @@ export const Pages: CollectionConfig = {
         },
       }),
       label: false,
-      required: false,
-    },
-    {
-      name: "title",
-      label: "Title",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "layout",
-      label: "Layout",
-      type: "blocks",
-      blocks: [
-        ImageBlock,
-        HeroBlock,
-        TwoColumnBlock,
-        RecentPostsBlock,
-        CodeBlock,
-      ],
       required: false,
     },
   ],
