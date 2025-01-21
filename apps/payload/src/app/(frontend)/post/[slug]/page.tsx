@@ -1,37 +1,39 @@
 import Comments from "@/components/Comments";
 import RichText from "@/components/RichText";
 import { Post } from "@/payload-types";
-import config from "@payload-config";
+import { default as config, default as configPromise } from "@payload-config";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
-export async function generateMetadata({
-  params: paramsPromise,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const params = await paramsPromise;
-  const slug = params.slug || "home";
-
-  const capitalizeFirstLetter = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
+export async function generateMetadata({ params }: { params: { slug?: string } }): Promise<Metadata> {
+  const { slug = '' }  = await params;
+  const capitalizeFirstLetter = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1);
   return {
     title: `Post - ${capitalizeFirstLetter(slug)}`,
-    description: `This is the ${capitalizeFirstLetter(slug)} page.`,
+    description: `This is the ${capitalizeFirstLetter(slug)} post.`,
   };
 }
 
-function generateStaticParams() { }
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise });
+  const result = await payload.find({
+    collection: "pages",
+    limit: 1000,
+    pagination: false,
+    select: {
+      slug: true,
+    },
+  });
+
+  return result.docs.map((doc) => ({ slug: doc.slug }));
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const paramsAwait = await params;
   const slug = paramsAwait.slug;
-
   const payload = await getPayload({ config });
-
   const data = await payload.find({
     collection: "posts",
     depth: 2,
@@ -68,7 +70,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <RichText
         className="mx-auto"
         content={page.content}
-        enableGutter={false}
       />
       <Comments slug={page.slug} />
     </div>

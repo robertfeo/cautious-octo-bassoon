@@ -1,4 +1,5 @@
 import { Html } from "@elysiajs/html";
+import Loading from "../../../Loading";
 import { CommentForm } from "./commentsForm";
 
 type CommentsProps = {
@@ -16,7 +17,9 @@ export const Comments = ({ slug }: CommentsProps) => {
                 hx-get={`${process.env.PAYLOAD_HOST}/api/comments/html-by-slug/${slug}`}
                 hx-trigger="revealed"
                 hx-swap="innerHTML"
-            ></div>
+            >
+                <Loading />
+            </div>
         </div>
     );
 };

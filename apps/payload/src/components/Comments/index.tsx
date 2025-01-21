@@ -56,9 +56,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
       const newComment = await res.json();
 
-      console.log("New comment created:", JSON.stringify(newComment, null, 2));
-
-      setComments((prevComments) => [...prevComments, newComment]);
+      setComments((prevComments) => [...prevComments,newComment,]);
     } catch (err) {
       console.error("Error creating comment:", err);
       setFormError("Could not submit the comment. Please try again.");

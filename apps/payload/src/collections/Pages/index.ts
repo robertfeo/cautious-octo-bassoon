@@ -5,8 +5,8 @@ import { HeroBlock } from "@/blocks/HeroBlock/config";
 import { ImageBlock } from "@/blocks/ImageBlock/config";
 import { RecentPostsBlock } from "@/blocks/RecentPostsBlock/config";
 import { TwoColumnBlock } from "@/blocks/TwoColumnBlock/config";
-
 import { BlockConverterFeature } from "@/features/BlockConverterFeature";
+
 import { slugField } from "@/fields/slug";
 import { BlocksFeature, FixedToolbarFeature, HeadingFeature, HorizontalRuleFeature, HTMLConverterFeature, InlineToolbarFeature, lexicalEditor, lexicalHTML } from "@payloadcms/richtext-lexical";
 import { CollectionConfig } from "payload";

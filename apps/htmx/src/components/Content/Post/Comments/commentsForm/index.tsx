@@ -10,13 +10,11 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
             <h3 class="text-lg font-bold mb-4">Add a comment</h3>
             <form
                 hx-post={`${process.env.PAYLOAD_HOST}/api/comments/create`}
-                hx-disabled-elt="submit-btn"
+                hx-disabled-elt="#submit-btn"
                 hx-headers='{"Content-Type": "application/json"}'
                 hx-include="[name]"
                 hx-target="#comment-section"
-                hx-swap="innerHTML"
                 hx-boost="true"
-                hx-indicator="#loading"
                 class="flex flex-col gap-4"
             >
                 <label for="comment" class="font-bold">Comment</label>
@@ -41,7 +39,7 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
                 <label for="name" class="font-bold">Name</label>
                 <input
                     id="name"
-                    name="name"
+                    name="author"
                     type="text"
                     placeholder="Enter your name"
                     class="p-4 border border-gray-300 rounded-lg"
@@ -70,9 +68,6 @@ export const CommentForm = ({ slug }: CommentFormProps) => {
                     Submit
                 </button>
             </form>
-            <div id="loading" class="absolute w-full h-full top-0 left-0 bg-white bg-opacity-50 flex items-center justify-center">
-                <div class="spinner"></div>
-            </div>
         </div>
     );
 };

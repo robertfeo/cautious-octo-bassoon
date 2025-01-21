@@ -1,4 +1,5 @@
 import { anyone } from "@/access/anyone";
+import { delay } from "@/utils/delay";
 import { commentsAsHTML, sanitizeContent } from "@/utils/htmlRender";
 import type { CollectionConfig } from "payload";
 
@@ -90,6 +91,7 @@ export const Comments: CollectionConfig = {
       path: "/html-by-slug/:slug",
       method: "get",
       handler: async (req) => {
+        await delay(2000); // Simulate slow network
         const comments = await req.payload.find({
           collection: "comments",
           depth: 2,
@@ -105,13 +107,16 @@ export const Comments: CollectionConfig = {
             createdAt: true,
           },
         });
-
         if (comments == null || comments.docs.length === 0) {
-          return new Response(undefined, {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          });
+          return new Response(
+            `<p>No comments found.</p>`,
+            {
+              headers: {
+                "Content-Type": "text/html",
+                "Access-Control-Allow-Origin": "*",
+              },
+              status: 404,
+            });
         } else {
           return new Response(await commentsAsHTML(comments.docs), {
             headers: {
@@ -127,6 +132,8 @@ export const Comments: CollectionConfig = {
       method: "post",
       handler: async (req) => {
         try {
+          await delay(2000); // Simulate slow network
+
           const contentType = req.headers.get("content-type");
           let body;
 
@@ -207,12 +214,10 @@ export const Comments: CollectionConfig = {
             );
           }
 
-          const postId = post.docs[0].id;
-
           await req.payload.create({
             collection: "comments",
             data: {
-              post: postId,
+              post: post.docs[0].id,
               author: sanitizedAuthor,
               content: sanitizedContent,
               website: sanitizedWebsite,
@@ -226,9 +231,13 @@ export const Comments: CollectionConfig = {
             where: { "post.slug": { equals: slug } },
           });
 
+          const newComment = comments.docs[0];
+
+
+
           if (contentType === "application/json") {
             return new Response(
-              JSON.stringify(comments.docs),
+              JSON.stringify(newComment),
               {
                 headers: {
                   "Content-Type": "application/json",

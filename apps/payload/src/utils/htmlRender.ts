@@ -252,7 +252,7 @@ async function renderImageHTML(
 async function getMediaFromPayload(mediaId: number): Promise<Media> {
     const payload = await getPayload({ config: configPromise });
 
-    const media = (
+    return (
         await payload.find({
             collection: "media",
             limit: 1,
@@ -263,8 +263,6 @@ async function getMediaFromPayload(mediaId: number): Promise<Media> {
             },
         })
     ).docs[0];
-
-    return media;
 }
 
 export async function commentsAsHTML(comments: Comment[]): Promise<string> {

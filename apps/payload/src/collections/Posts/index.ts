@@ -204,7 +204,18 @@ export const Posts: CollectionConfig = {
         });
 
         if (!post.docs.length) {
-          return new Response("Post not found", { status: 404 });
+          return new Response(
+            `
+              <p>Post not found</p>
+            `,
+            {
+              headers: {
+                "Content-Type": "text/html",
+                "Access-Control-Allow-Origin": "*",
+              },
+              status: 404,
+            }
+          );
         }
 
         const { id: postId } = post.docs[0];

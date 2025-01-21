@@ -110,6 +110,7 @@ export interface Page {
   id: number;
   slug?: string | null;
   slugLock?: boolean | null;
+  title: string;
   pageHtml?: string | null;
   content?: {
     root: {
@@ -126,62 +127,8 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
-  title: string;
-  layout?:
-    | (
-        | {
-            image: number | Media;
-            caption?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'image';
-          }
-        | HeroBlock
-        | {
-            heading?: string | null;
-            text?: string | null;
-            image: number | Media;
-            direction?: ('default' | 'reverse') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'twoColumn';
-          }
-        | {
-            heading?: string | null;
-            subheading?: string | null;
-            postLimit: number;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'recentPosts';
-          }
-        | CodeBlock
-      )[]
-    | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock".
- */
-export interface HeroBlock {
-  heading?: string | null;
-  text?: string | null;
-  backgroundImage: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hero';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Code Block".
- */
-export interface CodeBlock {
-  language?: ('typescript' | 'javascript' | 'css') | null;
-  code: string;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'code';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -348,57 +295,9 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
+  title?: T;
   pageHtml?: T;
   content?: T;
-  title?: T;
-  layout?:
-    | T
-    | {
-        image?:
-          | T
-          | {
-              image?: T;
-              caption?: T;
-              id?: T;
-              blockName?: T;
-            };
-        hero?:
-          | T
-          | {
-              heading?: T;
-              text?: T;
-              backgroundImage?: T;
-              id?: T;
-              blockName?: T;
-            };
-        twoColumn?:
-          | T
-          | {
-              heading?: T;
-              text?: T;
-              image?: T;
-              direction?: T;
-              id?: T;
-              blockName?: T;
-            };
-        recentPosts?:
-          | T
-          | {
-              heading?: T;
-              subheading?: T;
-              postLimit?: T;
-              id?: T;
-              blockName?: T;
-            };
-        code?:
-          | T
-          | {
-              language?: T;
-              code?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -537,6 +436,29 @@ export interface FooterSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  heading?: string | null;
+  text?: string | null;
+  backgroundImage: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Code Block".
+ */
+export interface CodeBlock {
+  language?: ('typescript' | 'javascript' | 'css') | null;
+  code: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'code';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
