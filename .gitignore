@@ -15,3 +15,4 @@ apps/*/.pnpm-lock.yaml
 apps/*/.dockerignore
 apps/htmx/bun.lockb
 apps/payload/pnpm-lock.yaml
+pnpm-lock.yaml
