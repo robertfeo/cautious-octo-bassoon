@@ -1,7 +1,7 @@
 {
   "name": "next-payload",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Simple Blog Application",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -17,41 +17,40 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "latest",
-    "@payloadcms/next": "latest",
-    "@payloadcms/payload-cloud": "latest",
-    "@payloadcms/richtext-lexical": "latest",
-    "@payloadcms/ui": "latest",
+    "@payloadcms/db-postgres": "^3.18.0",
+    "@payloadcms/next": "^3.18.0",
+    "@payloadcms/richtext-lexical": "^3.18.0",
+    "@payloadcms/ui": "^3.18.0",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
     "graphql": "^16.10.0",
-    "next": "^15.1.2",
-    "payload": "latest",
+    "next": "^15.1.5",
+    "payload": "^3.18.0",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sanitize-html": "^2.13.1",
+    "sanitize-html": "^2.14.0",
     "sharp": "0.33.5",
-    "tailwind-merge": "^2.5.5",
-    "uuid": "^11.0.3"
+    "tailwind-merge": "^2.6.0",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "@types/react": "^19.0.2",
-    "@types/react-dom": "^19.0.2",
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
     "@types/sanitize-html": "^2.13.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.17.0",
-    "eslint-config-next": "15.1.2",
-    "postcss": "^8.4.49",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "15.1.5",
+    "postcss": "^8.5.1",
     "prettier": "3.4.2",
     "tailwindcss": "^3.4.17",
-    "typescript": "5.7.2",
+    "typescript": "5.7.3",
     "typescript-lit-html-plugin": "^0.9.0"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
   },
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@9.15.4"
 }
