@@ -1,13 +1,13 @@
 import Comments from "@/components/Comments";
 import RichText from "@/components/RichText";
 import { Post } from "@/payload-types";
-import { default as config, default as configPromise } from "@payload-config";
+import { default as configPromise } from "@payload-config";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
 export async function generateMetadata({ params }: { params: { slug?: string } }): Promise<Metadata> {
-  const { slug = '' }  = await params;
+  const { slug = '' } = await params;
   const capitalizeFirstLetter = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
   return {
@@ -26,18 +26,15 @@ export async function generateStaticParams() {
       slug: true,
     },
   });
-
   return result.docs.map((doc) => ({ slug: doc.slug }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const paramsAwait = await params;
-  const slug = paramsAwait.slug;
-  const payload = await getPayload({ config });
-  const data = await payload.find({
+const queryPostBySlug = async (slug: string): Promise<Post | null> => {
+  const payload = await getPayload({ config: configPromise });
+  const result = await payload.find({
     collection: "posts",
-    depth: 2,
     limit: 1,
+    pagination: false,
     where: {
       slug: {
         equals: slug,
@@ -45,33 +42,38 @@ export default async function Page({ params }: { params: { slug: string } }) {
     },
   });
 
-  if (data.docs.length === 0) {
+  return result.docs?.[0] || null;
+};
+
+export default async function Page({ params }: { params: { slug: string } }) {
+  const { slug = "" } = await params;
+  const post = await queryPostBySlug(slug);
+
+  if (!post) {
     await notFound();
   }
-
-  const page = data.docs[0] as Post;
 
   return (
     <div className="flex flex-col w-4/6 justify-center mx-auto">
       <div className="flex flex-row justify-between">
         <p className="font-bold">
           Author:{" "}
-          {typeof page.author === "object" && "name" in page.author
-            ? page.author.name
+          {typeof post?.author === "object" && "name" in post.author
+            ? post.author.name
             : ""}
         </p>
         <p className="font-bold">
           Created:{" "}
-          {typeof page.author === "object" && "createdAt" in page.author
-            ? new Date(page.author.createdAt).toLocaleDateString()
+          {typeof post?.author === "object" && "createdAt" in post.author
+            ? new Date(post.author.createdAt).toLocaleDateString()
             : ""}
         </p>
       </div>
       <RichText
         className="mx-auto"
-        content={page.content}
+        content={post?.content || []}
       />
-      <Comments slug={page.slug} />
+      <Comments slug={post?.slug} />
     </div>
   );
 }
