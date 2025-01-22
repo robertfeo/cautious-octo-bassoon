@@ -51,6 +51,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
       if (!res.ok) {
         const errorData = await res.json();
+        setFormError(errorData.message || "Failed to submit comment.");
         throw new Error(errorData.message || "Failed to submit comment.");
       }
 
@@ -72,7 +73,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
         const res = await fetch(`/api/comments/by-slug/${slug}`);
 
         if (!res.ok) {
-          console.error("Failed to fetch comments:", res.status, res.statusText);
+          setError("Failed to fetch comments. Please try again later.");
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
 
@@ -139,6 +140,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
       {loading && <p>Loading comments...</p>}
       {error && <p className="text-red-500">{error}</p>}
+      {formError && <p className="text-red-500">{formError}</p>}
       {!loading && comments.length === 0 && <p>No comments yet!</p>}
       {!loading && comments.length > 0 && (
         <div className="flex flex-col gap-8">
