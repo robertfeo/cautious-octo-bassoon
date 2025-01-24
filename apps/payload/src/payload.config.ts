@@ -52,20 +52,5 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || "",
     },
   }),
-  sharp,
-  endpoints: [
-    {
-      path: "/*",
-      method: "options",
-      handler: async (req) => {
-        return new Response(null, {
-          headers: {
-            "Access-Control-Allow-Origin": req.headers.get("Origin") || "*",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Hx-Request",
-          },
-        });
-      },
-    },
-  ],
+  sharp
 });

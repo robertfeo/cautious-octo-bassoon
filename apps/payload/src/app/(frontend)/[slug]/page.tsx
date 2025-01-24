@@ -10,8 +10,6 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
-export const revalidate = 60;
-
 /**
  * The function generates metadata for a page based on a provided slug parameter, capitalizing the first letter of the slug for the title and description.
  * @param  - The `generateMetadata` function takes in an object as a parameter with a `params` property, which is also an object with an optional `slug` property of type string. If `slug` is not provided, it defaults to 'home'.

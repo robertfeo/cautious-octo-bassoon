@@ -56,7 +56,7 @@ ax.set_ylabel("Ziele")
 ax.set_axisbelow(True)
 ax.xaxis.set_major_locator(mdates.DayLocator(interval=5))
 
-
+# Add a title and grid
 plt.title("Zeitplan")
 plt.xticks(rotation=45)
 plt.grid(axis="x", linestyle="--", alpha=0.7, linewidth = 0.5)
