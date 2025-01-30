@@ -1,0 +1,33 @@
+# Ignore node_modules directory
+apps/*/node_modules
+
+# Ignore log files
+apps/*/npm-debug.log*
+apps/*/yarn-debug.log*
+apps/*/yarn-error.log*
+
+# Ignore environment variable files
+apps/*/.env
+
+# Ignore build output
+apps/*/dist
+apps/*/build
+
+# Ignore coverage directory
+apps/*/coverage
+
+# Ignore temporary files
+apps/*/tmp
+apps/*/temp
+
+# Ignore editor directories and files
+apps/*/.idea
+apps/*/.vscode
+apps/*/*.suo
+apps/*/*.ntvs*
+apps/*/*.njsproj
+apps/*/*.sln
+
+# Ignore OS generated files
+apps/*/.DS_Store
+apps/*/Thumbs.db

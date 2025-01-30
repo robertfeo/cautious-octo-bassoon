@@ -1,0 +1,32 @@
+{
+  "name": "htmx-app",
+  "version": "1.1.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun dev:css | bun run --watch src/index.ts",
+    "build:css": "bunx tailwindcss -o public/global.css --minify",
+    "dev:css": "bunx tailwindcss -i ./src/styles/styles.css -o ./public/global.css --watch"
+  },
+  "dependencies": {
+    "@elysiajs/cookie": "^0.8.0",
+    "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/html": "^1.2.0",
+    "@elysiajs/server-timing": "^1.2.0",
+    "@elysiajs/static": "^1.2.0",
+    "@elysiajs/swagger": "^1.2.0",
+    "@gtramontina.com/elysia-tailwind": "^2.0.0",
+    "@tqman/nice-logger": "^1.1.1",
+    "@types/node-cache": "^4.2.5",
+    "elysia": "latest",
+    "node-cache": "^5.1.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "bun-types": "latest",
+    "concurrently": "^9.1.2",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17"
+  },
+  "module": "src/index.ts"
+}

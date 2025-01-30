@@ -1,0 +1,24 @@
+{
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  },
+  "name": "bachelorarbeit",
+  "version": "1.0.0",
+  "description": "bachelorarbeit",
+  "dependencies": {
+    "turbo-linux-64": "^2.3.3"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean"
+  },
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@9.15.1",
+  "engines": {
+    "node": ">=20.11.1"
+  },
+  "pnpm": {
+  }
+}

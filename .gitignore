@@ -1,0 +1,18 @@
+/node_modules
+/.turbo
+/.pnpm-store
+package-lock.json
+pnpm-lock.yaml
+
+# misc
+.vscode
+.env
+.dockerignore
+
+apps/*/node_modules
+apps/*/.pnpm-store
+apps/*/.pnpm-lock.yaml
+apps/*/.dockerignore
+apps/htmx/bun.lockb
+apps/payload/pnpm-lock.yaml
+pnpm-lock.yaml

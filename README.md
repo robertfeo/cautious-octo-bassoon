@@ -1,6 +1,4 @@
-# bachelorarbeit
-
-
+# Simple Blog Application
 
 ## Getting started
 
