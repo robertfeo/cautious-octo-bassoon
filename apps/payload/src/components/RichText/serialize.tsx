@@ -53,7 +53,7 @@ type Props = {
 export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
     <Fragment>
-      {nodes?.map((node, index): JSX.Element | null => {
+      {nodes.map((node, index): JSX.Element | null => {
         if (node == null) {
           return null;
         }
@@ -220,7 +220,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               return (
                 <Link
                   key={index}
-                  href={fields.url}
+                  href={fields.url ?? "#"}
                   type={fields.linkType === "internal" ? "reference" : "custom"}
                 >
                   {serializedChildren}

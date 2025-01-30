@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/(frontend)/loading";
 import { useEffect, useState } from "react";
 
 export type Comment = {
@@ -57,7 +58,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
       const newComment = await res.json();
 
-      setComments((prevComments) => [...prevComments,newComment,]);
+      setComments((prevComments) => [...prevComments, newComment,]);
     } catch (err) {
       console.error("Error creating comment:", err);
       setFormError("Could not submit the comment. Please try again.");
@@ -66,28 +67,28 @@ export default function Comments({ slug }: CommentsBlockProps) {
     }
   }
 
-  useEffect(() => {
-    async function fetchComments() {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/comments/by-slug/${slug}`);
+  async function fetchComments() {
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/comments/by-slug/${slug}`);
 
-        if (!res.ok) {
-          setError("Failed to fetch comments. Please try again later.");
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-
-        const text = await res.text();
-        const data = text ? JSON.parse(text) : [];
-
-        setComments(data || []);
-      } catch (err) {
-        setError("Could not load comments. Please try again later.");
-      } finally {
-        setLoading(false);
+      if (!res.ok) {
+        setError("Failed to fetch comments. Please try again later.");
+        throw new Error(`HTTP error! Status: ${res.status}`);
       }
-    }
 
+      const data = await res.json();
+      /* const data = text ? JSON.parse(text) : []; */
+
+      setComments(data || []);
+    } catch (err) {
+      setError("Could not load comments. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     fetchComments();
   }, [slug]);
 
@@ -138,7 +139,7 @@ export default function Comments({ slug }: CommentsBlockProps) {
 
       <h3 className="text-lg font-bold mb-4">Comments ({comments.length})</h3>
 
-      {loading && <p>Loading comments...</p>}
+      {loading && Loading()}
       {error && <p className="text-red-500">{error}</p>}
       {formError && <p className="text-red-500">{formError}</p>}
       {!loading && comments.length === 0 && <p>No comments yet!</p>}

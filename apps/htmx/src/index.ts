@@ -1,5 +1,4 @@
 import { html } from "@elysiajs/html";
-import serverTiming from "@elysiajs/server-timing";
 import staticPlugin from "@elysiajs/static";
 import swagger from "@elysiajs/swagger";
 import { tailwind } from "@gtramontina.com/elysia-tailwind";
@@ -13,7 +12,6 @@ const app = new Elysia()
 
 app.use(html());
 app.use(swagger());
-app.use(serverTiming());
 
 app.use(staticPlugin({
   assets: "./public",

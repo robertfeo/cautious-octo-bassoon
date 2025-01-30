@@ -132,8 +132,6 @@ export const Comments: CollectionConfig = {
       method: "post",
       handler: async (req) => {
         try {
-          await delay(2000); // Simulate slow network
-
           const contentType = req.headers.get("content-type");
           let body;
 
